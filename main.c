@@ -9,6 +9,7 @@ void    prompt()
     {
         if (ft_strlen(buffer) > 0)
         {
+			printf("buf:%s\n",buffer);
             ft_command(buffer);
             add_history(buffer);
         }

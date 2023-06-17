@@ -7,6 +7,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+typedef struct s_data
+{
+    char    *buf;
+
+} t_data;
+
+
 char    *ft_command(char *str);
 void    ft_check(char *str);
 void    ft_echo(char *str, int i);
