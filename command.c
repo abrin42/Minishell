@@ -23,7 +23,7 @@ void    ft_check(char *str)
     return ;
 }
 
-char    *ft_command(char *str)
+char    *ft_command(t_data *data)
 {
     int i;
     int j;
@@ -32,19 +32,19 @@ char    *ft_command(char *str)
     line = malloc(sizeof(char) * 1000);
     i = 0;
     j = 0;
-    while (str[i])
+    while (data->buffer[i])
     {
-        if (str[i] == ' ' && str[i - 1] != ' ' )
+        if (data->buffer[i] == ' ' && data->buffer[i - 1] != ' ' )
         {
-            line[j] = str[i];
+            line[j] = data->buffer[i];
             j++;
             i++;
         }
-        else if (str[i] == ' ' && str[i - 1] == ' ')
+        else if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
             i++;
         else
         {
-            line[j] = str[i];
+            line[j] = data->buffer[i];
             j++;
             i++;
         }

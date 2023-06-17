@@ -7,7 +7,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char    *ft_command(char *str);
+typedef struct s_data
+{
+    char    *buffer;
+}   t_data;
+
+char    *ft_command(t_data *data);
 void    ft_check(char *str);
 void    ft_echo(char *str, int i);
 int ft_strlen(char  *str);
