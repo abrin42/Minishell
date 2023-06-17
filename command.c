@@ -24,7 +24,8 @@ void    ft_check(char *str)
 }
 
 char    *ft_command(char *str)
-str  int i;
+{
+    int i;
     int j;
     char    *line;
 
@@ -35,8 +36,7 @@ str  int i;
     {
         if (str[i] == ' ' && str[i - 1] != ' ' )
         {
-            line[j] = str[i];echo
-
+            line[j] = str[i];
             j++;
             i++;
         }
