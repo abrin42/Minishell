@@ -6,7 +6,7 @@
 #    By: tmarie <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/16 12:55:50 by tmarie            #+#    #+#              #
-#    Updated: 2023/05/22 13:48:01 by tmarie           ###   ########.fr        #
+#    Updated: 2023/06/17 17:02:13 by tmarie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRC	=	main.c		\
 		function.c	\
 		command.c
 
-SRC_H = minishell.h
+SRC_H 	=	minishell.h
 
 OBJ	=	${SRC:.c=.o}
 
@@ -22,12 +22,12 @@ NAME	=	minishell
 
 FLAGS	=	-Wall -Wextra -Werror 
 
-FLAGS_PROJECT = -lreadline
+FLAGS_PROJECT	=	-lreadline
 
 all : ${NAME}
 
 $(NAME) : ${OBJ}
-	gcc ${FLAGS} ${FLAGS_PROJECT} ${OBJ} ${SRC_H} -o ${NAME}
+	gcc ${FLAGS} ${OBJ} ${SRC_H} -o ${NAME} ${FLAGS_PROJECT}
 
 clean :
 	rm -f ${OBJ}
