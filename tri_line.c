@@ -40,28 +40,11 @@ void    tri_line(t_data *data)
     {
         u = 0;
         //printf("-line:%s-\n",data->line);
-        if (ft_check(data->line) == 1)
+        if (ft_check(data) != 0)
         {
-            data->parsing[data->parsing_y] = "echo";
             data->parsing_y++;
-            data->line += 5;
-            while (data->line[u] && ft_check(data->line) == 0)
+            while (data->line[u] && ft_check(data) == 0)
                 data->parsing[data->parsing_y][u++] = data->line[u];
-            data->parsing_y++;
-        }
-        else if (ft_check(data->line) == 2)
-        {
-            data->parsing[data->parsing_y] = "cd";
-            data->parsing_y++;
-        }
-        else if (ft_check(data->line) == 3)
-        {
-            data->parsing[data->parsing_y] = "pwd";
-            data->parsing_y++;
-        }
-        else if (ft_check(data->line) == 6)
-        {
-            data->parsing[data->parsing_y] = "env";
             data->parsing_y++;
         }
         data->line++;

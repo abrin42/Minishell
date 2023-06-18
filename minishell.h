@@ -18,7 +18,7 @@ typedef struct s_data
 }   t_data;
 
 char    *ft_command(t_data *data);
-int    ft_check(char *str);
+int    ft_check(t_data *data);
 int ft_strlen(char  *str);
 int	ft_strcmp(char *s1, char *s2);
 void    tri_line(t_data *data);

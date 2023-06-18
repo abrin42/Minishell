@@ -30,20 +30,36 @@ int    ft_start(t_data *data)
 }
 
 
-int    ft_check(char *str)
+int    ft_check(t_data *data)
 {
     int i;
 
     i = 0;
     //printf("-str:%s-\n",str);
-    if (str[0] == 'e' && str[1] == 'c' && str[2] == 'h' && str[3] == 'o')
+    if (data->line[0] == 'e' && data->line[1] == 'c' && data->line[2] == 'h' && data->line[3] == 'o')
+    {
+        data->parsing[data->parsing_y] = "echo";
+        data->line += 5;
         return (1);
-    else if (str[0] == 'c' && str[1] == 'd')
+    }
+    else if (data->line[0] == 'c' && data->line[1] == 'd')
+    {
+        data->parsing[data->parsing_y] = "cd";
+        data->line += 3;
         return (2);
-    else if (str[0] == 'p' && str[1] == 'w' && str[2] == 'd')
+    }
+    else if (data->line[0] == 'p' && data->line[1] == 'w' && data->line[2] == 'd')
+    {
+        data->parsing[data->parsing_y] = "pwd";
+        data->line += 4;
         return (3);
-    else if (str[0] == 'e' && str[1] == 'n' && str[2] == 'v')
+    }
+    else if (data->line[0] == 'e' && data->line[1] == 'n' && data->line[2] == 'v')
+    {
+        data->parsing[data->parsing_y] = "env";
+        data->line += 4;
         return (6);
+    }
     return (0);
 }
 
