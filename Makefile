@@ -12,7 +12,8 @@
 
 SRC	=	main.c		\
 		function.c	\
-		command.c
+		command.c	\
+		tri_line.c	\
 
 SRC_H = minishell.h
 

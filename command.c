@@ -10,7 +10,7 @@ void    ft_echo(char *str, int i)
     write(1, "\n", 1);
 }
 
-void    ft_check(char *str)
+int    ft_check(char *str)
 {
     int i;
 
@@ -19,38 +19,34 @@ void    ft_check(char *str)
     {
         i = 5;
         ft_echo(str, i);
+        return(1);
     }
-    return ;
+    return (0) ;
 }
 
 char    *ft_command(t_data *data)
 {
     int i;
     int j;
-    char    *line;
 
-    line = malloc(sizeof(char) * 1000);
+    data->line = malloc(sizeof(char) * 1000);
     i = 0;
     j = 0;
     while (data->buffer[i])
     {
-        if (data->buffer[i] == ' ' && data->buffer[i - 1] != ' ' )
-        {
-            line[j] = data->buffer[i];
-            j++;
-            i++;
-        }
-        else if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
+    if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
             i++;
         else
         {
-            line[j] = data->buffer[i];
+            data->line[j] = data->buffer[i];
             j++;
             i++;
         }
     }
-    line[j] = '\0';
-    ft_check(line);
+    tri_line(data);
+    printf("-line:%s-\n",data->line);
+    data->line[j] = '\0';
+    //ft_check(line);
     //EN ATTENTE
     return (NULL);
 }

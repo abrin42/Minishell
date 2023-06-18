@@ -10,11 +10,16 @@
 typedef struct s_data
 {
     char    *buffer;
+    char    *line;
+    char    **tab;
+    int     tab_y;
 }   t_data;
 
 char    *ft_command(t_data *data);
-void    ft_check(char *str);
+int    ft_check(char *str);
 void    ft_echo(char *str, int i);
 int ft_strlen(char  *str);
+void    tri_line(t_data *data);
+
 
 #endif

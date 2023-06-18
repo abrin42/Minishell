@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+void    init_data(t_data *data)
+{
+    data->buffer = NULL;
+    data->line = NULL;
+    data->tab = NULL;
+    data->tab_y = 0;
+}
+
 void    prompt(t_data *data)
 {
     
@@ -10,6 +18,7 @@ void    prompt(t_data *data)
         {
             ft_command(data);
             add_history(data->buffer);
+            free(data->buffer);
         }
     }
     return ;
@@ -19,5 +28,6 @@ int	main()
 {
     t_data data;
 
+    init_data(&data);
 	prompt(&data);
 }
