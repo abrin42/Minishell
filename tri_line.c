@@ -16,15 +16,19 @@ void    tri_line(t_data *data)
 {
     int i;
 
-    //*tab = malloc (sizeof(char) *1000);
+    data->parsing = malloc (sizeof(char *) * 1000);
+    data->parsing[0] = malloc (sizeof(char) * 1000);
     i = 0;
    // printf("-okkkkk-\n");
     while (data->line[i] != '\0')
     {
-      //  printf("-line:%s-\n",data->line);
-        if (1 == ft_check(data->line));
-        //    tab[data->tab_y];
+        //printf("-line:%s-\n",data->line);
+	if (ft_check(data->line) == 1)
+        {
+            data->parsing[data->parsing_y] = "echo";
+        }
         data->line++;
         i++;
     }
+    printf("-parssing[0]%s-\n",data->parsing[0]);
 }

@@ -11,15 +11,17 @@ typedef struct s_data
 {
     char    *buffer;
     char    *line;
-    char    **tab;
-    int     tab_y;
+    char    *pwd;
+    char    **parsing;
+    char    **bdd;
+    char    **env;
+    int     parsing_y;
 }   t_data;
 
 char    *ft_command(t_data *data);
 int    ft_check(char *str);
-void    ft_echo(char *str, int i);
 int ft_strlen(char  *str);
 void    tri_line(t_data *data);
-
+void    ft_echo(t_data *data, int i);
 
 #endif

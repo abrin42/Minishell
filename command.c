@@ -1,52 +1,17 @@
 #include "minishell.h"
 
-void    ft_echo(char *str, int i)
+void    ft_echo(t_data *data, int i)
 {
-    while (str[i])
+    while (data->line[i])
     {
-        write(1, &str[i], 1);
+      //  write(1, &str[i], 1);
         i++;
     }
     write(1, "\n", 1);
 }
 
-int    ft_check(char *str)
+void    ft_pwd(t_data *data)
 {
-    int i;
-
-    i = 0;
-    if (str[0] == 'e' && str[1] == 'c' && str[2] == 'h' && str[3] == 'o')
-    {
-        i = 5;
-        ft_echo(str, i);
-        return(1);
-    }
-    return (0) ;
-}
-
-char    *ft_command(t_data *data)
-{
-    int i;
-    int j;
-
-    data->line = malloc(sizeof(char) * 1000);
-    i = 0;
-    j = 0;
-    while (data->buffer[i])
-    {
-    if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
-            i++;
-        else
-        {
-            data->line[j] = data->buffer[i];
-            j++;
-            i++;
-        }
-    }
-    tri_line(data);
-    printf("-line:%s-\n",data->line);
-    data->line[j] = '\0';
-    //ft_check(line);
-    //EN ATTENTE
-    return (NULL);
+    data->pwd = getenv("PWD");
+    printf("%s\n", data->pwd);
 }
