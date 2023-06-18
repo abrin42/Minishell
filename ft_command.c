@@ -5,15 +5,16 @@ int    ft_start(t_data *data)
      int i;
 
     i = 0;
-    if (data->parsing[0] == "echo")
+    if (ft_strcmp(data->parsing[0] , "echo") == 0)
     {
         i = 5;
         ft_echo(data, i);
         return (1);
     }
-    else if (data->parsing[0] == "pwd")
+    else if (ft_strcmp(data->parsing[0] , "pwd") == 0)
     {
         ft_pwd(data);
+        return (1);
     }
     return (0);
 }
@@ -27,8 +28,10 @@ int    ft_check(char *str)
     //printf("-str:%s-\n",str);
     if (str[0] == 'e' && str[1] == 'c' && str[2] == 'h' && str[3] == 'o')
         return (1);
-    else if (str[0] == 'p' && str[1] == 'w' && str[2] == 'd')
+    else if (str[0] == 'c' && str[1] == 'd')
         return (2);
+    else if (str[0] == 'p' && str[1] == 'w' && str[2] == 'd')
+        return (3);
     return (0);
 }
 

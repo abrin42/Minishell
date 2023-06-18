@@ -45,6 +45,11 @@ void    tri_line(t_data *data)
         }
         else if (ft_check(data->line) == 2)
         {
+            data->parsing[data->parsing_y] = "cd";
+            data->parsing_y++;
+        }
+        else if (ft_check(data->line) == 3)
+        {
             data->parsing[data->parsing_y] = "pwd";
             data->parsing_y++;
         }
