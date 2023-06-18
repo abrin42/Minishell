@@ -2,17 +2,35 @@
 
 void    ft_echo(t_data *data, int i)
 {
-        write(1, &data->parsing[data->parsing_y], ft_strlen(data->parsing[1]));
-    write(1, "\n", 1);
+    printf("%s\n", data->parsing[1]);
 }
 
 void    ft_pwd(t_data *data)
 {
-    data->pwd = getenv("PWD");
-    printf("%s\n", data->pwd);
+    char    *str;
+    char    *pwd;
+
+    str = malloc(sizeof(char) * 500);
+    pwd = malloc(sizeof(char) * 500);
+    str = NULL;
+    pwd = NULL;
+    pwd = getcwd(str, 100);
+    printf("%s\n", pwd);
+    free(str);
+    free(pwd);
 }
 
 void ft_cd(t_data *data)
 {
+    //data->parsing[1] = "..";
+    chdir(data->parsing[1]);
+}
 
+void    ft_env(t_data *data)
+{
+    int i;
+
+    i = 0;
+    while (data->env[i])
+        printf("%s\n", data->env[i++]);
 }
