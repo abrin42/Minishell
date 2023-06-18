@@ -22,7 +22,7 @@ OBJ	=	${SRC:.c=.o}
 
 NAME	=	minishell
 
-FLAGS	=	-Wall -Wextra -Werror 
+FLAGS	=	-Wall -Wextra -Werror -g3
 
 FLAGS_PROJECT = -lreadline
 

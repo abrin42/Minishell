@@ -12,23 +12,46 @@
 
 #include "minishell.h"
 
+void    init_bdd(t_data *data)
+{
+    data->bdd = malloc(sizeof(char *) * 7);
+
+    data->bdd[0] = "echo";
+    data->bdd[1] = "cd";
+    data->bdd[2] = "pwd";
+    data->bdd[3] = "export";
+    data->bdd[4] = "unset";
+    data->bdd[5] = "env";
+    data->bdd[6] = "exit";
+}
+
 void    tri_line(t_data *data)
 {
     int i;
 
     data->parsing = malloc (sizeof(char *) * 1000);
     data->parsing[0] = malloc (sizeof(char) * 1000);
+    data->parsing[1] = malloc (sizeof(char) * 1000);
     i = 0;
    // printf("-okkkkk-\n");
+    data->parsing_y = 0;
     while (data->line[i] != '\0')
     {
         //printf("-line:%s-\n",data->line);
-	if (ft_check(data->line) == 1)
+        if (ft_check(data->line) == 1)
         {
-            data->parsing[data->parsing_y] = "echo";
+                data->parsing[data->parsing_y] = "echo";
+                data->parsing_y++;
+        }
+        else if (ft_check(data->line) == 2)
+        {
+            data->parsing[data->parsing_y] = "pwd";
+            data->parsing_y++;
         }
         data->line++;
         i++;
+
     }
     printf("-parssing[0]%s-\n",data->parsing[0]);
+    //printf("-parssing[1]%s-\n",data->parsing[1]);
 }

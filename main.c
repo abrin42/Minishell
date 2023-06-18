@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 {
     t_data data;
 
+    init_bdd(&data);
 //---------------TEST ENV---------------//
 /*int i;
 i = 0;
