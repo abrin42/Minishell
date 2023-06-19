@@ -32,35 +32,16 @@ int    ft_start(t_data *data)
 
 int    ft_check(t_data *data)
 {
-    int i;
-
-    i = 0;
-    //printf("-str:%s-\n",str);
     if (data->line[0] == 'e' && data->line[1] == 'c' && data->line[2] == 'h' && data->line[3] == 'o')
-    {
         data->parsing[data->parsing_y] = "echo";
-        data->line += 5;
-        return (1);
-    }
     else if (data->line[0] == 'c' && data->line[1] == 'd')
-    {
         data->parsing[data->parsing_y] = "cd";
-        data->line += 3;
-        return (2);
-    }
     else if (data->line[0] == 'p' && data->line[1] == 'w' && data->line[2] == 'd')
-    {
         data->parsing[data->parsing_y] = "pwd";
-        data->line += 4;
-        return (3);
-    }
     else if (data->line[0] == 'e' && data->line[1] == 'n' && data->line[2] == 'v')
-    {
         data->parsing[data->parsing_y] = "env";
-        data->line += 4;
-        return (6);
-    }
-    return (0);
+    if (data->parsing[data->parsing_y])
+        return (1);
 }
 
 char    *ft_command(t_data *data)

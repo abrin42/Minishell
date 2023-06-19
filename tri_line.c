@@ -39,15 +39,15 @@ void    tri_line(t_data *data)
     while (data->line[i] != '\0')
     {
         u = 0;
-        //printf("-line:%s-\n",data->line);
         if (ft_check(data) != 0)
         {
+            data->line += ft_strlen(data->parsing[data->parsing_y]) + 1;
             data->parsing_y++;
-            while (data->line[u] && ft_check(data) == 0)
+            while (data->line[u] && ft_check(data) == 1)
                 data->parsing[data->parsing_y][u++] = data->line[u];
+            data->line += ft_strlen(data->parsing[data->parsing_y]);
             data->parsing_y++;
         }
-        data->line++;
         i++;
 
     }
