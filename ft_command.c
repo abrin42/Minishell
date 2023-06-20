@@ -26,22 +26,40 @@ int    ft_start(t_data *data)
         ft_env(data);
         return (1);
     }
+    else if (ft_strcmp(data->parsing[0] , "ls") == 0)
+    {
+        ft_terminal(data);
+        return (1);
+    }
     return (0);
+}
+
+void    doublecot(t_data *data)
+{
+    int i;
+
+    i = 0;
+    data->line++;
+    while(data->line[data->lenquote] && data->line[data->lenquote] != '"')
+    {          
+        data->lenquote++;
+    }
+    while (data->lenquote > i)
+    {
+        data->parsing[data->parsing_y][i] = data->line[i];
+        i++;
+    }
+    data->line += data->lenquote + 1;
+    printf("-parssingavant[1]%s-\n",data->parsing[1]);
 }
 
 
 int    ft_check(t_data *data)
 {
-    if (data->line[0] == 'e' && data->line[1] == 'c' && data->line[2] == 'h' && data->line[3] == 'o')
-        data->parsing[data->parsing_y] = "echo";
-    else if (data->line[0] == 'c' && data->line[1] == 'd')
-        data->parsing[data->parsing_y] = "cd";
-    else if (data->line[0] == 'p' && data->line[1] == 'w' && data->line[2] == 'd')
-        data->parsing[data->parsing_y] = "pwd";
-    else if (data->line[0] == 'e' && data->line[1] == 'n' && data->line[2] == 'v')
-        data->parsing[data->parsing_y] = "env";
-    if (data->parsing[data->parsing_y])
-        return (1);
+    int i;
+
+    i = 0;
+    return(0);
 }
 
 char    *ft_command(t_data *data)
@@ -63,9 +81,9 @@ char    *ft_command(t_data *data)
             i++;
         }
     }
+    data->line[j] = '\0';
     tri_line(data);
     //printf("-line:%s-\n",data->line);
-    data->line[j] = '\0';
     ft_start(data);
     //EN ATTENTE
     return (NULL);

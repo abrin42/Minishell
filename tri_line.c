@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-void    init_bdd(t_data *data)
-{
-    data->bdd = malloc(sizeof(char *) * 7);
-
-    data->bdd[0] = "echo";
-    data->bdd[1] = "cd";
-    data->bdd[2] = "pwd";
-    data->bdd[3] = "export";
-    data->bdd[4] = "unset";
-    data->bdd[5] = "env";
-    data->bdd[6] = "exit";
-}
-
 void    tri_line(t_data *data)
 {
     int i;
@@ -36,21 +23,40 @@ void    tri_line(t_data *data)
     i = 0;
    // printf("-okkkkk-\n");
     data->parsing_y = 0;
+    u = 0; 
+    while (data->line[u] && data->line[u] != ' ')
+    {
+        data->parsing[data->parsing_y][u++] = data->line[u];
+    }
+    data->parsing_y++;
+    u++;
+    while (data->line[u] && ft_check(data) == 0)
+    {
+        data->parsing[data->parsing_y][i++] = data->line[u++];
+    }
+    
+    /*
     while (data->line[i] != '\0')
     {
+        data->lenquote = 0;
         u = 0;
         if (ft_check(data) != 0)
         {
-            data->line += ft_strlen(data->parsing[data->parsing_y]) + 1;
+            //data->line += ft_strlen(data->parsing[data->parsing_y]) + 1;
             data->parsing_y++;
-            while (data->line[u] && ft_check(data) == 1)
+            while (data->line[u] && ft_check(data) == 1 && data->line[u] != '"')
+            {
                 data->parsing[data->parsing_y][u++] = data->line[u];
+                printf("-parssing[1]%s-\n",data->parsing[1]+1);
+            }
+            //printf("-lenquote :%d-\n",data->lenquote);
+            //printf("-strlen :%d-\n",ft_strlen(data->parsing[data->parsing_y]));
             data->line += ft_strlen(data->parsing[data->parsing_y]);
             data->parsing_y++;
         }
         i++;
 
-    }
+    }*/
     //data->parsing[data->parsing_y] = data->line;
     printf("-parssing[0]%s-\n",data->parsing[0]);
     printf("-parssing[1]%s-\n",data->parsing[1]);

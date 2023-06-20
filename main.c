@@ -8,12 +8,20 @@ void    init_data(t_data *data, char **envp)
     data->bdd = NULL;
     data->env = envp;
     data->parsing_y = 0;
+    data->lenquote = 0;
+}
+
+void intHandler() {
+    rl_replace_line("", 0);
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_redisplay();
 }
 
 void    prompt(t_data *data)
 {
-    
-    data->buffer = malloc(sizeof(char) * 1000);
+    signal(SIGINT, intHandler);
+    signal(SIGQUIT, SIG_IGN);
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
         if (ft_strlen(data->buffer) > 0)
@@ -29,14 +37,6 @@ void    prompt(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
     t_data data;
-
-    init_bdd(&data);
-//---------------TEST ENV---------------//
-/*int i;
-i = 0;
-while (envp[i])
-    printf("%s\n", envp[i++]);*/
-//--------------------------------------//
 
     init_data(&data, envp);
 	prompt(&data);

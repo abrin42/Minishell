@@ -6,6 +6,9 @@
 #include <readline/history.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -15,6 +18,8 @@ typedef struct s_data
     char    **bdd;
     char    **env;
     int     parsing_y;
+    int     lenquote;
+    int     i_args;
 }   t_data;
 
 char    *ft_command(t_data *data);
@@ -26,7 +31,6 @@ void    ft_echo(t_data *data, int i);
 void    ft_pwd(t_data *data);
 void    ft_cd(t_data *data);
 void    ft_env(t_data *data);
-void    init_bdd(t_data *data);
-
+void    ft_terminal(t_data *data);
 
 #endif
