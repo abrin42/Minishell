@@ -23,14 +23,15 @@ typedef struct s_data
 }   t_data;
 
 char    *ft_command(t_data *data);
-int    ft_check(t_data *data);
+int    ft_parsing_signe(t_data *data, int u);
 int ft_strlen(char  *str);
 int	ft_strcmp(char *s1, char *s2);
-void    tri_line(t_data *data);
+void    ft_parsing_tri_line(t_data *data);
 void    ft_echo(t_data *data, int i);
 void    ft_pwd(t_data *data);
 void    ft_cd(t_data *data);
 void    ft_env(t_data *data);
 void    ft_terminal(t_data *data);
+void    ft_parsing_lineset(t_data *data);
 
 #endif
