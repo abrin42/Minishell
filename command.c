@@ -35,7 +35,7 @@ void    ft_env(t_data *data)
         printf("%s\n", data->env[i++]);
 }
 
-void    free_args(char **args, t_data *data)
+/*void    free_args(char **args, t_data *data)
 {
         while (data->i_args < 11)
         {
@@ -75,4 +75,35 @@ void    ft_terminal(t_data *data)
     }
     waitpid(pid, &status, 0);
     return ;
+}*/
+
+int verif_command (t_data *data)
+{
+    char    **args;
+    char    *path;
+    int     i;
+    int status;
+    __pid_t pid;
+
+    pid = fork();
+    if (pid == -1)
+    {
+        printf("Erreur lors de la création du processus.\n");
+        return (0);
+    }
+    else if (pid == 0)
+    {
+        args = malloc_args(data, args);
+        malloc_bdd(data);
+        i = 0;
+        while (data->bdd[i] != NULL)
+        {
+            path = ft_strjoin(data->bdd[i], data->parsing[0]);
+            execve(path, args, data->env);
+            free(path);
+            i++;
+        }
+    }
+    waitpid(pid, &status, 0);
+    return (0);
 }

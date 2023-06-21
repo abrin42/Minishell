@@ -12,20 +12,30 @@
 
 #include "minishell.h"
 
+void    malloc_parsing(t_data *data)
+{
+    data->i_args = 1000;
+    data->parsing = malloc (sizeof(char *) * data->i_args);
+    while (data->i_args >= 0)
+    {
+        data->parsing[data->i_args] = malloc (sizeof(char) * 1000);
+        data->i_args--;
+    }
+}
+
 void    ft_parsing_tri_line(t_data *data)
 {
     int i;
 
-    data->parsing = malloc (sizeof(char *) * 1000);
+    /*data->parsing = malloc (sizeof(char *) * 1000);
     data->parsing[0] = malloc (sizeof(char) * 1000);
     data->parsing[1] = malloc (sizeof(char) * 1000);
     data->parsing[2] = malloc (sizeof(char) * 1000);
     data->parsing[3] = malloc (sizeof(char) * 1000);
     data->parsing[4] = malloc (sizeof(char) * 1000);
     data->parsing[5] = malloc (sizeof(char) * 1000);
-    data->parsing[6] = malloc (sizeof(char) * 1000);
-
-
+    data->parsing[6] = malloc (sizeof(char) * 1000);*/
+    malloc_parsing(data);
 
    // printf("-okkkkk-\n");
     data->parsing_y = -1;
@@ -50,7 +60,13 @@ void    ft_parsing_tri_line(t_data *data)
             data->parsing[data->parsing_y][i++] = data->line[data->u_line++];
         }
     }
-    
+    data->parsing_y -= data->trace;
+    printf("%d\n", data->parsing_y);
+    while (data->parsing_y < 1000)
+    {
+        data->parsing_y++;
+        data->parsing[data->parsing_y] = NULL;
+    }
     /*
     while (data->line[i] != '\0')
     {

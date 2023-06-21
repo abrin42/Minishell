@@ -9,6 +9,7 @@ void    init_data(t_data *data, char **envp)
     data->env = envp;
     data->parsing_y = 0;
     data->lenquote = 0;
+    data->malloc_pars = 0;
 }
 
 void intHandler() {

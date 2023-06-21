@@ -15,7 +15,8 @@ SRC	=	main.c		\
 		command.c	\
 		tri_line.c	\
 		ft_command.c \
-		parsing.c
+		parsing.c	\
+		verif_command.c
 
 SRC_H = minishell.h
 

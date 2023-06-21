@@ -26,11 +26,8 @@ int    ft_start(t_data *data)
         ft_env(data);
         return (1);
     }
-    else if (ft_strcmp(data->parsing[0] , "ls") == 0)
-    {
-        ft_terminal(data);
+    else if (verif_command(data))
         return (1);
-    }
     return (0);
 }
 

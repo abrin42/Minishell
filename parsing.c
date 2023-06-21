@@ -17,12 +17,12 @@ void    ft_parsing_lineset(t_data *data)
     int i;
     int j;
 
-    data->line = malloc(sizeof(char) * 1000);
+    data->line = malloc(sizeof(char) * (ft_strlen(data->buffer) + 1));
     i = 0;
     j = 0;
     while (data->buffer[i])
     {
-    if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
+        if (data->buffer[i] == ' ' && data->buffer[i - 1] == ' ')
             i++;
         else
         {
@@ -42,7 +42,9 @@ int    ft_parsing_signe(t_data *data)
         data->parsing_y++;
         data->parsing[data->parsing_y][0] = data->line[data->u_line];
         data->u_line++;
-        data->u_line++;
+        while (data->line[data->u_line] == ' ' || data->line[data->u_line] == '\t')
+            data->u_line++;
+        data->trace++;
         return (1);
     }
     i = 0;
