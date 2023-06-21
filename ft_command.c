@@ -54,19 +54,19 @@ void    doublecot(t_data *data)
 }
 
 
-int    ft_check(t_data *data, int u)
+/*int    ft_check(t_data *data, int u)
 {
     int i;
     if (data->line[u] == '>')
     {
-        printf("1sdiofjidsjfpdsjfkdsjflksfjd");
+        printf("---------------------------\n");
         data->parsing[data->parsing_y][0] = data->line[u++];
         data->parsing_y++;
         return (1);
     }
     i = 0;
     return(0);
-}
+}*/
 
 char    *ft_command(t_data *data)
 {

@@ -20,10 +20,12 @@ typedef struct s_data
     int     parsing_y;
     int     lenquote;
     int     i_args;
+    int     u_line;
+    int     comd_line;
 }   t_data;
 
 char    *ft_command(t_data *data);
-int    ft_parsing_signe(t_data *data, int u);
+int    ft_parsing_signe(t_data *data);
 int ft_strlen(char  *str);
 int	ft_strcmp(char *s1, char *s2);
 void    ft_parsing_tri_line(t_data *data);

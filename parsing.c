@@ -34,14 +34,15 @@ void    ft_parsing_lineset(t_data *data)
     data->line[j] = '\0';
 }
 
-int    ft_parsing_signe(t_data *data, int u)
+int    ft_parsing_signe(t_data *data)
 {
     int i;
-    if (data->line[u] == '>')
+    if (data->line[data->u_line] == '>' || data->line[data->u_line] == '<' || data->line[data->u_line] == '|')
     {
-        printf("1sdiofjidsjfpdsjfkdsjflksfjd");
-        data->parsing[data->parsing_y][0] = data->line[u++];
         data->parsing_y++;
+        data->parsing[data->parsing_y][0] = data->line[data->u_line];
+        data->u_line++;
+        data->u_line++;
         return (1);
     }
     i = 0;
