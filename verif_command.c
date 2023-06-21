@@ -7,11 +7,7 @@ char    **malloc_args(t_data *data, char **args)
     while (data->i_args > -1)
     {
         args[data->i_args] = malloc(sizeof(char) * 11);
-        //if (data->i_args == 0)
-            args[data->i_args] = data->parsing[data->i_args];
-            printf("===%s===\n", args[data->i_args]);
-        //else
-        //    args[data->i_args] = NULL;
+        args[data->i_args] = data->parsing[data->i_args];
         data->i_args--;
     }
     return (args);
@@ -57,7 +53,7 @@ void    ft_split_path(t_data *data)
         i++;
     }
     data->bdd[j] = NULL;
-    //free (path_temp);
+    //free (path_temp);   A CHECK FAISAIT SEG FAULT
 }
 
 void    malloc_bdd(t_data *data)

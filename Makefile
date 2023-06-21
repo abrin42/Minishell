@@ -10,12 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	main.c		\
-		function.c	\
-		command.c	\
-		tri_line.c	\
-		ft_command.c \
-		parsing.c	\
+SRC	=	main.c			\
+		function.c		\
+		command.c		\
+		ft_command.c 	\
+		parsing.c		\
+		parsing2.c		\
 		verif_command.c
 
 SRC_H = minishell.h
