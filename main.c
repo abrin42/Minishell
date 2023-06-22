@@ -11,6 +11,7 @@ void    init_data(t_data *data, char **envp)
     data->lenquote = 0;
     data->malloc_pars = 0;
     data->i_line = 0;
+    data->trace = 0;
 }
 
 void intHandler() {

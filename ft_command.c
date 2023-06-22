@@ -1,5 +1,39 @@
 #include "minishell.h"
 
+void    print_error(t_data *data)
+{
+    int i;
+
+    i = 0;
+    data->trace = 0;
+    while (data->line[i])
+    {
+        if (data->line[i] != '\0' && ft_strcmp2(data->line , "echo", i) == 0 &&
+            ft_strcmp2(data->line , "cd", i) == 0 && ft_strcmp2(data->line , "pwd", i) == 0 &&
+                ft_strcmp2(data->line , "env", i) == 0 &&   data->trace == 0)
+        {
+                while (data->line[i] && (data->line[i] != ' ' && ft_verif_symbols(data->line[i]) == 0 ))
+                    ft_putchar(data->line[i++]);
+                write(1, ": command not found\n", 20);
+                data->trace++;
+        }
+        if (ft_verif_symbols(data->line[i]) == 1)
+        {
+            while (data->line[i] == ' ' || ft_verif_symbols(data->line[i]) == 1)
+                i++;
+            if (data->line[i] != '\0' && ft_strcmp2(data->line , "echo", i) == 0 &&
+            ft_strcmp2(data->line , "cd", i) == 0 && ft_strcmp2(data->line , "pwd", i) == 0 &&
+                ft_strcmp2(data->line , "env", i) == 0)
+            {
+                while (data->line[i] && (data->line[i] != ' ' && ft_verif_symbols(data->line[i]) == 0 ))
+                    ft_putchar(data->line[i++]);
+                write(1, ": command not found\n", 20);
+            }
+        }
+        i++;
+    }
+}
+
 int    ft_start(t_data *data)
 {
      int i;
@@ -28,11 +62,15 @@ int    ft_start(t_data *data)
     }
     else if (command_terminal(data))
         return (1);
+    print_error(data);
     return (0);
 }
 
 char    *ft_command(t_data *data)
 {
+    int verif;
+
+    //printf("line:%s\n",data->line);
     init_data_parsing(data);
     malloc_parsing(data);
     ft_parsing_space(data);
@@ -41,9 +79,13 @@ char    *ft_command(t_data *data)
         ft_start(data);
     else
     {
-        ft_parsing_following(data);
+        verif = ft_parsing_following(data);
+        if (verif == -1)
+            return (NULL);
         ft_start(data);
     }
+    
+    for (int y = 0; y < 5; y++)
+    	printf("===%s===\n", data->parsing[y]);
     return (NULL);
 }
-

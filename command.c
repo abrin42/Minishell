@@ -45,7 +45,11 @@ int command_terminal (t_data *data)
     pid = fork();
     if (pid == -1)
     {
-        printf("Erreur lors de la création du processus.\n");
+        //perror("fork");
+        //bash: fork : no such file 
+        // put_error(strerror(errno), file)
+        write (2, "Erreur lors de la création du processus.\n", 41); // demander a noah si la sortie 2 c'est good  
+        //printf("Erreur lors de la création du processus.\n");
         return (0);
     }
     else if (pid == 0)
@@ -55,7 +59,7 @@ int command_terminal (t_data *data)
         i = 0;
         while (data->bdd[i] != NULL)
         {
-            path = ft_strjoin(data->bdd[i], data->parsing[0]);
+            path = ft_strjoin(data->bdd[i], data->parsing[0]); //attention data->parsing[0] echo | ls = ls
             execve(path, args, data->env);
             free(path);
             i++;

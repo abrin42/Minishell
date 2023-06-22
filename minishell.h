@@ -30,7 +30,7 @@ typedef struct s_data
 char    *ft_command(t_data *data);
 int     ft_start(t_data *data);
 
-void    ft_parsing_following(t_data *data);
+int    ft_parsing_following(t_data *data);
 void    ft_parsing_firstword(t_data *data);
 void    ft_parsing_space(t_data *data);
 
@@ -43,6 +43,10 @@ int     command_terminal (t_data *data);
 char    *ft_strjoin(char *s1, char *s2);
 int     ft_strlen(char  *str);
 int	    ft_strcmp(char *s1, char *s2);
+int	    ft_strcmp2(char *s1, char *s2, int start);
+void    ft_putchar(char c);
+
+
 
 void    malloc_bdd(t_data *data);
 void    malloc_parsing(t_data *data);

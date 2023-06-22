@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+void ft_putchar(char c)
+{
+    write(1, &c,1);
+}
+
 int ft_strlen(char  *str)
 {
     int i;
@@ -8,6 +13,35 @@ int ft_strlen(char  *str)
     while (str[i])
         i++;
     return (i);
+}
+
+int	ft_strcmp2(char *s1, char *s2, int start)
+{
+	int	i;
+	int	u;
+    int g;
+
+	u = 0;
+	i = 0;
+    g = 0;
+    while (start != 0)
+    {
+        i++;
+        start--;
+    }
+    while (ft_strlen(s2) > g)
+	{
+		if (s2[g] == s1[i])
+			u++;
+		if (s2[g] != '\0')
+		{
+			if (u == ft_strlen(s2))
+				return (1);
+		}
+		i++;
+        g++;
+	}
+	return (0);
 }
 
 int	ft_strcmp(char *s1, char *s2)

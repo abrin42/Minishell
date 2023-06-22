@@ -56,7 +56,7 @@ void    ft_parsing_firstword(t_data *data)
         data->parsing[data->parsing_y] = NULL;
 }
 
-void    ft_parsing_following(t_data *data)
+int    ft_parsing_following(t_data *data)
 {
     int j;
 
@@ -74,39 +74,34 @@ void    ft_parsing_following(t_data *data)
     }
     data->parsing[data->parsing_y][j] = '\0';
     data->parsing_y++;
+    j = 0;
     while (ft_verif_symbols(data->line[data->i_line]) == 1)
     {
-        if (ft_verif_symbols(data->line[data->i_line]) == 1 && ft_verif_symbols(data->line[data->i_line - 1]) == 1 && ft_verif_symbols(data->line[data->i_line + 1]) == 1)
-        {
-            data->parsing[data->parsing_y][1] = data->line[data->i_line];
-            data->i_line++;
-        }
-        else if (ft_verif_symbols(data->line[data->i_line]) == 1 && ft_verif_symbols(data->line[data->i_line - 1]) == 1 && ft_verif_symbols(data->line[data->i_line + 1]) == 0)
-        {
-            data->parsing[data->parsing_y][1] = data->line[data->i_line];
-            data->i_line++;
-            data->parsing_y++;
-        }
-        else if (ft_verif_symbols(data->line[data->i_line]) == 1 && ft_verif_symbols(data->line[data->i_line - 1]) == 0 && ft_verif_symbols(data->line[data->i_line + 1]) == 1)
-        {
-            data->parsing[data->parsing_y][0] = data->line[data->i_line];
-            data->i_line++;
-        }
-        else if (ft_verif_symbols(data->line[data->i_line]) == 1 && ft_verif_symbols(data->line[data->i_line - 1]) == 0 && ft_verif_symbols(data->line[data->i_line + 1]) == 0)
-        {
-            data->parsing[data->parsing_y][0] = data->line[data->i_line];
-            data->i_line++;
-            data->parsing_y++;
-        }
+        data->parsing[data->parsing_y][j] = data->line[data->i_line];
+        j++;
+        data->i_line++;
+    }
+    data->parsing_y++;
+    if (data->parsing[data->parsing_y - 1][0] == '|' && data->parsing[data->parsing_y - 1][1] == '|')
+    {
+        printf("syntax error near unexpected token '%c%c'\n", data->parsing[data->parsing_y - 1][0], data->parsing[data->parsing_y - 1][0]);
+        return (-1);
+    }
+    else if (ft_verif_symbols(data->parsing[data->parsing_y - 1][0]) == 1 && ft_verif_symbols(data->parsing[data->parsing_y - 1][1]) == 1 && ft_verif_symbols(data->parsing[data->parsing_y - 1][2]) == 1)
+    {
+        printf("syntax error near unexpected token '%c%c'\n", data->parsing[data->parsing_y - 1][0], data->parsing[data->parsing_y - 1][0]);
+        return (-1);
     }
     if (data->i_line < ft_strlen(data->buffer))
     {
         ft_parsing_firstword(data);
-        ft_parsing_following(data);
+        if (data->parsing[data->parsing_y] != NULL)
+            ft_parsing_following(data);
     }
     while (data->parsing_y < 1000)
     {
         data->parsing[data->parsing_y] = NULL;
         data->parsing_y++;
     }
+    return (0);
 }
