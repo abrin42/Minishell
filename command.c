@@ -39,6 +39,7 @@ int command_terminal (t_data *data)
     char    **args;
     char    *path;
     int     i;
+    int     stop_condition;
     int status;
     __pid_t pid;
 
@@ -59,12 +60,15 @@ int command_terminal (t_data *data)
         i = 0;
         while (data->bdd[i] != NULL)
         {
+            stop_condition = 0;
             path = ft_strjoin(data->bdd[i], data->parsing[0]); //attention data->parsing[0] echo | ls = ls
-            execve(path, args, data->env);
+            stop_condition = execve(path, args, data->env);
             free(path);
             i++;
         }
     }
     waitpid(pid, &status, 0);
+    if (stop_condition != -1)
+        return (1);
     return (0);
 }

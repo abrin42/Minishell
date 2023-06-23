@@ -60,9 +60,8 @@ int    ft_start(t_data *data)
         ft_env(data);
         return (1);
     }
-    else if (command_terminal(data))
+    else if (command_terminal(data) == 1)
         return (1);
-    print_error(data);
     return (0);
 }
 
@@ -70,19 +69,22 @@ char    *ft_command(t_data *data)
 {
     int verif;
 
-    //printf("line:%s\n",data->line);
     init_data_parsing(data);
     malloc_parsing(data);
     ft_parsing_space(data);
     ft_parsing_firstword(data);
     if (data->parsing[data->parsing_y] == NULL)
-        ft_start(data);
+    {
+        if (ft_start(data) == 0)
+            print_error(data);
+    }
     else
     {
         verif = ft_parsing_following(data);
         if (verif == -1)
             return (NULL);
-        ft_start(data);
+        if (ft_start(data) == 0)
+            print_error(data);
     }
     
     for (int y = 0; y < 5; y++)
