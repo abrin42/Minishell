@@ -58,7 +58,7 @@ int command_terminal (t_data *data)
         args = malloc_args(data, args);
         malloc_bdd(data);
         i = 0;
-        while (data->bdd[i] != NULL)
+        while (data->bdd[i] != NULL )
         {
             stop_condition = 0;
             path = ft_strjoin(data->bdd[i], data->parsing[0]); //attention data->parsing[0] echo | ls = ls
