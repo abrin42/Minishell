@@ -2,7 +2,8 @@
 
 void    ft_echo(t_data *data, int i)
 {
-    printf("%s\n", data->parsing[1]);
+    ft_putstr(data->parsing[data->parsing_y + 1]);
+    //printf("%s\n", data->parsing[data->parsing_y + 1]);
 }
 
 void    ft_pwd(t_data *data)
@@ -43,6 +44,7 @@ int command_terminal (t_data *data)
     int status;
     __pid_t pid;
 
+    args = malloc(sizeof (char*) * 2);
     pid = fork();
     if (pid == -1)
     {
@@ -55,15 +57,22 @@ int command_terminal (t_data *data)
     }
     else if (pid == 0)
     {
-        args = malloc_args(data, args);
-        malloc_bdd(data);
+        //args = malloc_args(data, args);
+        //malloc_bdd(data);
         i = 0;
         while (data->bdd[i] != NULL )
         {
             stop_condition = 0;
-            path = ft_strjoin(data->bdd[i], data->parsing[0]); //attention data->parsing[0] echo | ls = ls
+            path = ft_strjoin(data->bdd[i], data->parsing[data->parsing_y]); //attention data->parsing[0] echo | ls = ls
+            args[0] = ft_strdup(path);
+            //args[1] = ft_strdup(data->parsing[data->parsing_y + 1]);
+            //if (!(data->parsing[data->parsing_y + 1][0]))
+                args[1] = NULL;
+            int x = 0;
             stop_condition = execve(path, args, data->env);
-            free(path);
+            //free(path);
+            //free(args[0]);
+            //free(args[1]);
             i++;
         }
     }

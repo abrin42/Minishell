@@ -5,6 +5,16 @@ void ft_putchar(char c)
     write(1, &c,1);
 }
 
+void ft_putstr(char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len] != '\0')
+		len++;
+	write(1, str, len);
+}
+
 int ft_strlen(char  *str)
 {
     int i;
@@ -68,6 +78,28 @@ int	ft_strcmp(char *s1, char *s2)
 		}	
 	}
 	return (s1[i] - s2[i]);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*dst;
+	int		len;
+
+	len = 0;
+	i = 0;
+	while (s[len])
+		len++;
+	dst = malloc (sizeof(char) * len + 1);
+	if (dst == 0)
+		return (NULL);
+	while (s[i] && s[i] != '\0')
+	{
+		dst[i] = s[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }
 
 char    *ft_strjoin(char *s1, char *s2)

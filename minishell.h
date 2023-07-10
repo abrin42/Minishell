@@ -25,10 +25,17 @@ typedef struct s_data
     int     comd_line;
     int     malloc_pars;
     int     trace;
+    
+    
+    int tube_1[2];
+    int tube_2[2];
+    int tube_trace;
 }   t_data;
 
-char    *ft_command(t_data *data);
+int    ft_command(t_data *data);
 int     ft_start(t_data *data);
+int    test_comande_possible(t_data *data);
+
 
 int    ft_parsing_following(t_data *data);
 void    ft_parsing_firstword(t_data *data);
@@ -39,12 +46,15 @@ void    ft_pwd(t_data *data);
 void    ft_cd(t_data *data);
 void    ft_env(t_data *data);
 int     command_terminal (t_data *data);
+void    execute(t_data *data);
 
 char    *ft_strjoin(char *s1, char *s2);
 int     ft_strlen(char  *str);
 int	    ft_strcmp(char *s1, char *s2);
 int	    ft_strcmp2(char *s1, char *s2, int start);
 void    ft_putchar(char c);
+char	*ft_strdup(const char *s);
+void    ft_putstr(char *str);
 
 
 

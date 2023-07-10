@@ -72,7 +72,7 @@ int    ft_parsing_following(t_data *data)
             j++;
         }
     }
-    data->parsing[data->parsing_y][j] = '\0';
+    //data->parsing[data->parsing_y][j] = '\0';
     data->parsing_y++;
     j = 0;
     while (ft_verif_symbols(data->line[data->i_line]) == 1)
