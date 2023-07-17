@@ -45,8 +45,8 @@ int command_terminal (t_data *data)
     int     stop_condition;
     int status;
     __pid_t pid;
+    int v;
 
-    args = malloc(sizeof (char*) * 2);
     pid = fork();
     if (pid == -1)
     {
@@ -62,19 +62,32 @@ int command_terminal (t_data *data)
         //args = malloc_args(data, args);
         //malloc_bdd(data);
         i = 0;
+        /*for (int y = 0; data->parsing[y] != NULL; y++)
+            printf("===%s===\n", data->parsing[y]);*/
+        //printf("-+-\n");
         while (data->bdd[i] != NULL )
         {
             stop_condition = 0;
             path = ft_strjoin(data->bdd[i], data->parsing[data->parsing_y]); //attention data->parsing[0] echo | ls = ls
-            args[0] = ft_strdup(path);
+            //args = malloc_args(data, args, path);
             //args[1] = ft_strdup(data->parsing[data->parsing_y + 1]);
             //if (!(data->parsing[data->parsing_y + 1][0]))
-                args[1] = NULL;
-            int x = 0;
+            //printf("-+***-\n");
+            args = malloc(sizeof (char*) * 2);
+            args[0] = ft_strdup(path);
+            args[1] = NULL;
             stop_condition = execve(path, args, data->env);
-            //free(path);
-            //free(args[0]);
-            //free(args[1]);
+            free(path);
+            free(args[0]);
+            free(args[1]);
+            free(args);
+            /*v = 0;
+            while (args[v])
+            {
+                free(args[v]);
+                v++;
+            }
+            free(args);*/
             i++;
         }
     }

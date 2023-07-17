@@ -55,6 +55,9 @@ int	    ft_strcmp2(char *s1, char *s2, int start);
 void    ft_putchar(char c);
 char	*ft_strdup(const char *s);
 void    ft_putstr(char *str);
+char	*ft_strcpy(char *dst, char *src);
+char	*ft_strdup_size(const char *s, int size,int  start);
+
 
 void    prompt(t_data *data);
 
@@ -62,7 +65,7 @@ void    prompt(t_data *data);
 void    malloc_bdd(t_data *data);
 void    malloc_parsing(t_data *data);
 void    malloc_parsing(t_data *data);
-char    **malloc_args(t_data *data, char **args);
+char    **malloc_args(t_data *data, char **args, char *path);
 void    init_data(t_data *data, char **envp);
 void    init_data_parsing(t_data *data);
 void    free_args(char **args, t_data *data);

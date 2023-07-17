@@ -54,6 +54,21 @@ int	ft_strcmp2(char *s1, char *s2, int start)
 	return (0);
 }
 
+char	*ft_strcpy(char *dst, char *src)
+{
+	int	i;
+	int len;
+
+	i = 0;
+	len = ft_strlen(src);
+	while (src[i] && i <  len)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (dst);
+}
+
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -94,6 +109,28 @@ char	*ft_strdup(const char *s)
 	if (dst == 0)
 		return (NULL);
 	while (s[i] && s[i] != '\0')
+	{
+		dst[i] = s[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+char	*ft_strdup_size(const char *s, int size,int  start)
+{
+	int		i;
+	char	*dst;
+	int		len;
+
+	len = size;
+	i = 0;	
+	dst = malloc (sizeof(char) * len + 1);
+	if (dst == 0)
+		return (NULL);
+	while (i < start)
+		i++;
+	while (s[i] && s[i] != '\0' && i < size + start)
 	{
 		dst[i] = s[i];
 		i++;
