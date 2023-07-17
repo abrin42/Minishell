@@ -3,6 +3,7 @@
 void    ft_echo(t_data *data, int i)
 {
     ft_putstr(data->parsing[data->parsing_y + 1]);
+    write(1, "\n", 1);
     //printf("%s\n", data->parsing[data->parsing_y + 1]);
 }
 
@@ -16,7 +17,8 @@ void    ft_pwd(t_data *data)
     str = NULL;
     pwd = NULL;
     pwd = getcwd(str, 100);
-    printf("%s\n", pwd);
+    ft_putstr(pwd);
+    ft_putchar('\n');
     free(str);
     free(pwd);
 }

@@ -56,6 +56,7 @@ void    ft_putchar(char c);
 char	*ft_strdup(const char *s);
 void    ft_putstr(char *str);
 
+void    prompt(t_data *data);
 
 
 void    malloc_bdd(t_data *data);

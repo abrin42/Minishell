@@ -65,18 +65,23 @@ int    *one_pipe_start_gestion(t_data * data)// pour la premiere commande
 {
     
     //int tube[2];
-    pipe (data->tube_1);
-
+    pipe(data->tube_1);
+    int status_pid;
+    
+    //printf("begin of pipe\n");
     pid_t pid = fork();
     if (pid == 0)
     {
+        //printf("tube[0] = %d tube[1] = %d\n", data->tube_1[0], data->tube_1[1]);
         close(data->tube_1[0]);
-        dup2(data->tube_1[1], STDOUT_FILENO);//change sortie dup2(?,1) pipe 1
+        dup2(data->tube_1[1], 1);//change sortie dup2(?,1) pipe 1
+        write(STDOUT_FILENO, "te\n", 3);
         execute(data);
         exit(0);    //exit et close entree du pipe 1
     }
     close(data->tube_1[1]);
     wait(NULL);
+    //waitpid(pid, &status_pid, 0);
     return(0); // dans struct
 }
 
@@ -84,6 +89,7 @@ void    two_pipe1_gestion(t_data * data)//commade au millieu
 {
     pipe (data->tube_1);
     pid_t pid = fork();
+    int status_pid;
 
     if (pid == 0)
     {
@@ -92,35 +98,39 @@ void    two_pipe1_gestion(t_data * data)//commade au millieu
         dup2(data->tube_2[0], STDIN_FILENO);//change sortie dup2(?,1) pipe 1
         dup2(data->tube_1[1], STDOUT_FILENO);
         execute(data);
+        exit(0);
     }
     close(data->tube_2[0]);
     close(data->tube_1[1]);
-    wait(NULL);
+    waitpid(pid, &status_pid, WEXITED);
     //exit et close sortie pipe 1 , ent    close(tube[1]);*/
 }
 
 void    two_pipe2_gestion(t_data * data)//commade au millieu 
 {
     pipe (data->tube_2);
+    int status_pid;
     pid_t pid = fork();
 
     if (pid == 0)
     {
         close(data->tube_1[1]);
         close(data->tube_2[0]);
-        dup2(data->tube_1[0], STDIN_FILENO);//change sortie dup2(?,1) pipe 1
+        dup2(data->tube_1[0], STDIN_FILENO); //change sortie dup2(?,1) pipe 1
         dup2(data->tube_2[1], STDOUT_FILENO);
         execute(data);
+        exit(0);
     }
     close(data->tube_1[0]);
     close(data->tube_2[1]);
-    wait(NULL);
+    waitpid(pid, &status_pid, 0);
     //exit et close sortie pipe 1 , ent    close(tube[1]);*/
 }
 
 void    one_pipe_end1_gestion(t_data * data)// pour la derniere commande
 {
     pid_t pid = fork();
+    int status_pid;
 
     if (pid == 0)
     {
@@ -132,19 +142,21 @@ void    one_pipe_end1_gestion(t_data * data)// pour la derniere commande
         close(data->tube_2[1]);
         dup2(data->tube_2[0], STDIN_FILENO);//change sortie dup2(?,1) pipe 1
         execute(data);
-        //exit(0);    //exit et close entree du pipe 1
+        exit(0);    //exit et close entree du pipe 1
     }
     close(data->tube_2[0]);
-    wait(NULL);
+    waitpid(pid, &status_pid, 0);
     //exit et close sortie pipe 2
 }
 
 void    one_pipe_end2_gestion(t_data * data)// pour la derniere commande
 {
     pid_t pid = fork();
+    int status_pid;
 
     if (pid == 0)
     {
+        //printf("end tube[0] = %d tube[1] = %d\n", data->tube_1[0], data->tube_1[1]);
         //printf("--parsing y[%d] =%s=\n",data->parsing_y,data->parsing[data->parsing_y]);
         //dup2(,0)//change entre dup2(?,0) pipe 2
         /*data->tube_out[0] = data->tube_in[0];
@@ -153,10 +165,10 @@ void    one_pipe_end2_gestion(t_data * data)// pour la derniere commande
         close(data->tube_1[1]);
         dup2(data->tube_1[0], STDIN_FILENO);//change sortie dup2(?,1) pipe 1
         execute(data);
-        //exit(0);    //exit et close entree du pipe 1
+        exit(0);    //exit et close entree du pipe 1
     }
     close(data->tube_1[0]);
-    wait(NULL);
+    waitpid(pid, &status_pid, 0);
     //exit et close sortie pipe 2
 }
 
@@ -172,32 +184,32 @@ int    ft_start(t_data *data)
     //printf("test pipe = %d\n",nb_pipe);
     if (nb_pipe == 1 )/*&& data->trace du passage de la premiere comande == 0*/ //ca tcheck si 1 pipe au debut ou data parssing = 0
     {
-        printf("-------------------pipe start\n");
+        //printf("-------------------pipe start\n");
         one_pipe_start_gestion(data);
     }
     else if (nb_pipe == 2 && data->tube_trace % 2 != 0) //normalement ca tcheck si entre de tcheck ? 
     {
-        printf("-------------------pipe mide impaire 1\n");
+        //printf("-------------------pipe mide impaire 1\n");
         two_pipe1_gestion(data);
     }
     else if (nb_pipe == 2 && data->tube_trace % 2 == 0) //normalement ca tcheck si entre de tcheck ? 
     {
-        printf("-------------------pipe mide paire 2\n");
+        //printf("-------------------pipe mide paire 2\n");
         two_pipe2_gestion(data);
     }
     else if (nb_pipe == 3 && data->tube_trace % 2 != 0) /*&& data->trace du passage de la premiere comande == 1*/ //ca tcheck si 1 pipe a la fin
     {
-        printf("-------------------pipe end impaire 1\n");
+        //printf("-------------------pipe end impaire 1\n");
         one_pipe_end1_gestion(data);
     }
     else if (nb_pipe == 3 && data->tube_trace % 2 == 0) 
     {
-        printf("-------------------pipe end paire 2\n");
+        //printf("-------------------pipe end paire 2\n");
         one_pipe_end2_gestion(data);
     }
     else if (nb_pipe == 0)
     {
-        printf("-------------------pipe non\n");
+        //printf("-------------------pipe non\n");
         execute(data);//no pipe just executer le code
     }
     data->parsing_y += 3;
@@ -215,13 +227,13 @@ int    ft_command(t_data *data)
     verif = ft_parsing_following(data); // il faut vreaiment le faire la ?? 
     if (verif == -1)
         return (-1);
-    for (int y = 0; data->parsing[y] != NULL; y++)
-        printf("===%s===\n", data->parsing[y]);
+    /*for (int y = 0; data->parsing[y] != NULL; y++)
+        printf("===%s===\n", data->parsing[y]);*/
     //return (NULL);
     int i = 0;
-
     data->parsing_y = 0;
-    while (i < 2 ) // temps qu'il y a des commade;
+
+    while (i <  3) // temps qu'il y a des commade;
     {
     
         /*if (data->parsing[data->parsing_y] == NULL)
@@ -245,6 +257,7 @@ int    ft_command(t_data *data)
         else
         {
             //write(1,"*-*\n",4);
+            //printf("test alpha\n");
             ft_start(data);//  check si redirection / | (ft_start) ou just commade 
         }
         //}

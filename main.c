@@ -39,8 +39,8 @@ void    prompt(t_data *data)
             return ;
         if (ft_strlen(data->buffer) > 0)
         {
-            ft_command(data);
             add_history(data->buffer);
+            ft_command(data);
             free(data->buffer);
         }
     }
