@@ -45,6 +45,10 @@ int    test_comande_possible(t_data *data)
         return (1);
     else if (ft_strcmp(data->parsing[data->parsing_y] , "env") == 0)
         return (1);
+    else if (ft_strcmp(data->parsing[data->parsing_y] , "export") == 0)
+        return (1);
+    else if (ft_strcmp(data->parsing[data->parsing_y] , "unset") == 0)
+        return (1);
     else if (cmd_possible(data) == 0) // change command_terminal sans execution (commande access)
         return (1);
     printf("test comande ligne [%d] = %s \n",data->parsing_y,data->parsing[data->parsing_y]);
@@ -62,6 +66,10 @@ void    execute(t_data *data)
         ft_pwd(data);
     else if (ft_strcmp(data->parsing[data->parsing_y] , "env") == 0)
         ft_env(data);
+    else if (ft_strcmp(data->parsing[data->parsing_y] , "export") == 0)
+        ft_export(data);
+    else if (ft_strcmp(data->parsing[data->parsing_y] , "unset") == 0)
+        ft_unset(data);
     else if(command_terminal(data) == 1)
         i = i;
 }

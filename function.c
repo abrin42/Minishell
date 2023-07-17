@@ -165,3 +165,49 @@ char    *ft_strjoin(char *s1, char *s2)
     str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
     return (str);
 }
+
+char	*ft_strdup_special(const char *src)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	while (src[i])
+		i++;
+	if (!(new = malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	i = 0;
+	while (src[i] && src[i] != ' ')
+	{
+		new[i] = src[i];
+		i++;
+	}
+	while (src[i])
+	{
+		new[i] = '\0';
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	*ft_strdup_var(const char *src, int i)
+{
+	char	*new;
+	int		size;
+
+	size = i;
+	while (src[size] != '\0' && src[size] != ' ')
+		size++;
+	if (!(new = malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	size = 0;
+	while (src[i] && src[i] != ' ')
+	{
+		new[size] = src[i];
+		i++;
+		size++;
+	}
+	new[size] = '\0';
+	return (new);
+}
