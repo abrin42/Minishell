@@ -60,7 +60,7 @@ char	*ft_strcpy(char *dst, char *src)
 	int len;
 
 	i = 0;
-	len + ft_strlen(src);
+	len = ft_strlen(src);
 	while (src[i] && i <  len)
 	{
 		dst[i] = src[i];

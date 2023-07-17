@@ -12,6 +12,7 @@ char    **malloc_args(t_data *data, char **args, char *path)
     y = 0;
     i = 0;
     len = 0;
+    printf("*//*/*/*/*");
     while(data->parsing[data->parsing_y + 1][i])
     {
         if (data->parsing[data->parsing_y + 1][i] == ' ')
@@ -45,7 +46,7 @@ char    **malloc_args(t_data *data, char **args, char *path)
         y++;
         
     }
-    printf("----args[%d] = %s\n", y, args[y]);
+    printf("----args[0] = %s\n", args[0]);
     //data->parsing[data->parsing_y];
     int v = 0;
     while (args[v])
@@ -54,6 +55,7 @@ char    **malloc_args(t_data *data, char **args, char *path)
         v++;
     }
     printf("--------\n");
+     write(1,"\n\n**\n",5);
     return (args);
 }
 

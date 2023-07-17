@@ -230,7 +230,7 @@ int nb_cmd(t_data *data)
         i++;
     }
     cmd++;
-    printf("cmd = %d\n", cmd);
+    //printf("cmd = %d\n", cmd);
     return (cmd);
 }
 
