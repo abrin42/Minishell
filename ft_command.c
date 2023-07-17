@@ -216,9 +216,32 @@ int    ft_start(t_data *data)
     return(0);
 }
 
+int nb_cmd(t_data *data)
+{
+    int i;
+    int cmd;
+
+    cmd = 0;
+    i = 0;
+    while (data->parsing[i] != NULL)
+    {
+        if (ft_verif_symbols(data->parsing[i][0]) == 1)
+            cmd++; 
+        i++;
+    }
+    cmd++;
+    printf("cmd = %d\n", cmd);
+    return (cmd);
+}
+
 int    ft_command(t_data *data)
 {
     int verif;
+    int nb_command;
+    int i;
+
+    i = 0;
+    nb_command = 0;
     data->tube_trace = 0;
     init_data_parsing(data);
     malloc_parsing(data);
@@ -227,13 +250,13 @@ int    ft_command(t_data *data)
     verif = ft_parsing_following(data); // il faut vreaiment le faire la ?? 
     if (verif == -1)
         return (-1);
-    /*for (int y = 0; data->parsing[y] != NULL; y++)
-        printf("===%s===\n", data->parsing[y]);*/
+    for (int y = 0; data->parsing[y] != NULL; y++)
+        printf("===%s===\n", data->parsing[y]);
     //return (NULL);
-    int i = 0;
+    nb_command = nb_cmd(data);
     data->parsing_y = 0;
 
-    while (i <  3) // temps qu'il y a des commade;
+    while (i < nb_command) // temps qu'il y a des commade;
     {
     
         /*if (data->parsing[data->parsing_y] == NULL)

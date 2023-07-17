@@ -1,20 +1,59 @@
 #include "minishell.h"
 
-char    **malloc_args(t_data *data, char **args) // a sup 
+char    **malloc_args(t_data *data, char **args, char *path)
 {
-    data->i_args = 13;
-    args = malloc(sizeof(char *) * data->i_args);
-    while (data->i_args > -1)
-    {        
-            args[data->i_args] = malloc(sizeof(char) * 100);
-            args[data->i_args] = data->parsing[data->i_args];
-            printf("----\nparsing y %d\n",data->parsing_y);
-            printf("parsing[%d] %s\n", data->i_args,data->parsing[ data->i_args]);
-            printf("args[%d]-%s\n-----\n",data->i_args,args[data->i_args]);
-        
+    int i;
+    int y;
+    int len;
+    int start;
+    int memolen;
 
-        data->i_args--;
+    start = 0;
+    y = 0;
+    i = 0;
+    len = 0;
+    while(data->parsing[data->parsing_y + 1][i])
+    {
+        if (data->parsing[data->parsing_y + 1][i] == ' ')
+            len++;
+        i++;
     }
+    len++;
+    memolen = len;
+    printf("len agrs = %d",len);
+    i = 0;
+    if (memolen != 1)
+        args = malloc(sizeof (char*) * len);
+    else 
+        args = malloc(sizeof (char*) * 2);
+    args[y] = ft_strdup(path);
+    if (memolen == 1)
+    {
+        args[1] = NULL;
+        return (args);
+    }
+    y++;
+    while(y < memolen)
+    {
+        len = 0;
+        while (data->parsing[data->parsing_y + 1][i] == ' ')
+        {
+            len++;
+        }
+        args[y] =ft_strdup_size(data->parsing[data->parsing_y + 1], len, start);
+        start = len;
+        y++;
+        
+    }
+    printf("----args[%d] = %s\n", y, args[y]);
+    //data->parsing[data->parsing_y];
+    int v = 0;
+    while (args[v])
+    {
+        printf("args[%d] =%s\n",v , args[v]);
+        v++;
+    }
+    printf("--------\n");
     return (args);
 }
 
