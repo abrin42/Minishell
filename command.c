@@ -2,7 +2,8 @@
 
 void    ft_echo(t_data *data, int i)
 {
-    ft_putstr(data->parsing[data->parsing_y + 1]);
+    if (data->parsing[data->parsing_y + 1] != NULL)
+        ft_putstr(data->parsing[data->parsing_y + 1]);
     write(1, "\n", 1);
 }
 
@@ -24,7 +25,8 @@ void    ft_pwd(t_data *data)
 
 void ft_cd(t_data *data)
 {
-    chdir(data->parsing[1]);
+    printf("ICI Y : %s\n", data->parsing[data->parsing_y + 1]);
+    chdir(data->parsing[data->parsing_y + 1]);
 }
 
 void    ft_env(t_data *data)
@@ -34,6 +36,12 @@ void    ft_env(t_data *data)
     i = 0;
     while (data->env[i])
         printf("%s\n", data->env[i++]);
+}
+
+void    ft_exit(t_data *data)
+{
+    free_parsing(data);
+    exit (0);
 }
 
 void    init_export_var(t_data *data)
@@ -123,7 +131,6 @@ void	clean_result_export_var(t_data *data, int i)
 		data->export_var[i][y + 2] = '\'';
 		data->export_var[i][y + 3] = '\0';
 	}
-	printf("%d\n", y);
 }
 
 int	ft_strcmp_export_var(char *s1, char *s2)
@@ -136,22 +143,14 @@ int	ft_strcmp_export_var(char *s1, char *s2)
 		if (s1[i] != '\0')
 		{
 			if (s2[i] == '\0')
-			{
 				return (s1[i] - s2[i]);
-			}
 			else
-			{
 				i++;
-			}
 		}
 		if (s1[i] == '\0')
-		{
 			return (0);
-		}
 		else if (s1[i] == '=' && s2[i] == '=')
-		{
 			return (1);
-		}
 	}
 	return (s1[i] - s2[i]);
 }
@@ -166,19 +165,13 @@ int	ft_strcmp_unset(char *s1, char *s2)
 		if (s1[i] != '\0')
 		{
 			if (s2[i] == '\0')
-			{
 				return (s1[i] - s2[i]);
-			}
 			else
-			{
 				i++;
-			}
 		}
 	}
 	if (s2[i] == '=' && s1[i] == '\0')
-	{
 		return (1);
-	}
 	return (s1[i] - s2[i]);
 }
 
@@ -193,14 +186,12 @@ void    ft_export(t_data *data)
     {
         while (data->export_var[i])
         {
-            printf("TEST2.5 :%d\n", data->parsing_y);
         	if (ft_strcmp_export_var(data->parsing[data->parsing_y + 1], data->export_var[i]) == 0)
         		return ;
         	else if(ft_strcmp_export_var(data->parsing[data->parsing_y + 1], data->export_var[i]) == 1)
         		break ;
             i++;
         }
-        printf("=%s= et %d\n", data->parsing[data->parsing_y + 1], data->parsing_y);
         data->export_var[i] = ft_strdup_special(data->parsing[data->parsing_y + 1]);
         clean_result_export_var(data, i);
     }

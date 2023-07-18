@@ -197,12 +197,12 @@ char	*ft_strdup_var(const char *src, int i)
 	int		size;
 
 	size = i;
-	while (src[size] != '\0' && src[size] != ' ')
+	while (src[size] != '\0' && src[size] != ' ' && src[i] && src[i] != '"')
 		size++;
 	if (!(new = malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	size = 0;
-	while (src[i] && src[i] != ' ')
+	while (src[i] && src[i] != ' ' && src[i] && src[i] != '"')
 	{
 		new[size] = src[i];
 		i++;

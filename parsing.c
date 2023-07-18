@@ -72,7 +72,6 @@ int    ft_parsing_following(t_data *data)
             j++;
         }
     }
-    //data->parsing[data->parsing_y][j] = '\0';
     data->parsing_y++;
     j = 0;
     while (ft_verif_symbols(data->line[data->i_line]) == 1)
@@ -128,7 +127,7 @@ void    change_by_var(t_data *data, char *new_line, int k)
     {
         new_line[data->i_new_line++] = data->export_var[k][data->i_var++];
     }
-    while (data->buffer[data->i_buffer] != '\0' && data->buffer[data->i_buffer] != ' ')
+    while (data->buffer[data->i_buffer] != '\0' && data->buffer[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '"')
     {
         new_line[data->i_new_line++] = ' ';
         data->i_buffer++;
@@ -171,9 +170,7 @@ void    clean_var(t_data *data, char *new_line)
         k++;
     }
     if (condition == -2)
-    {
         change_by_var(data, new_line, k);
-    }
     else
     {
         while (data->buffer[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '\0')

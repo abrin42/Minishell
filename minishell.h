@@ -53,6 +53,7 @@ void    ft_cd(t_data *data);
 void    ft_env(t_data *data);
 void    ft_export(t_data *data);
 void    ft_unset(t_data *data);
+void    ft_exit(t_data *data);
 int     command_terminal (t_data *data);
 void    execute(t_data *data);
 
@@ -80,6 +81,7 @@ void    init_data(t_data *data, char **envp);
 void    init_data_parsing(t_data *data);
 void    init_export_var(t_data *data);
 void    free_args(char **args, t_data *data);
+void    free_parsing(t_data *data);
 void    ft_split_path(t_data *data);
 int    ft_verif_symbols(char c);
 void    clean_var(t_data *data, char *new_line);
