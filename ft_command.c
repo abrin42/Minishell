@@ -75,7 +75,6 @@ int    *one_pipe_start_gestion(t_data * data)// pour la premiere commande
         //printf("tube[0] = %d tube[1] = %d\n", data->tube_1[0], data->tube_1[1]);
         close(data->tube_1[0]);
         dup2(data->tube_1[1], 1);//change sortie dup2(?,1) pipe 1
-        write(STDOUT_FILENO, "te\n", 3);
         execute(data);
         exit(0);    //exit et close entree du pipe 1
     }
@@ -172,6 +171,114 @@ void    one_pipe_end2_gestion(t_data * data)// pour la derniere commande
     //exit et close sortie pipe 2
 }
 
+void    redirection_in_file(t_data *data)
+{
+    char    mes[500];
+    int        rd_bytes;
+    pid_t   pid;
+    int     status_pid;
+    int        fd;
+
+
+    if (ft_strcmp(data->parsing[data->parsing_y + 2] , ">") == 0)
+        fd = open(data->parsing[data->parsing_y + 3], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , ">>") == 0)
+        fd = open(data->parsing[data->parsing_y + 3], O_WRONLY | O_CREAT | O_APPEND, 0644);
+    rd_bytes = read(data->tube_redirect[0], mes, 499); // on read dans le pipe
+    mes[rd_bytes] = '\0'; // char nul de fin de string
+    pid = fork();
+    if (pid == 0)
+    {
+        dup2(fd, 1); // 1 --=--> fd
+        printf("%s", mes); // ecrit dans 1 (donc dans fd)
+        close(fd);
+        exit (0);
+    }
+    waitpid(pid, &status_pid, 0);
+    close(fd);
+}
+
+void    execute_in_file(t_data *data)
+{
+    pid_t   pid;
+    int     status_pid;
+    int i = 1;
+
+    pipe(data->tube_redirect);
+    pid = fork();
+    if (pid == 0)
+    {
+        close(data->tube_redirect[0]);
+        dup2(data->tube_redirect[1], 1);
+        if (ft_strcmp(data->parsing[data->parsing_y] , "echo") == 0)
+            ft_echo(data, 5);
+        if (ft_strcmp(data->parsing[data->parsing_y] , "cd") == 0)
+            ft_cd(data);
+        else if (ft_strcmp(data->parsing[data->parsing_y] , "pwd") == 0)
+            ft_pwd(data);
+        else if (ft_strcmp(data->parsing[data->parsing_y] , "env") == 0)
+            ft_env(data);
+        else if (ft_strcmp(data->parsing[data->parsing_y] , "export") == 0)
+            ft_export(data);
+        else if (ft_strcmp(data->parsing[data->parsing_y] , "unset") == 0)
+            ft_unset(data);
+        else if (ft_strcmp(data->parsing[data->parsing_y] , "exit") == 0)
+            ft_exit(data);
+        else if(command_terminal(data) == 1)
+            i = i;
+        close(data->tube_redirect[1]);
+        exit (0);
+    }
+    close(data->tube_redirect[1]);
+    waitpid(pid, &status_pid, 0);
+    redirection_in_file(data);
+    close(data->tube_redirect[0]);
+    //exit (0);
+}
+
+void    search_in_file(t_data *data)
+{
+    printf("ICICI2\n");
+    int     fd;
+    char    *buf;
+    char    *save;
+    pid_t   pid;
+    int     status_pid;
+    int     condition;
+
+    pipe(data->tube_redirect);
+	save = malloc(sizeof(char) * 1);
+	save[0] = '\0';
+    condition = 1;
+    buf = malloc(sizeof(char) * (50 + 1));
+    fd =  open(data->parsing[data->parsing_y + 3], O_RDONLY);
+    pid = fork ();
+    if (pid == 0)
+    {
+        close(data->tube_redirect[0]);
+        while(condition != 0)
+        {
+            condition = read(fd, buf, 50);
+            buf[condition] = '\0';
+            save = ft_strjoin2(save, buf);
+        }
+        free (buf);
+        close(fd);
+printf("%s\n", save);
+printf("save length : %d\n", ft_strlen(save));
+        dup2(data->tube_redirect[1], 1);
+        write(1, save, ft_strlen(save));
+        execute(data);
+        close(data->tube_redirect[1]);
+        exit (0);
+    }
+    close(data->tube_redirect[1]);
+    waitpid(pid, &status_pid, 0);
+    close(data->tube_redirect[0]);
+    close(fd);
+    free (buf);
+}
+
 int    ft_start(t_data *data)
 {
     //write(1,"*-*\n",4);
@@ -206,6 +313,19 @@ int    ft_start(t_data *data)
     {
         //printf("-------------------pipe end paire 2\n");
         one_pipe_end2_gestion(data);
+    }
+    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , ">") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , ">>") == 0)
+    {
+        execute_in_file(data);
+        if (data->parsing[data->parsing_y + 6] != NULL)
+            data->parsing_y += 3;
+        else
+            return (0);
+    }
+    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , "<") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , "<<") == 0)
+    {
+        printf("ICICI\n");
+        search_in_file(data);
     }
     else if (nb_pipe == 0)
     {

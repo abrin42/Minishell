@@ -24,7 +24,7 @@ void    ft_parsing_space(t_data *data)
         i++;
     while (data->buffer[i])
     {
-    if ((data->buffer[i] == ' ' && data->buffer[i + 1] == ' ') || (data->buffer[i] == ' ' && data->buffer[i + 1] == '\0'))
+        if ((data->buffer[i] == ' ' && data->buffer[i + 1] == ' ') || (data->buffer[i] == ' ' && data->buffer[i + 1] == '\0'))
             i++;
         else
         {

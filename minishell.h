@@ -9,6 +9,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 typedef struct s_data
 {
@@ -35,6 +36,7 @@ typedef struct s_data
     
     int tube_1[2];
     int tube_2[2];
+    int tube_redirect[2];
     int tube_trace;
 }   t_data;
 
@@ -56,8 +58,12 @@ void    ft_unset(t_data *data);
 void    ft_exit(t_data *data);
 int     command_terminal (t_data *data);
 void    execute(t_data *data);
+void    execute_in_file(t_data *data);
+void    redirection_in_file(t_data *data);
+void    search_in_file(t_data *data);
 
 char    *ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin2(char *s1, char *s2);
 int     ft_strlen(char  *str);
 int	    ft_strcmp(char *s1, char *s2);
 int	    ft_strcmp2(char *s1, char *s2, int start);
@@ -69,12 +75,10 @@ char	*ft_strdup_size(const char *s, int size,int  start);
 char	*ft_strdup_var(const char *src, int i);
 char	*ft_strdup_special(const char *src);
 
-
 void    prompt(t_data *data);
 
 
 void    malloc_bdd(t_data *data);
-void    malloc_parsing(t_data *data);
 void    malloc_parsing(t_data *data);
 char    **malloc_args(t_data *data, char **args, char *path);
 void    init_data(t_data *data, char **envp);

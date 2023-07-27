@@ -19,6 +19,7 @@ void    malloc_parsing(t_data *data)
     while (data->i_args >= 0)
     {
         data->parsing[data->i_args] = malloc (sizeof(char) * 1000);
+        //data->parsing[data->i_args] = NULL;
         data->i_args--;
     }
 }

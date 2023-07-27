@@ -40,6 +40,7 @@ void    ft_env(t_data *data)
 
 void    ft_exit(t_data *data)
 {
+    printf("TEST\n");
     free_parsing(data);
     exit (0);
 }

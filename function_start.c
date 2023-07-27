@@ -62,7 +62,7 @@ void    execute(t_data *data)
     int i = 1;
     if (ft_strcmp(data->parsing[data->parsing_y] , "echo") == 0)
         ft_echo(data, 5);
-     if (ft_strcmp(data->parsing[data->parsing_y] , "cd") == 0)
+    if (ft_strcmp(data->parsing[data->parsing_y] , "cd") == 0)
         ft_cd(data);
     else if (ft_strcmp(data->parsing[data->parsing_y] , "pwd") == 0)
         ft_pwd(data);
