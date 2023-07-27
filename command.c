@@ -273,25 +273,19 @@ int command_terminal (t_data *data)
         {
             stop_condition = 0;
             path = ft_strjoin(data->bdd[i], data->parsing[data->parsing_y]); //attention data->parsing[0] echo | ls = ls
-            //args = malloc_args(data, args, path);
+            args = malloc_args(data, args, path);
             //args[1] = ft_strdup(data->parsing[data->parsing_y + 1]);
             //if (!(data->parsing[data->parsing_y + 1][0]))
             //printf("-+***-\n");
-            args = malloc(sizeof (char*) * 2);
-            args[0] = ft_strdup(path);
-            args[1] = NULL;
             stop_condition = execve(path, args, data->env);
             free(path);
-            free(args[0]);
-            free(args[1]);
-            free(args);
-            /*v = 0;
+            v = 0;
             while (args[v])
             {
                 free(args[v]);
                 v++;
             }
-            free(args);*/
+            free(args);
             i++;
         }
     }

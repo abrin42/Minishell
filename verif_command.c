@@ -3,59 +3,44 @@
 char    **malloc_args(t_data *data, char **args, char *path)
 {
     int i;
-    int y;
     int len;
     int start;
     int memolen;
 
     start = 0;
-    y = 0;
     i = 0;
-    len = 0;
-    printf("*//*/*/*/*");
-    while(data->parsing[data->parsing_y + 1][i])
+    len = 2;
+    while(data->parsing[data->parsing_y + 1] && data->parsing[data->parsing_y + 1][i])
     {
         if (data->parsing[data->parsing_y + 1][i] == ' ')
             len++;
         i++;
     }
-    len++;
+    if (i == 0)
+        len--;
     memolen = len;
-    printf("len agrs = %d",len);
     i = 0;
     if (memolen != 1)
-        args = malloc(sizeof (char*) * len);
+        args = malloc(sizeof (char*) * len + 1);
     else 
         args = malloc(sizeof (char*) * 2);
-    args[y] = ft_strdup(path);
+    args[i] = ft_strdup(path);
     if (memolen == 1)
     {
         args[1] = NULL;
         return (args);
     }
-    y++;
-    while(y < memolen)
+    i++;
+    while(i < memolen)
     {
         len = 0;
-        while (data->parsing[data->parsing_y + 1][i] == ' ')
-        {
+        while (data->parsing[data->parsing_y + 1] && data->parsing[data->parsing_y + 1][len] != ' ')
             len++;
-        }
-        args[y] =ft_strdup_size(data->parsing[data->parsing_y + 1], len, start);
+        args[i] = ft_strdup_size(data->parsing[data->parsing_y + 1], len, start);
         start = len;
-        y++;
-        
+        i++;      
     }
-    printf("----args[0] = %s\n", args[0]);
-    //data->parsing[data->parsing_y];
-    int v = 0;
-    while (args[v])
-    {
-        printf("args[%d] =%s\n",v , args[v]);
-        v++;
-    }
-    printf("--------\n");
-     write(1,"\n\n**\n",5);
+    args[i] = NULL;
     return (args);
 }
 
