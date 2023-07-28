@@ -56,7 +56,9 @@ int test_pipe(t_data *data)
         return(1);
     else if (i > 1)
         return(2);
-    else if (i == 1)
+    else if (i == 1 && data->parsing_y > 3 && data->parsing[data->parsing_y])
+        return (4);
+    else if (i == 1 /*&& data->parsing[data->parsing_y - 4][0] != '>'*/)
         return (3);
     return(0);
 }
@@ -288,8 +290,26 @@ int    ft_start(t_data *data)
   //  data->pipe_in = data->pipe_out;
     nb_pipe = 0;
     nb_pipe = test_pipe(data);
-    //printf("test pipe = %d\n",nb_pipe);
-    if (nb_pipe == 1 )/*&& data->trace du passage de la premiere comande == 0*/ //ca tcheck si 1 pipe au debut ou data parssing = 0
+    printf("test pipe = %d\n",nb_pipe);
+    if (ft_strcmp(data->parsing[data->parsing_y + 2] , ">") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , ">>") == 0)
+    {
+        execute_in_file(data);
+        if (data->parsing[data->parsing_y + 6] != NULL)
+        {
+            data->parsing_y += 3;
+        }
+        else
+            return (0);
+    }
+    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , "<") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , "<<") == 0)
+    {
+        search_in_file(data);
+    }
+    else if (nb_pipe == 4)
+    {
+        printf("TESTPIPE 4\n");
+    }
+    else if (nb_pipe == 1 )/*&& data->trace du passage de la premiere comande == 0*/ //ca tcheck si 1 pipe au debut ou data parssing = 0
     {
         //printf("-------------------pipe start\n");
         one_pipe_start_gestion(data);
@@ -314,25 +334,13 @@ int    ft_start(t_data *data)
         //printf("-------------------pipe end paire 2\n");
         one_pipe_end2_gestion(data);
     }
-    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , ">") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , ">>") == 0)
-    {
-        execute_in_file(data);
-        if (data->parsing[data->parsing_y + 6] != NULL)
-            data->parsing_y += 3;
-        else
-            return (0);
-    }
-    else if (ft_strcmp(data->parsing[data->parsing_y + 2] , "<") == 0 || ft_strcmp(data->parsing[data->parsing_y + 2] , "<<") == 0)
-    {
-        printf("ICICI\n");
-        search_in_file(data);
-    }
     else if (nb_pipe == 0)
     {
         //printf("-------------------pipe non\n");
         execute(data);//no pipe just executer le code
     }
     data->parsing_y += 3;
+
     return(0);
 }
 

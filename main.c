@@ -13,6 +13,7 @@ void    init_data(t_data *data, char **envp)
     data->malloc_pars = 0;
     data->i_line = 0;
     data->trace = 0;
+    data->redir_trace = 0;
     
 
     /*data->pipe_in = NULL;

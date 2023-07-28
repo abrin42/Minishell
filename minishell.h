@@ -38,6 +38,8 @@ typedef struct s_data
     int tube_2[2];
     int tube_redirect[2];
     int tube_trace;
+
+    int redir_trace;
 }   t_data;
 
 int    ft_command(t_data *data);
