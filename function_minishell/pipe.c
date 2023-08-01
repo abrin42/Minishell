@@ -7,13 +7,12 @@ void last_command_pipe(t_data *data)
 
     malloc_args(data);
     init_args(data);
-    pipe(data->tube);
     pid = fork();
     if (pid == 0)
     {
+        close(data->tube[1]);
         dup2(data->tube[0], 0);
         execve(data->path, data->args, data->env);
-        close(data->tube[1]);
         close(data->tube[0]);
         exit (0);
     }
@@ -32,21 +31,22 @@ void command_pipe(t_data *data)
 
     malloc_args(data);
     init_args(data);
-    pipe(data->tube);
     pid = fork();
     if (pid == 0)
     {
+        //close(data->tube[1]);
         dup2(data->tube[0], 0);
+        pipe(data->tube);
         dup2(data->tube[1], 1);
         execve(data->path, data->args, data->env);
-        close(data->tube[0]);
+        //close(data->tube[0]);
         exit (0);
     }
     else
     {
-        close(data->tube[0]);
+        //close(data->tube[1]);
         waitpid(pid, NULL, 0);
-        close(data->tube[1]);
+        //close(data->tube[0]);
     }
 }
 
@@ -69,9 +69,8 @@ void first_command_pipe(t_data *data)
     }
     else
     {
-        close(data->tube[0]);
-        waitpid(pid, NULL, 0);
         close(data->tube[1]);
+        waitpid(pid, NULL, 0);
     }
 }
 

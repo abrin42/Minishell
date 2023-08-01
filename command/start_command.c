@@ -128,21 +128,7 @@ void start_command(t_data *data)
                         printf("COMMANDE NON TROUVER ==%c==\n", data->token[data->token_y][0]);
                     }
                 }
-
-                /*if (command_exist(data) == 0)
-                {
-                    //FAIRE LES BUILTIN PIPE AUSSI
-                    execute_bultins(data);
-                }
-                else if (command_exist(data) == 1)
-                {
-                    execute_command_pipe(data);
-                }
-                else
-                {
-                    printf("COMMANDE NON TROUVER ==%c==\n", data->token[data->token_y][0]);
-                }*/
-                while (data->token[data->token_y][0] != '|')
+                while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
                     data->token_y++;
                 data->token_y++;
                 printf("ICI DATA TOKEN :%c: et %d\n", data->token[data->token_y][0], data->token_y);
