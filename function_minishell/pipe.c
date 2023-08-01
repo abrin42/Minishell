@@ -1,77 +1,66 @@
 #include "../minishell.h"
 
-void last_command_pipe(t_data *data)
+int is_separateur(t_data * data)
 {
-    int     i;
-    pid_t pid;
-
-    malloc_args(data);
-    init_args(data);
-    pid = fork();
-    if (pid == 0)
+    if (data->parsing[data->parsing_y + 3][0] == '|')
+        return (1);
+    if (data->parsing[data->parsing_y + 3][0] == '>')
     {
-        close(data->tube[1]);
-        dup2(data->tube[0], 0);
-        execve(data->path, data->args, data->env);
-        close(data->tube[0]);
-        exit (0);
+        if (data->parsing[data->parsing_y + 3][1] == '>')
+            return (3);
+        return (2);
     }
-    else
+    if (data->parsing[data->parsing_y + 3][0] == '<')
     {
-        close(data->tube[0]);
-        waitpid(pid, NULL, 0);
-        close(data->tube[1]);
+        if (data->parsing[data->parsing_y + 3][1] == '<')
+            return (5);
+        return (4);
     }
+    return (0);
+}
+void pipe_start(t_data *data, int fd_pipe)
+{
+    int status_pid;
+    pid_t pid = fork();
+    if (pid ==0)
+    {
+        close(fd_pipe[0]);
+        dup2(fd_pipe[1], 1);
+        execute(data); //fonction a faire
+        exit(0);
+    }
+    close(fd_pipe[1]);
+    wait(NULL);
+    execute_cmd(data,fd_pipe[0]);
 }
 
-void command_pipe(t_data *data)
+void pipe_mide(t_data *data, int fd_pipe)
 {
-    int     i;
-    pid_t pid;
-
-    malloc_args(data);
-    init_args(data);
-    pid = fork();
-    if (pid == 0)
-    {
-        //close(data->tube[1]);
-        dup2(data->tube[0], 0);
-        pipe(data->tube);
-        dup2(data->tube[1], 1);
-        execve(data->path, data->args, data->env);
-        //close(data->tube[0]);
-        exit (0);
-    }
-    else
-    {
-        //close(data->tube[1]);
-        waitpid(pid, NULL, 0);
-        //close(data->tube[0]);
-    }
+    execute_cmd(data,fd_pipe);
 }
 
-void first_command_pipe(t_data *data)
+void pipe_end(t_data *data, int fd_pipe)
 {
-    int     i;
-    pid_t pid;
 
-    malloc_args(data);
-    init_args(data);
-    data->condition = 0;
-    pipe(data->tube);
-    pid = fork();
-    if (pid == 0)
-    {
-        close(data->tube[0]);
-        dup2(data->tube[1], 1);
-        execve(data->path, data->args, data->env);
-        exit (0);
-    }
-    else
-    {
-        close(data->tube[1]);
-        waitpid(pid, NULL, 0);
-    }
+}
+
+void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour savoir quand on est sur le dernier pipe (nb_pipe)
+{
+    int pipe[2];
+    pipe(pipe);
+
+    if (data->parsing_y == 0 && is_separateur(data) == 1) // permiere comade piper
+        pipe_start(data, pipe[1])
+        // close pipe et execute et donner le fd a la recusive
+    else if (is_separateur(data) == 1 && nb_pipe == 1) // derniere commade piper 
+        
+        // utilise le fd_pipe pour sont entre puis execute
+    else if (is_separateur(data) == 1 && nb_pipe > 1) // pipe avec entree et sortie 
+        
+        // utilise le fd_pipe pour sont entre puis execute
+        // close pipe et execute et donner le fd a la recusive
+
+
 }
 
 /*EXEMPLE DE PIPE
