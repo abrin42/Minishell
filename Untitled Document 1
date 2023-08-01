@@ -1,0 +1,63 @@
+int main() {
+    int pipefd[2];
+    pid_t pid;
+
+    // Créer le tube
+    pipe(pipefd)
+
+    pid = fork();
+    if (pid == 0)
+    {
+        // Processus fils - ls
+
+        // Fermer le descripteur de lecture inutilisé
+        close(pipefd[0]);
+
+        // Rediriger la sortie standard vers l'extrémité du tube pour l'écriture
+        dup2(pipefd[1], STDOUT_FILENO);
+
+        // Exécuter la commande "ls"
+        execlp("ls", "ls", NULL);
+
+        perror("execlp");
+        return 1;
+    }
+    else
+    {
+        // Processus parent
+
+        // Attendre que le processus fils termine
+        waitpid(pid, NULL, 0);
+
+        // Fermer l'extrémité du tube pour l'écriture, car nous n'en avons plus besoin ici
+        close(pipefd[1]);
+
+        // Créer un nouveau processus pour wc
+        	pid = fork();
+		if (pid == 0)
+		{
+		    // Processus fils - wc
+
+		    // Rediriger l'entrée standard vers l'extrémité du tube pour la lecture
+		    dup2(pipefd[0], STDIN_FILENO);
+
+		    // Exécuter la commande "wc"
+		    execlp("wc", "wc", NULL);
+
+		    perror("execlp");
+		    return 1;
+		}
+		else
+		{
+		    // Processus parent
+
+		    // Attendre que le processus fils wc termine
+		    waitpid(pid, NULL, 0);
+
+		    // Fermer l'extrémité du tube pour la lecture, car nous n'en avons plus besoin ici
+		    close(pipefd[0]);
+		}
+    	}
+
+    return 0;
+}

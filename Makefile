@@ -10,16 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	main.c			\
-		function.c		\
-		command.c		\
-		ft_command.c 	\
-		parsing.c		\
-		parsing2.c		\
-		verif_command.c \
-		function_start.c
+SRC	=	minishell.c									\
+		function_utils/function.c					\
+		function_utils/function2.c					\
+		function_utils/function_malloc.c			\
+		function_minishell/clean_variable_export.c	\
+		function_minishell/clean_variable_export2.c	\
+		function_minishell/builtins.c				\
+		function_minishell/builtin_export.c			\
+		function_minishell/builtin_export2.c		\
+		function_minishell/pipe.c					\
+		command/start_command.c						\
 
 SRC_H = minishell.h
+
+LIBGCDIR = gc
+LIBGC = libgc.a
+LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
 
 OBJ	=	${SRC:.c=.o}
 
@@ -27,18 +34,22 @@ NAME	=	minishell
 
 FLAGS	=	-Wall -Wextra -Werror -g3
 
-FLAGS_PROJECT = -lreadline
+FLAGS_PROJECT = -lreadline -g
 
 all : ${NAME}
 
-$(NAME) : ${OBJ}
-	gcc ${FLAGS} ${OBJ} ${SRC_H} -o ${NAME} ${FLAGS_PROJECT}
+$(LIBGCDIR)/$(LIBGC):
+	make -C $(LIBGCDIR)
+
+$(NAME) : ${OBJ} $(LIBGCDIR)/$(LIBGC)
+	gcc ${FLAGS} ${OBJ} ${SRC_H} -o ${NAME} $(LIBGCFLAGS) ${FLAGS_PROJECT}
 
 clean :
 	rm -f ${OBJ}
 
 fclean : clean
 	rm -f ${NAME}
+	make -C $(LIBGCDIR) fclean
 
 re : fclean all
 
