@@ -12,21 +12,11 @@ void    init_data(t_data *data, char **envp)
     data->i_new_line = 0;
     data->i_var = 0;
     data->condition = 1;
+    data->add = 0;
     data->env = envp;
     data->export = envp;
-    data->pipe_not_close = 0;
 }
-int test_pipe_end(t_data *data)
-{
-    int i;
 
-    i = 0;
-    while (data->token[i][0] != '\0')
-        i++; 
-    if (data->token[--i][0] == '|')
-        return(1);
-    return(0);
-}
 void    prompt(t_data *data)
 {
     signal(SIGQUIT, SIG_IGN);
@@ -34,33 +24,20 @@ void    prompt(t_data *data)
     {
         if (ft_strlen(data->buffer) > 0)
         {
-            if (data->pipe_not_close == 0)
-            {
-                add_history(data->buffer);
-                data->buffer = clean_buffer(data);
-                fill_token(data);
-                count_pipe(data);
-            }
-            else
-            {
-                //printf("fin de token ?-%s- [%d]",data->token[data->token_y], data->token_y);
-                fill_token(data);
-                data->pipe_not_close--;
-            }
-            if (test_pipe_end(data) == 1)
-            {
-                //printf("pipe non fermer\n");
-                data->pipe_not_close++;
-            }
-            else
-                start_command(data);
+            add_history(data->buffer);
+            data->buffer = clean_buffer(data);
+            fill_token(data);
+            count_pipe(data);
+            start_command(data);
         }
 
 //*********TEST**************//
-        /*int test = 0;
-        while (data->token[test][0] != '\0')
-            printf("===%s===\n", data->token[test++]);*/
-        
+/*int test = 0;
+while (data->token[test][0] != '\0')
+{
+    printf("===%s===\n", data->token[test++]);
+}*/
+
 
 
     }

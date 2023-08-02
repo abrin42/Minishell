@@ -98,14 +98,6 @@ void malloc_args(t_data *data)
         y++;
     data->args = gc_malloc(&data->gc, sizeof(char *) * (y + 2));
     y = 0;
-
-    /*DEMANDER SI NECESSAIRE (SAVOIR SI data->args[i_args] = data->token[y]; donne l'addresse ou pas)???????*/
-    /*while (data->token[y][0] != '\0')
-    {
-        data->args[y] = gc_malloc(&data->gc, sizeof(char) * 1024);
-        y++;
-    }*/
-    
 }
 
 void init_args(t_data *data)

@@ -53,7 +53,6 @@ void    execute_bultins(t_data *data)
 void    execute_command(t_data *data)
 {
     int     i;
-    int status;
     pid_t pid;
 
     pid = fork();
@@ -64,7 +63,7 @@ void    execute_command(t_data *data)
         execve(data->path, data->args, data->env);
         exit(0);
     }
-    waitpid(pid, &status, 0);
+    waitpid(pid, NULL, 0);
 }
 
 void    execute(t_data *data)
@@ -96,10 +95,18 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
         data->condition = 0;
         pipe_start(data, pipe_);
     }
-    else if (data->condition == 0 && data->count_pipe > 0)
+    else if (data->condition == 0 && data->count_pipe > 0) // derniere  pipe
+    {
+        if (check_redirect_pipe(data) == 0)
+            execute_in_file_pipe(data, data->token_y, &fd_pipe);
         pipe_middle(data, &fd_pipe, pipe_);
+    }
     else // derniere  pipe
+    {
+        if (check_redirect_pipe(data) == 0)
+            execute_in_file_pipe(data, data->token_y, &fd_pipe);
         pipe_end(data, &fd_pipe);
+    }
 }
 
 void start_command(t_data *data)
@@ -114,7 +121,9 @@ void start_command(t_data *data)
     }
     else
     {
-        if (command_exist(data) == 0 || command_exist(data) == 1)
+        if (check_redirect(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
+            execute_in_file(data, data->token_y);
+        else if (command_exist(data) == 0 || command_exist(data) == 1)
             execute(data);
         else
             printf("COMMANDE NON TROUVER\n");

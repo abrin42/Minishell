@@ -20,6 +20,7 @@ SRC	=	minishell.c									\
 		function_minishell/builtin_export.c			\
 		function_minishell/builtin_export2.c		\
 		function_minishell/pipe.c					\
+		function_minishell/redirect.c				\
 		command/start_command.c						\
 
 SRC_H = minishell.h
@@ -32,7 +33,7 @@ OBJ	=	${SRC:.c=.o}
 
 NAME	=	minishell
 
-FLAGS	=	-Wall -Wextra -Werror -g3
+FLAGS	=	-Wall -Wextra -Werror
 
 FLAGS_PROJECT = -lreadline -g
 

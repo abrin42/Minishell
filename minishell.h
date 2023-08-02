@@ -22,8 +22,7 @@ typedef struct s_data
     char **export_var;
     char **args;
     char *path;
-    
-    int pipe_not_close;
+
     int token_i;
     int token_x;
     int token_y;
@@ -35,7 +34,8 @@ typedef struct s_data
     int i_new_line;
     int i_var;
     int condition;
-    int tube[2];
+    int add;
+    int tube_redirect[2];
 
     t_gcan  gc;
 }   t_data;
@@ -84,5 +84,11 @@ void    execute(t_data *data);
 void pipe_start(t_data *data, int *fd_pipe);
 void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
 void pipe_end(t_data *data, int *fd_pipe);
+void    execute_in_file(t_data *data, int y);
+void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
+int check_redirect(t_data *data);
+int check_redirect_pipe(t_data *data);
+int command_exist_redirect(t_data *data, int y);
+void    execute_command_redirect(t_data *data, int y);
 
 #endif

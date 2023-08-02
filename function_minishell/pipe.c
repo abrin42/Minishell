@@ -9,7 +9,6 @@ for (size_t p = 0; p < 10; p++)
 
 void pipe_end(t_data *data, int *fd_pipe)
 {
-    //printf("ICI END\n");
     pid_t pid = fork();
     int status_pid;
     if (pid == 0)
@@ -26,7 +25,6 @@ void pipe_end(t_data *data, int *fd_pipe)
 
 void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 {
-    //printf("ICI MIDDLE\n");
     int status_pid;
     pid_t pid = fork();
     if (pid == 0)
@@ -42,16 +40,20 @@ void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
     close(fd_pipe_in[0]);
     close(fd_pipe_out[1]);
     waitpid(pid, &status_pid, 0);
-    while (!ft_is_operator(data->token[data->token_y][0]))
+    data->add = 0;
+    while (data->token[data->token_y][0] != '|')
+    {
+        data->add++;
         data->token_y++;
+    }
     data->token_y++;
+    data->add++;
     data->count_pipe--;
     execute_cmd(data,fd_pipe_out[0]);
 }
 
 void pipe_start(t_data *data, int *fd_pipe)
 {
-    //printf("ICI START\n");
     pid_t pid = fork();
     if (pid ==0)
     {
@@ -62,10 +64,15 @@ void pipe_start(t_data *data, int *fd_pipe)
         exit(0);
     }
     close(fd_pipe[1]);
-    wait(NULL);
-    while (!ft_is_operator(data->token[data->token_y][0]))
+    waitpid(pid, NULL, 0);
+    data->add = 0;
+    while (data->token[data->token_y][0] != '|')
+    {
+        data->add++;
         data->token_y++;
+    }
     data->token_y++;
+    data->add++;
     data->count_pipe--;
     execute_cmd(data,fd_pipe[0]);
 }

@@ -1,0 +1,218 @@
+#include "../minishell.h"
+
+void init_args_redirect(t_data *data, int x)
+{
+    int y;
+    int i_args;
+
+    i_args = 1;
+    y = x + 1;
+    data->args[0] = data->path;
+    while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
+    {
+        data->args[i_args] = data->token[y];
+        i_args++;
+        y++;
+    }
+}
+
+
+void    execute_redirect(t_data *data, int y)
+{
+    if (ft_strcmp(data->token[y] , "echo") == 0)
+        ft_echo(data);
+    if (ft_strcmp(data->token[y] , "cd") == 0)
+        ft_cd(data);
+    else if (ft_strcmp(data->token[y] , "pwd") == 0)
+        ft_pwd(data);
+    else if (ft_strcmp(data->token[y] , "env") == 0)
+        ft_env(data);
+    else if (ft_strcmp(data->token[y] , "export") == 0)
+        ft_export(data);
+    else if (ft_strcmp(data->token[y] , "unset") == 0)
+        ft_unset(data);
+    else if (ft_strcmp(data->token[y] , "exit") == 0)
+        ft_exit(data);
+    else
+        execute_command_redirect(data, y);
+}
+
+int command_exist_redirect(t_data *data, int y)
+{
+    if (ft_strcmp(data->token[y] , "echo") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "cd") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "pwd") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "env") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "export") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "unset") == 0)
+        return (0);
+    else if (ft_strcmp(data->token[y] , "exit") == 0)
+        return (0);
+    else
+    {
+        data->count_path = count_path(getenv("PATH"));
+        while (data->count_path > 0)
+        {
+            data->path = ft_strjoin(data->path_bdd[data->count_path - 1], data->token[y], data);
+            if (access(data->path, X_OK) == 0)
+                return(1);
+            data->count_path--;
+        }
+    }
+    return (-1);
+}
+
+void    redirection_in_file(t_data *data, int y)
+{
+    char    mes[500];
+    int        rd_bytes;
+    pid_t   pid;
+    int     status_pid;
+    int        fd;
+
+    if (ft_strcmp(data->token[y] , ">") == 0)
+        fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (ft_strcmp(data->token[y] , ">>") == 0)
+        fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+    rd_bytes = read(data->tube_redirect[0], mes, 499); // on read dans le pipe
+    mes[rd_bytes] = '\0'; // char nul de fin de string
+    pid = fork();
+    if (pid == 0)
+    {
+        dup2(fd, 1); // 1 --=--> fd
+        printf("%s", mes); // ecrit dans 1 (donc dans fd)
+        close(fd);
+        exit (0);
+    }
+    waitpid(pid, &status_pid, 0);
+    close(fd);
+}
+
+void    execute_command_redirect(t_data *data, int y)
+{
+    pid_t pid;
+    pid = fork();
+    if (pid == 0)
+    {
+        malloc_args(data);
+        init_args_redirect(data, y);
+        execve(data->path, data->args, data->env);
+        exit(0);
+    }
+    waitpid(pid, NULL, 0);
+}
+
+void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
+{
+    pid_t   pid;
+    int        fd;
+    int     x;
+
+    y = y -data->add;
+    if (command_exist_redirect(data, y) == -1)
+        return ;
+    pid = fork();
+    x = y;
+    while (data->token[x][0] != '>')
+        x++;
+    if (ft_strcmp(data->token[x] , ">") == 0)
+        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (ft_strcmp(data->token[x] , ">>") == 0)
+        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+    printf("FD: %d\n", fd);
+    if (pid == 0)
+    {
+        dup2(fd, 1);
+        execute_redirect(data, y);
+        close(fd);
+        exit (0);
+    }
+    waitpid(pid, NULL, 0);
+    close(fd);
+}
+
+/*void    execute_in_file(t_data *data, int y)
+{
+    pid_t   pid;
+    int        fd;
+    int     x;
+
+    y = y -data->add;
+    if (command_exist_redirect(data, y) == -1)
+        return ;
+    pid = fork();
+    x = y;
+    while (data->token[x][0] != '>')
+        x++;
+    if (ft_strcmp(data->token[x] , ">") == 0)
+        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (ft_strcmp(data->token[x] , ">>") == 0)
+        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+    printf("FD: %d\n", fd);
+    if (pid == 0)
+    {
+        dup2(fd, 1);
+        execute_redirect(data, y);
+        close(fd);
+        exit (0);
+    }
+    waitpid(pid, NULL, 0);
+    close(fd);
+}*/
+
+void    execute_in_file(t_data *data, int y)
+{
+    pid_t   pid;
+
+    if (command_exist_redirect(data, y) == -1)
+        return ;
+    pipe(data->tube_redirect);
+    pid = fork();
+    if (pid == 0)
+    {
+        close(data->tube_redirect[0]);
+        dup2(data->tube_redirect[1], 1);
+        execute_redirect(data, y);
+        close(data->tube_redirect[1]);
+        exit (0);
+    }
+    close(data->tube_redirect[1]);
+    waitpid(pid, NULL, 0);
+    while (data->token[y][0] != '>')
+        y++;
+    redirection_in_file(data, y);
+    close(data->tube_redirect[0]);
+}
+
+int check_redirect_pipe(t_data *data)
+{
+    int y;
+
+    y = data->token_y - data->add;
+    while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
+        y++;
+    if (data->token[y][0] == '>')
+    {
+        return (0);
+    }
+    return (1);
+}
+
+int check_redirect(t_data *data)
+{
+    int y;
+
+    y = data->token_y;
+    if (data->token[y][0] == '>')
+        return (0);
+    while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
+        y++;
+    if (data->token[y][0] == '>')
+        return (0);
+    return (1);
+}
