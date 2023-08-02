@@ -83,9 +83,12 @@ void fill_token(t_data *data)
     int i;
 
     i = 0;
-    data->token_x = 0;
-    data->token_y = 0;
-    clean_token(data);
+    if (data->pipe_not_close == 0)
+    {
+        data->token_x = 0;
+        data->token_y = 0;
+        clean_token(data);
+    }
     while (data->buffer[i] != '\0')
     {
         while (!ft_is_operator(data->buffer[i]) && !ft_iswhitespace(data->buffer[i]) && data->buffer[i] != '\0')

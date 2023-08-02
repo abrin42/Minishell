@@ -22,7 +22,8 @@ typedef struct s_data
     char **export_var;
     char **args;
     char *path;
-
+    
+    int pipe_not_close;
     int token_i;
     int token_x;
     int token_y;

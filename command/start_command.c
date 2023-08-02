@@ -96,7 +96,7 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
         data->condition = 0;
         pipe_start(data, pipe_);
     }
-    else if (data->condition == 0 && data->count_pipe > 0) // derniere  pipe
+    else if (data->condition == 0 && data->count_pipe > 0)
         pipe_middle(data, &fd_pipe, pipe_);
     else // derniere  pipe
         pipe_end(data, &fd_pipe);

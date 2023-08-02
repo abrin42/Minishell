@@ -9,7 +9,7 @@ for (size_t p = 0; p < 10; p++)
 
 void pipe_end(t_data *data, int *fd_pipe)
 {
-    printf("ICI END\n");
+    //printf("ICI END\n");
     pid_t pid = fork();
     int status_pid;
     if (pid == 0)
@@ -26,7 +26,7 @@ void pipe_end(t_data *data, int *fd_pipe)
 
 void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 {
-        printf("ICI MIDDLE\n");
+    //printf("ICI MIDDLE\n");
     int status_pid;
     pid_t pid = fork();
     if (pid == 0)
@@ -51,7 +51,7 @@ void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 
 void pipe_start(t_data *data, int *fd_pipe)
 {
-        printf("ICI START\n");
+    //printf("ICI START\n");
     pid_t pid = fork();
     if (pid ==0)
     {
