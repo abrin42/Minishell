@@ -78,8 +78,10 @@ void    start_command(t_data *data);
 int command_exist(t_data *data);
 void    execute_bultins(t_data *data);
 void    execute_command (t_data *data);
-void first_command_pipe(t_data *data);
-void command_pipe(t_data *data);
-void last_command_pipe(t_data *data);
+void execute_cmd(t_data *data, int fd_pipe);
+void    execute(t_data *data);
+void pipe_start(t_data *data, int *fd_pipe);
+void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
+void pipe_end(t_data *data, int *fd_pipe);
 
 #endif

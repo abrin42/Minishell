@@ -30,6 +30,8 @@ int command_exist(t_data *data)
     return (-1);
 }
 
+
+
 void    execute_bultins(t_data *data)
 {
     if (ft_strcmp(data->token[data->token_y] , "echo") == 0)
@@ -65,6 +67,41 @@ void    execute_command(t_data *data)
     waitpid(pid, &status, 0);
 }
 
+void    execute(t_data *data)
+{
+    if (ft_strcmp(data->token[data->token_y] , "echo") == 0)
+        ft_echo(data);
+    if (ft_strcmp(data->token[data->token_y] , "cd") == 0)
+        ft_cd(data);
+    else if (ft_strcmp(data->token[data->token_y] , "pwd") == 0)
+        ft_pwd(data);
+    else if (ft_strcmp(data->token[data->token_y] , "env") == 0)
+        ft_env(data);
+    else if (ft_strcmp(data->token[data->token_y] , "export") == 0)
+        ft_export(data);
+    else if (ft_strcmp(data->token[data->token_y] , "unset") == 0)
+        ft_unset(data);
+    else if (ft_strcmp(data->token[data->token_y] , "exit") == 0)
+        ft_exit(data);
+    else
+        execute_command(data);
+}
+
+void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour savoir quand on est sur le dernier pipe (nb_pipe)
+{
+    int pipe_[2];
+    pipe(pipe_);
+    if (data->condition == 1) // permiere pipe
+    {
+        data->condition = 0;
+        pipe_start(data, pipe_);
+    }
+    else if (data->condition == 0 && data->count_pipe > 0) // derniere  pipe
+        pipe_middle(data, &fd_pipe, pipe_);
+    else // derniere  pipe
+        pipe_end(data, &fd_pipe);
+}
+
 void start_command(t_data *data)
 {
     data->token_x = 0;
@@ -73,77 +110,12 @@ void start_command(t_data *data)
     malloc_path_bdd(data);
     if (data->count_pipe > 0)
     {
-        while (data->token[data->token_y][0] != '\0')
-        {
-                if (data->condition == 1)
-                {
-                    if (command_exist(data) == 0)
-                    {
-                        //FAIRE LES BUILTIN PIPE AUSSI
-                        execute_bultins(data);
-                    }
-                    else if (command_exist(data) == 1)
-                    {
-                        printf("FIRST PIPE\n");
-                        first_command_pipe(data);
-                    }
-                    else
-                    {
-                        printf("COMMANDE NON TROUVER ==%c==\n", data->token[data->token_y][0]);
-                    }
-                    data->count_pipe--;
-                }
-                else if (data->condition == 0 && data->count_pipe > 0)
-                {
-                    if (command_exist(data) == 0)
-                    {
-                        //FAIRE LES BUILTIN PIPE AUSSI
-                        execute_bultins(data);
-                    }
-                    else if (command_exist(data) == 1)
-                    {
-                        printf("COMMAND PIPE\n");
-                        command_pipe(data);
-                    }
-                    else
-                    {
-                        printf("COMMANDE NON TROUVER ==%c==\n", data->token[data->token_y][0]);
-                    }
-                    data->count_pipe--;
-                }
-                else
-                {
-                    if (command_exist(data) == 0)
-                    {
-                        //FAIRE LES BUILTIN PIPE AUSSI
-                        execute_bultins(data);
-                    }
-                    else if (command_exist(data) == 1)
-                    {
-                        printf("LAST PIPE\n");
-                        last_command_pipe(data);
-                    }
-                    else
-                    {
-                        printf("COMMANDE NON TROUVER ==%c==\n", data->token[data->token_y][0]);
-                    }
-                }
-                while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
-                    data->token_y++;
-                data->token_y++;
-                printf("ICI DATA TOKEN :%c: et %d\n", data->token[data->token_y][0], data->token_y);
-        }
+        execute_cmd(data, 0);
     }
     else
     {
-        if (command_exist(data) == 0)
-        {
-            execute_bultins(data);
-        }
-        else if (command_exist(data) == 1)
-        {
-            execute_command(data);
-        }
+        if (command_exist(data) == 0 || command_exist(data) == 1)
+            execute(data);
         else
             printf("COMMANDE NON TROUVER\n");
     }

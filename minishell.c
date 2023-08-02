@@ -27,7 +27,6 @@ void    prompt(t_data *data)
             data->buffer = clean_buffer(data);
             fill_token(data);
             count_pipe(data);
-            printf("COUNT PIPE : %d\n", data->count_pipe);
             start_command(data);
         }
 
