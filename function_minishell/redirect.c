@@ -211,7 +211,6 @@ void    search_in_file(t_data *data, int y)
             buf[condition] = '\0';
             save = ft_strjoin2(save, buf, data);
         }
-        printf("SAVE : %s", save);
         close(fd);
         dup2(data->tube_search[1], 1);
         printf("%s", save);
@@ -220,8 +219,23 @@ void    search_in_file(t_data *data, int y)
     }
     close(data->tube_search[1]);
     waitpid(pid, NULL, 0);
-    dup2(data->tube_search[0], 0);
-    execute(data);
+}
+
+void    execute_search(t_data *data)
+{
+    pid_t pid;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        close(data->tube_search[1]);
+        dup2(data->tube_search[0], 0);
+        execute(data);
+        close(data->tube_search[0]);
+        exit (0);
+    }
+    close(data->tube_search[1]);
+    waitpid(pid, NULL, 0);
     close(data->tube_search[0]);
 }
 

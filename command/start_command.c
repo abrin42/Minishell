@@ -120,6 +120,7 @@ void start_command(t_data *data)
     malloc_path_bdd(data);
     if (data->count_pipe > 0)
     {
+        printf("RENTRE DATA COUNT\n");
         execute_cmd(data, 0);
     }
     else
@@ -129,7 +130,7 @@ void start_command(t_data *data)
         else if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
         {
             search_in_file(data, 0);
-            //execute(data);
+            execute_search(data);
         }
         else if (command_exist(data) == 0 || command_exist(data) == 1)
             execute(data);
