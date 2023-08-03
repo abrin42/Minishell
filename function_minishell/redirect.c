@@ -171,7 +171,7 @@ void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
     waitpid(pid, NULL, 0);
     close(fd);
     close(fd_pipe[1]);
-    while (data->token[data->token_y][0] != '|')
+    while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
     {
         data->add++;
         data->token_y++;
@@ -179,8 +179,8 @@ void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
     data->token_y++;
     data->add++;
     data->count_pipe--;
-    printf("TOKEN Y ICI : %d\n", data->token_y);
-    execute_cmd(data, fd_pipe[0]);
+    if (data->token[data->token_y][0] != '\0')
+        execute_cmd(data, fd_pipe[0]);
 }
 
 void    search_in_file(t_data *data, int y)

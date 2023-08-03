@@ -134,6 +134,6 @@ void start_command(t_data *data)
         else if (command_exist(data) == 0 || command_exist(data) == 1)
             execute(data);
         else
-            printf("COMMANDE NON TROUVER\n");
+            printf("%s: command not found\n",data->token[data->token_y]);
     }
 }
