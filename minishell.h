@@ -89,6 +89,7 @@ void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
 void pipe_end(t_data *data, int *fd_pipe);
 void    execute_in_file(t_data *data, int y);
 void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
+void    execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
 int check_redirect(t_data *data);
 int check_redirect_pipe(t_data *data);
 int command_exist_redirect(t_data *data, int y);

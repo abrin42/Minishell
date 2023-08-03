@@ -89,6 +89,7 @@ void    execute(t_data *data)
 void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour savoir quand on est sur le dernier pipe (nb_pipe)
 {
     int pipe_[2];
+
     pipe(pipe_);
     if (data->condition == 1) // permiere pipe
     {
@@ -99,13 +100,15 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
     {
         if (check_redirect_pipe(data) == 0)
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
-        pipe_middle(data, &fd_pipe, pipe_);
+        else
+            pipe_middle(data, &fd_pipe, pipe_);
     }
     else // derniere  pipe
     {
         if (check_redirect_pipe(data) == 0)
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
-        pipe_end(data, &fd_pipe);
+        else
+            pipe_end(data, &fd_pipe);
     }
 }
 

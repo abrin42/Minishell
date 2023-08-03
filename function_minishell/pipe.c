@@ -54,7 +54,13 @@ void pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 
 void pipe_start(t_data *data, int *fd_pipe)
 {
-    pid_t pid = fork();
+    pid_t pid;
+    int    y;
+
+    y = -1;
+    if (check_redirect_pipe(data) == 0)
+            y = data->token_y;
+    pid = fork();
     if (pid ==0)
     {
         close(fd_pipe[0]);
@@ -74,5 +80,7 @@ void pipe_start(t_data *data, int *fd_pipe)
     data->token_y++;
     data->add++;
     data->count_pipe--;
+    if (y != -1)
+        execute_in_file_first_pipe(data, y, fd_pipe);
     execute_cmd(data,fd_pipe[0]);
 }
