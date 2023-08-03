@@ -35,7 +35,9 @@ typedef struct s_data
     int i_var;
     int condition;
     int add;
+    int token_txt;
     int tube_redirect[2];
+    int tube_search[2];
 
     t_gcan  gc;
 }   t_data;
@@ -56,6 +58,7 @@ unsigned int ft_strlen(char *str);
 int ft_is_operator(char c);
 int	ft_iswhitespace(char c);
 char    *ft_strjoin(char *s1, char *s2, t_data *data);
+char	*ft_strjoin2(char *s1, char *s2, t_data *data);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strcmp_export_var(char *s1, char *s2);
 
@@ -90,5 +93,7 @@ int check_redirect(t_data *data);
 int check_redirect_pipe(t_data *data);
 int command_exist_redirect(t_data *data, int y);
 void    execute_command_redirect(t_data *data, int y);
+void    search_in_file(t_data *data, int y);
+int check_redirect_inverse(t_data *data);
 
 #endif

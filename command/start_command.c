@@ -123,6 +123,11 @@ void start_command(t_data *data)
     {
         if (check_redirect(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
             execute_in_file(data, data->token_y);
+        else if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
+        {
+            search_in_file(data, 0);
+            //execute(data);
+        }
         else if (command_exist(data) == 0 || command_exist(data) == 1)
             execute(data);
         else

@@ -124,46 +124,63 @@ void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
         fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
     else if (ft_strcmp(data->token[x] , ">>") == 0)
         fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-    printf("FD: %d\n", fd);
     if (pid == 0)
     {
+        close(fd_pipe[1]);
+        dup2(fd_pipe[0], 0);
         dup2(fd, 1);
         execute_redirect(data, y);
         close(fd);
+        close(fd_pipe[0]);
         exit (0);
     }
+    //close(fd_pipe[0]);
     waitpid(pid, NULL, 0);
     close(fd);
+    close(fd_pipe[1]);
 }
 
-/*void    execute_in_file(t_data *data, int y)
+void    search_in_file(t_data *data, int y)
 {
-    pid_t   pid;
-    int        fd;
-    int     x;
-
-    y = y -data->add;
-    if (command_exist_redirect(data, y) == -1)
-        return ;
+    pid_t pid;
+    int fd;
+    int condition;
+    char    *buf;
+    char    *save;
+    
+    condition = 1;
+    save = gc_malloc(&data->gc, sizeof(char) * 1);
+	save[0] = '\0';
+    buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
+    y = y - data->add;
+    while (data->token[y][0] != '<')
+        y++;
+    y++;
+    fd =  open(data->token[y], O_RDONLY);
+    pipe(data->tube_search);
     pid = fork();
-    x = y;
-    while (data->token[x][0] != '>')
-        x++;
-    if (ft_strcmp(data->token[x] , ">") == 0)
-        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    else if (ft_strcmp(data->token[x] , ">>") == 0)
-        fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-    printf("FD: %d\n", fd);
     if (pid == 0)
     {
-        dup2(fd, 1);
-        execute_redirect(data, y);
+        close(data->tube_search[0]);
+        while(condition != 0)
+        {
+            condition = read(fd, buf, 50);
+            buf[condition] = '\0';
+            save = ft_strjoin2(save, buf, data);
+        }
+        printf("SAVE : %s", save);
         close(fd);
-        exit (0);
+        dup2(data->tube_search[1], 1);
+        printf("%s", save);
+        close(data->tube_search[1]);
+        exit(0);
     }
+    close(data->tube_search[1]);
     waitpid(pid, NULL, 0);
-    close(fd);
-}*/
+    dup2(data->tube_search[0], 0);
+    execute(data);
+    close(data->tube_search[0]);
+}
 
 void    execute_in_file(t_data *data, int y)
 {
@@ -213,6 +230,20 @@ int check_redirect(t_data *data)
     while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
         y++;
     if (data->token[y][0] == '>')
+        return (0);
+    return (1);
+}
+
+int check_redirect_inverse(t_data *data)
+{
+    int y;
+
+    y = data->token_y;
+    if (data->token[y][0] == '<')
+        return (0);
+    while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
+        y++;
+    if (data->token[y][0] == '<')
         return (0);
     return (1);
 }
