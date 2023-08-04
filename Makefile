@@ -20,6 +20,7 @@ SRC	=	minishell.c									\
 		function_minishell/builtin_export.c			\
 		function_minishell/builtin_export2.c		\
 		function_minishell/pipe.c					\
+		function_minishell/error.c					\
 		function_minishell/redirect.c				\
 		command/start_command.c						\
 

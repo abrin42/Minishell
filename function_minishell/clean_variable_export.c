@@ -84,8 +84,13 @@ void fill_token(t_data *data)
 
     i = 0;
     data->token_x = 0;
-    data->token_y = 0;
-    clean_token(data);
+    if (data->pipe_not_close == 0)
+    {
+        data->token_y = 0;
+        clean_token(data);
+    }
+    else
+        data->token_y++;
     while (data->buffer[i] != '\0')
     {
         while (!ft_is_operator(data->buffer[i]) && !ft_iswhitespace(data->buffer[i]) && data->buffer[i] != '\0')
@@ -116,11 +121,10 @@ void count_pipe(t_data *data)
 
     i = 0;
     data->count_pipe = 0;
-    while (data->buffer[i])
+    while (data->token[i])
     {
-        if (data->buffer[i] == '|')
+        if (data->token[i][0] == '|')
             data->count_pipe++;
         i++;
     }
-    
 }

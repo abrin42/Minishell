@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include "gc/gc.h"
+#include <errno.h>
 
 typedef struct s_data
 {
@@ -38,6 +39,7 @@ typedef struct s_data
     int token_txt;
     int tube_redirect[2];
     int tube_search[2];
+    int pipe_not_close;
 
     t_gcan  gc;
 }   t_data;
@@ -76,6 +78,7 @@ void    clean_var(t_data *data, char *new_line);
 void    clean_token(t_data *data);
 void fill_token(t_data *data);
 void count_pipe(t_data *data);
+void error_open_search(t_data *data, int fd);
 
 /***********COMMAND***********/
 void    start_command(t_data *data);
@@ -94,9 +97,14 @@ int check_redirect(t_data *data);
 int check_redirect_pipe(t_data *data);
 int command_exist_redirect(t_data *data, int y);
 void    execute_command_redirect(t_data *data, int y);
-void    search_in_file(t_data *data, int y);
+
+
+int    search_in_file(t_data *data, int y);
 int check_redirect_inverse(t_data *data);
 void    execute_search(t_data *data);
-void    execute_search_pipe(t_data *data, int *fd_pipe);
+
+void    execute_search_pipe_start(t_data *data, int *fd_pipe);
+void    execute_search_pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
+void    execute_search_pipe_end(t_data *data, int *fd_pipe);
 
 #endif

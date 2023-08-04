@@ -96,8 +96,8 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
         if (check_redirect_inverse(data) == 0)
         {
             data->condition = 0;
-            search_in_file(data, data->token_y);
-            execute_search_pipe(data, pipe_);
+            search_in_file(data, data->token_y); // hereeee
+            execute_search_pipe_start(data, pipe_);
         }
         else
         {
@@ -105,14 +105,14 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
             pipe_start(data, pipe_);
         }
     }
-    else if (data->condition == 0 && data->count_pipe > 0) // derniere  pipe
+    else if (data->condition == 0 && data->count_pipe > 0) // mide  pipe
     {
         if (check_redirect_pipe(data) == 0)
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
         else if (check_redirect_inverse(data) == 0)
         {
-            search_in_file(data, data->token_y);
-            execute_search_pipe(data, pipe_);
+            search_in_file(data, data->token_y); // hereeeeeeee
+            execute_search_pipe_middle(data, &fd_pipe, pipe_);
         }
         else
             pipe_middle(data, &fd_pipe, pipe_);
@@ -123,8 +123,8 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
         else if (check_redirect_inverse(data) == 0)
         {
-            search_in_file(data, data->token_y);
-            execute_search_pipe(data, pipe_);
+            search_in_file(data, data->token_y); // hereeee
+            execute_search_pipe_end(data, &fd_pipe);
         }
         else
             pipe_end(data, &fd_pipe);
@@ -147,8 +147,8 @@ void start_command(t_data *data)
             execute_in_file(data, data->token_y);
         else if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
         {
-            search_in_file(data, 0);
-            execute_search(data);
+            if (search_in_file(data, 0) == 0)
+                execute_search(data);
         }
         else if (command_exist(data) == 0 || command_exist(data) == 1)
             execute(data);

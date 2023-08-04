@@ -201,7 +201,7 @@ void    execute_search(t_data *data)
     close(data->tube_search[0]);
 }
 
-void    search_in_file(t_data *data, int y)
+/*void    search_in_file_pipe(t_data *data, int *fd_pipe)  nonnnn moi
 {
     pid_t pid;
     int fd;
@@ -217,7 +217,12 @@ void    search_in_file(t_data *data, int y)
     while (data->token[y][0] != '<')
         y++;
     y++;
-    fd =  open(data->token[y], O_RDONLY | O_CREAT);
+    fd =  open(data->token[y], O_RDONLY);
+    if (fd == -1)
+    {
+        error_open_search(data, fd);
+        return(-1);
+    }
     pipe(data->tube_search);
     pid = fork();
     if (pid == 0)
@@ -237,20 +242,70 @@ void    search_in_file(t_data *data, int y)
     }
     close(data->tube_search[1]);
     waitpid(pid, NULL, 0);
+    return(0);
+}*/
+
+int    search_in_file(t_data *data, int y)
+{
+    pid_t pid;
+    int fd;
+    int condition;
+    char    *buf;
+    char    *save;
+
+    condition = 1;
+    save = gc_malloc(&data->gc, sizeof(char) * 1);
+	save[0] = '\0';
+    buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
+    y = y - data->add;
+    while (data->token[y][0] != '<')
+        y++;
+    y++;
+    fd =  open(data->token[y], O_RDONLY);
+    if (fd == -1)
+    {
+        error_open_search(data, fd);
+        return(-1);
+    }
+    pipe(data->tube_search);
+    pid = fork();
+    if (pid == 0)
+    {
+        close(data->tube_search[0]);
+        while(condition != 0)
+        {
+            condition = read(fd, buf, 50);
+            buf[condition] = '\0';
+            save = ft_strjoin2(save, buf, data);
+        }
+        close(fd);
+        dup2(data->tube_search[1], 1);
+        printf("%s", save);
+        close(data->tube_search[1]);
+        exit(0);
+    }
+    close(data->tube_search[1]);
+    waitpid(pid, NULL, 0);
+    return(0);
 }
 
-void    execute_search_pipe(t_data *data, int *fd_pipe)
+
+
+
+
+
+void    execute_search_pipe_start(t_data *data, int *fd_pipe)
 {
     pid_t pid;
 
+    printf("search pipe start\n");
     pid = fork();
     if (pid == 0)
     {
         close(fd_pipe[0]);
         close(data->tube_search[1]);
         dup2(data->tube_search[0], 0);
-        if (data->count_pipe != 0)
-            dup2(fd_pipe[1], 1);
+        dup2(fd_pipe[1], 1);
         execute(data);
         close(data->tube_search[0]);
         close(fd_pipe[1]);
@@ -271,6 +326,83 @@ void    execute_search_pipe(t_data *data, int *fd_pipe)
     if (data->token[data->token_y][0] != '\0')
         execute_cmd(data,fd_pipe[0]);
 }
+
+void    execute_search_pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
+{
+    pid_t pid;
+
+    printf("search pipe mide\n");
+    pid = fork();
+    if (pid == 0)
+    {
+        close(fd_pipe_in[1]);
+        close(fd_pipe_out[0]);
+        close(data->tube_search[1]);
+        dup2(fd_pipe_in[0], 0);
+        dup2(fd_pipe_out[1], 1);
+        dup2(data->tube_search[0], 0);
+        execute(data);
+        close(data->tube_search[0]);
+        close(fd_pipe_in[0]); // maybe enlver
+        close(fd_pipe_out[1]);
+        exit (0);
+    }
+    close(fd_pipe_in[0]);
+    close(fd_pipe_out[1]);
+    close(data->tube_search[1]);
+    waitpid(pid, NULL, 0);
+    close(data->tube_search[0]);
+    while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
+    {
+        data->add++;
+        data->token_y++;
+    }
+    data->token_y++;
+    data->add++;
+    data->count_pipe--;
+    if (data->token[data->token_y][0] != '\0')
+        execute_cmd(data,fd_pipe_out[0]);
+}
+
+void    execute_search_pipe_end(t_data *data, int *fd_pipe)
+{
+    pid_t pid;
+
+    printf("search pipe end\n");
+    pid = fork();
+    if (pid == 0)
+    {
+        close(fd_pipe[1]);
+        close(data->tube_search[1]);
+        dup2(data->tube_search[0], 0);
+        dup2(fd_pipe[0], 0);
+        execute(data);
+        close(data->tube_search[0]);
+        close(fd_pipe[0]);
+        exit (0);
+    }
+    close(fd_pipe[0]);
+    close(data->tube_search[1]);
+    waitpid(pid, NULL, 0);
+    close(data->tube_search[0]);
+    close(fd_pipe[1]);
+    /*while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
+    {
+        data->add++;
+        data->token_y++;
+    }
+    data->token_y++;
+    data->add++;
+    data->count_pipe--;
+    if (data->token[data->token_y][0] != '\0')
+        execute_cmd(data,fd_pipe[0]);*/
+}
+
+
+
+
+
+
 
 void    execute_in_file(t_data *data, int y)
 {
