@@ -217,7 +217,7 @@ void    search_in_file(t_data *data, int y)
     while (data->token[y][0] != '<')
         y++;
     y++;
-    fd =  open(data->token[y], O_RDONLY);
+    fd =  open(data->token[y], O_RDONLY | O_CREAT);
     pipe(data->tube_search);
     pid = fork();
     if (pid == 0)
