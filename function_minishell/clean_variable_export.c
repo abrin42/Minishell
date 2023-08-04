@@ -111,8 +111,17 @@ void fill_token(t_data *data)
             data->token[data->token_y][data->token_x] = data->buffer[i];
             data->token_x++;
             i++;
+            if (!ft_is_operator(data->buffer[i]) && !ft_iswhitespace(data->buffer[i]) && data->buffer[i] != '\0')
+            {
+                data->token_x = 0;
+                data->token_y++;
+            }
         }
     }
+for (size_t p = 0; p < 5; p++)
+{
+    printf("DABS FILL TOKEN ==%s==\n", data->token[p]);
+}
 }
 
 void count_pipe(t_data *data)

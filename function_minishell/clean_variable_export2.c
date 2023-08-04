@@ -72,7 +72,7 @@ void    clean_var(t_data *data, char *new_line)
         change_by_var(data, new_line, k);
     else
     {
-        while (data->buffer[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '\0')
+        while (data->buffer[data->i_buffer] != '"' && data->buffer[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '\0')
         {
             new_line[data->i_new_line++] = ' ';
             data->i_buffer++;
