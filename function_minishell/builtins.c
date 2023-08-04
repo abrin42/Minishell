@@ -2,14 +2,23 @@
 
 void    ft_echo(t_data *data)
 {
+    int    condition;
+
+    condition = 0;
     data->token_y++;
+    if (ft_strcmp(data->token[data->token_y], "-n") == 0)
+    {
+        condition = 1;
+        data->token_y++;
+    }
     while (data->token[data->token_y][0] != '\0' && !ft_is_operator(data->token[data->token_y][0]))
     {
         ft_putstr(data->token[data->token_y]);
         write(1, " ", 1);
         data->token_y++;
     }
-    write(1, "\n", 1);
+    if (condition == 0)
+        write(1, "\n", 1);
 }
 
 void    ft_pwd(t_data *data)
