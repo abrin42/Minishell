@@ -65,30 +65,33 @@ void    prompt(t_data *data)
 
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
-        init_data(data);
-        if (data->pipe_not_close == 0)
+        if (ft_strlen(data->buffer) > 0)
         {
-            add_history(data->buffer);
-            data->buffer = clean_buffer(data);
-            fill_token(data);
-        }
-        else
-        {
-            //printf("fin de token ?-%s- [%d]",data->token[data->token_y], data->token_y);
-            add_history(data->buffer);
-            data->buffer = clean_buffer(data);
-            fill_token(data);
-            data->pipe_not_close--;
-        }
-        if (test_pipe_end(data) == 1)
-        {
-            //printf("pipe non fermer\n");
-            data->pipe_not_close++;
-        }
-        else
-        {
-            count_pipe(data);
-            start_command(data);
+            init_data(data);
+            if (data->pipe_not_close == 0)
+            {
+                add_history(data->buffer);
+                data->buffer = clean_buffer(data);
+                fill_token(data);
+            }
+            else
+            {
+                //printf("fin de token ?-%s- [%d]",data->token[data->token_y], data->token_y);
+                add_history(data->buffer);
+                data->buffer = clean_buffer(data);
+                fill_token(data);
+                data->pipe_not_close--;
+            }
+            if (test_pipe_end(data) == 1)
+            {
+                //printf("pipe non fermer\n");
+                data->pipe_not_close++;
+            }
+            else
+            {
+                count_pipe(data);
+                start_command(data);
+            }
         }
 //*********TEST**************//
 /*int test = 0;
