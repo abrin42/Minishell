@@ -97,5 +97,6 @@ void    execute_command_redirect(t_data *data, int y);
 void    search_in_file(t_data *data, int y);
 int check_redirect_inverse(t_data *data);
 void    execute_search(t_data *data);
+void    execute_search_pipe(t_data *data, int *fd_pipe);
 
 #endif

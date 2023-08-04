@@ -183,6 +183,24 @@ void    execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
         execute_cmd(data, fd_pipe[0]);
 }
 
+void    execute_search(t_data *data)
+{
+    pid_t pid;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        close(data->tube_search[1]);
+        dup2(data->tube_search[0], 0);
+        execute(data);
+        close(data->tube_search[0]);
+        exit (0);
+    }
+    close(data->tube_search[1]);
+    waitpid(pid, NULL, 0);
+    close(data->tube_search[0]);
+}
+
 void    search_in_file(t_data *data, int y)
 {
     pid_t pid;
@@ -190,7 +208,7 @@ void    search_in_file(t_data *data, int y)
     int condition;
     char    *buf;
     char    *save;
-    
+
     condition = 1;
     save = gc_malloc(&data->gc, sizeof(char) * 1);
 	save[0] = '\0';
@@ -221,22 +239,37 @@ void    search_in_file(t_data *data, int y)
     waitpid(pid, NULL, 0);
 }
 
-void    execute_search(t_data *data)
+void    execute_search_pipe(t_data *data, int *fd_pipe)
 {
     pid_t pid;
 
     pid = fork();
     if (pid == 0)
     {
+        close(fd_pipe[0]);
         close(data->tube_search[1]);
         dup2(data->tube_search[0], 0);
+        if (data->count_pipe != 0)
+            dup2(fd_pipe[1], 1);
         execute(data);
         close(data->tube_search[0]);
+        close(fd_pipe[1]);
         exit (0);
     }
+    close(fd_pipe[1]);
     close(data->tube_search[1]);
     waitpid(pid, NULL, 0);
     close(data->tube_search[0]);
+    while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
+    {
+        data->add++;
+        data->token_y++;
+    }
+    data->token_y++;
+    data->add++;
+    data->count_pipe--;
+    if (data->token[data->token_y][0] != '\0')
+        execute_cmd(data,fd_pipe[0]);
 }
 
 void    execute_in_file(t_data *data, int y)
@@ -252,7 +285,7 @@ void    execute_in_file(t_data *data, int y)
         close(data->tube_redirect[0]);
         dup2(data->tube_redirect[1], 1);
         execute_redirect(data, y);
-        close(data->tube_redirect[1]);
+        //close(data->tube_redirect[1]);
         exit (0);
     }
     close(data->tube_redirect[1]);

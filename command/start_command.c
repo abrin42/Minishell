@@ -93,13 +93,27 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
     pipe(pipe_);
     if (data->condition == 1) // permiere pipe
     {
-        data->condition = 0;
-        pipe_start(data, pipe_);
+        if (check_redirect_inverse(data) == 0)
+        {
+            data->condition = 0;
+            search_in_file(data, data->token_y);
+            execute_search_pipe(data, pipe_);
+        }
+        else
+        {
+            data->condition = 0;
+            pipe_start(data, pipe_);
+        }
     }
     else if (data->condition == 0 && data->count_pipe > 0) // derniere  pipe
     {
         if (check_redirect_pipe(data) == 0)
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
+        else if (check_redirect_inverse(data) == 0)
+        {
+            search_in_file(data, data->token_y);
+            execute_search_pipe(data, pipe_);
+        }
         else
             pipe_middle(data, &fd_pipe, pipe_);
     }
@@ -107,6 +121,11 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
     {
         if (check_redirect_pipe(data) == 0)
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
+        else if (check_redirect_inverse(data) == 0)
+        {
+            search_in_file(data, data->token_y);
+            execute_search_pipe(data, pipe_);
+        }
         else
             pipe_end(data, &fd_pipe);
     }
@@ -120,7 +139,6 @@ void start_command(t_data *data)
     malloc_path_bdd(data);
     if (data->count_pipe > 0)
     {
-        printf("RENTRE DATA COUNT\n");
         execute_cmd(data, 0);
     }
     else

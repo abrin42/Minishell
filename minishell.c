@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    init_data(t_data *data, char **envp)
+void    init_data(t_data *data)
 {
     data->token_x = 0;
     data->token_y = 0;
@@ -13,8 +13,6 @@ void    init_data(t_data *data, char **envp)
     data->i_var = 0;
     data->condition = 1;
     data->add = 0;
-    data->env = envp;
-    data->export = envp;
 }
 
 void    prompt(t_data *data)
@@ -22,6 +20,8 @@ void    prompt(t_data *data)
     signal(SIGQUIT, SIG_IGN);
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
+        init_data(data);
+        init_export_var(data);
         if (ft_strlen(data->buffer) > 0)
         {
             add_history(data->buffer);
@@ -45,8 +45,10 @@ int main(int argc, char **argv, char **envp)
 {
     t_data data;
 
-    init_data(&data, envp);
+    init_data(&data);
     malloc_data(&data);
     init_export_var(&data);
+    data.env = envp;
+    data.export = envp;
     prompt(&data);
 }
