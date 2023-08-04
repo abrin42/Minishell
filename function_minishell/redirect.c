@@ -285,7 +285,6 @@ void    execute_in_file(t_data *data, int y)
         close(data->tube_redirect[0]);
         dup2(data->tube_redirect[1], 1);
         execute_redirect(data, y);
-        //close(data->tube_redirect[1]);
         exit (0);
     }
     close(data->tube_redirect[1]);

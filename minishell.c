@@ -15,9 +15,50 @@ void    init_data(t_data *data)
     data->add = 0;
 }
 
+/*void signal_handler(int sig)
+{
+    if (sig == EOF)
+    {
+        gc_clean();
+    }
+    else
+    {
+        rl_replace_line("", 0);
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+}*/
+
+void handle_signal(int sig, siginfo_t *siginfo, void *context)
+{
+    t_data *data = (t_data *)siginfo->si_value.sival_ptr;
+
+    if (sig == EOF)
+    {
+        gc_clean(&data->gc);
+        exit (0);
+    }
+    else
+    {
+        rl_replace_line("", 0);
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+}
+
 void    prompt(t_data *data)
 {
+    struct sigaction sa;
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = handle_signal;
+    sigemptyset(&sa.sa_mask);
+
+    sigaction(SIGQUIT, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
     signal(SIGQUIT, SIG_IGN);
+
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
         init_data(data);
