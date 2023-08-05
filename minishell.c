@@ -48,7 +48,7 @@ int test_pipe_end(t_data *data)
     i = 0;
     while (data->token[i][0] != '\0')
         i++;
-    if (data->token[--i][0] == '|' || data->token[i][0] == '|')
+    if (data->token[i - 1][0] == '|')
         return(1);
     return(0);
 }
@@ -75,10 +75,10 @@ void    prompt(t_data *data)
                 add_history(data->buffer);
                 data->buffer = clean_buffer(data);
                 fill_token(data);
+
             }
             else
             {
-                //printf("fin de token ?-%s- [%d]",data->token[data->token_y], data->token_y);
                 add_history(data->buffer);
                 data->buffer = clean_buffer(data);
                 fill_token(data);
@@ -86,7 +86,6 @@ void    prompt(t_data *data)
             }
             if (test_pipe_end(data) == 1)
             {
-                //printf("pipe non fermer\n");
                 data->pipe_not_close++;
             }
             else
@@ -95,13 +94,6 @@ void    prompt(t_data *data)
                 start_command(data);
             }
         }
-//*********TEST**************//
-/*int test = 0;
-while (data->token[test][0] != '\0')
-{
-    printf("===%s===\n", data->token[test++]);
-}*/
-
     }
 }
 
@@ -109,8 +101,8 @@ int main(int argc, char **argv, char **envp)
 {
     t_data data;
 
-    init_data(&data);
     malloc_data(&data);
+    init_data(&data);
     init_export_var(&data);
     data.env = envp;
     data.export = envp;

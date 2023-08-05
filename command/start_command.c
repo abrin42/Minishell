@@ -70,7 +70,7 @@ void    execute(t_data *data)
 {
     if (ft_strcmp(data->token[data->token_y] , "echo") == 0)
         ft_echo(data);
-    if (ft_strcmp(data->token[data->token_y] , "cd") == 0)
+    else if (ft_strcmp(data->token[data->token_y] , "cd") == 0)
         ft_cd(data);
     else if (ft_strcmp(data->token[data->token_y] , "pwd") == 0)
         ft_pwd(data);
@@ -151,7 +151,9 @@ void start_command(t_data *data)
                 execute_search(data);
         }
         else if (command_exist(data) == 0 || command_exist(data) == 1)
+        {
             execute(data);
+        }
         else
             printf("%s: command not found\n",data->token[data->token_y]);
     }

@@ -1,20 +1,11 @@
 #include "../minishell.h"
 
-void    clear_quote(t_data *data)
+void    clear_quote(t_data *data, char c)
 {
-    int i;
-
-    i = 0;
-    data->simple_quote = 0;
-    data->double_quote = 0;
-    while (data->buffer[i])
-    {
-        if (data->buffer[i] == '\'')
-            data->simple_quote ++;
-        else if (data->buffer[i] == '\"')
-            data->double_quote++;
-        i++;
-    }
+    if (c == '\'')
+        data->simple_quote ++;
+    else if (c == '\"')
+        data->double_quote++;
 }
 
 char *clean_buffer(t_data *data)
@@ -24,11 +15,13 @@ char *clean_buffer(t_data *data)
     new_line = gc_malloc(&data->gc, sizeof(char) * 10000);
     data->i_new_line = 0;
     data->i_buffer = 0;
-    clear_quote(data);
+    data->simple_quote = 0;
+    data->double_quote = 0;
     while (data->i_buffer < ft_strlen(data->buffer))
     {
         if (data->buffer[data->i_buffer] == '\'')
         {
+            clear_quote(data, data->buffer[data->i_buffer]);
             new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
             data->i_new_line++;
@@ -36,12 +29,14 @@ char *clean_buffer(t_data *data)
             {
                 new_line[data->i_new_line++] = data->buffer[data->i_buffer++];
             }
+            clear_quote(data, data->buffer[data->i_buffer]);
             new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_new_line++;
             data->i_buffer++;
         }
         else if (data->buffer[data->i_buffer] == '"')
         {
+            clear_quote(data, data->buffer[data->i_buffer]);
             new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
             data->i_new_line++;
@@ -52,6 +47,7 @@ char *clean_buffer(t_data *data)
                 else
                     new_line[data->i_new_line++] = data->buffer[data->i_buffer++];
             }
+            clear_quote(data, data->buffer[data->i_buffer]);
             new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
             data->i_new_line++;
@@ -62,11 +58,10 @@ char *clean_buffer(t_data *data)
             new_line[data->i_new_line++] = ' ';
         else
             new_line[data->i_new_line++] = data->buffer[data->i_buffer];
-
         data->i_buffer++;
     }
     new_line[data->i_new_line] = '\0';
-    free(data->buffer);
+    printf("ICI TOKEN Y : %d\n", data->token_y);
     return (new_line);
 }
 
@@ -76,15 +71,9 @@ void    clean_token(t_data *data)
     int y;
 
     i = 0;
-    while (i <= 100)
+    while (i < 100)
     {
-        y = 0;
-        while (y <= 1000)
-        {
-            data->token[i][y] = '\0';
-            y++;
-        }
-        i++;
+        data->token[i++][0] = '\0';
     }
 }
 
@@ -177,10 +166,12 @@ void fill_token(t_data *data)
             i++;
         }
         data->token[data->token_y][data->token_x] = '\0';
-        data->token_y++;
-        data->token_x = 0;
         while (ft_iswhitespace(data->buffer[i]) && data->buffer[i] != '\0')
             i++;
+        if (data->buffer[i] == '\0')
+            return ;
+        data->token_y++;
+        data->token_x = 0;
         if (data->buffer[i] == '\'' || data->buffer[i] == '"')
             i = fill_token_quote(data, i);
         while (ft_is_operator(data->buffer[i]) && data->buffer[i] != '\0')
