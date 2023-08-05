@@ -15,14 +15,35 @@ void    clear_quote(t_data *data, char c)
 char *clean_buffer(t_data *data)
 {
     char    *new_line;
+    int     p;
+    char    *new;
 
     new_line = gc_malloc(&data->gc, sizeof(char) * 10000);
     data->i_new_line = 0;
     data->i_buffer = 0;
     data->simple_quote = 0;
     data->double_quote = 0;
+    p = 0;
     while (data->i_buffer < ft_strlen(data->buffer))
     {
+        while (data->buffer[data->i_buffer] == '/' && data->buffer[data->i_buffer] != '\0')
+        {
+            p = data->i_buffer;
+
+            new = ft_strjoin3("/usr/bin/", data->buffer, data, p);
+            if (ft_strcmp(data->buffer, new) != 0)
+            {
+                free(new);
+                break ;
+            }
+            while (data->buffer[p] != ' ' && data->buffer[p] != '\0')
+                p++;
+            while (data->buffer[p] != '/')
+                p--;
+            while (data->i_buffer++ != p)
+                data->i_buffer++;
+            free(new);
+        }
         if (data->buffer[data->i_buffer] == '\'')
         {
             clear_quote(data, data->buffer[data->i_buffer]);
@@ -57,6 +78,13 @@ char *clean_buffer(t_data *data)
             new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
             data->i_new_line++;
+        }
+        else if ((data->buffer[data->i_buffer] == '$' && data->buffer[data->i_buffer + 1] == '?'))
+        {
+            new_line[data->i_new_line] = data->buffer[data->i_buffer];
+            data->i_buffer++;
+            data->i_new_line++;
+            new_line[data->i_new_line++] = data->buffer[data->i_buffer];
         }
         else if (data->buffer[data->i_buffer] == '$')
             clean_var(data, new_line);

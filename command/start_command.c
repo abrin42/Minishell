@@ -162,10 +162,11 @@ void start_command(t_data *data)
                 execute_search(data);
         }
         else if (command_exist(data) == 0 || command_exist(data) == 1)
-        {
             execute(data);
-        }
         else
+        {
+            data->error = 127;
             printf("%s: command not found\n",data->token[data->token_y]);
+        }
     }
 }

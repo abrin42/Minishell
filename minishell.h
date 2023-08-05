@@ -40,6 +40,7 @@ typedef struct s_data
     int tube_redirect[2];
     int tube_search[2];
     int pipe_not_close;
+    int error;
 
     t_gcan  gc;
 }   t_data;
@@ -56,11 +57,13 @@ void    ft_exit(t_data *data);
 /***********FUNCTION***********/
 void ft_putchar(char c);
 void ft_putstr(char *str);
+void ft_putstr_error(t_data *data, char *str);
 unsigned int ft_strlen(char *str);
 int ft_is_operator(char c);
 int	ft_iswhitespace(char c);
 char    *ft_strjoin(char *s1, char *s2, t_data *data);
 char	*ft_strjoin2(char *s1, char *s2, t_data *data);
+char    *ft_strjoin3(char *s1, char *s2, t_data *data, int p);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strcmp_export_var(char *s1, char *s2);
 

@@ -3,13 +3,18 @@
 void    ft_echo(t_data *data)
 {
     int    condition;
-
     condition = 0;
     data->token_y++;
     if (ft_strcmp(data->token[data->token_y], "-n") == 0)
     {
         condition = 1;
         data->token_y++;
+    }
+    else if (ft_strcmp(data->token[data->token_y], "$?") == 0)
+    {
+        printf("%d\n", data->error);
+        data->error = 0;
+        return ;
     }
     while (data->token[data->token_y][0] != '\0' && !ft_is_operator(data->token[data->token_y][0]))
     {
@@ -27,7 +32,7 @@ void    ft_pwd(t_data *data)
 
     if (!ft_is_operator(data->token[data->token_y + 1][0]) && data->token[data->token_y + 1][0] != '\0')
     {
-        printf("TOO MANY ARGUMENTS A FAIRE AVEC UN PRINT ERROR\n");
+        printf("Too many arguments for pwd\n");
         return ;
     }
     pwd = gc_malloc(&data->gc, sizeof(char) * 1024);
@@ -41,7 +46,7 @@ void ft_cd(t_data *data)
     data->token_y++;
     if (!ft_is_operator(data->token[data->token_y + 1][0]) && data->token[data->token_y + 1][0] != '\0')
     {
-        printf("TOO MANY ARGUMENTS A FAIRE AVEC UN PRINT ERROR\n");
+        printf("Too many arguments for cd\n");
         return ;
     }
     chdir(data->token[data->token_y]);

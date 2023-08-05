@@ -201,50 +201,6 @@ void    execute_search(t_data *data)
     close(data->tube_search[0]);
 }
 
-/*void    search_in_file_pipe(t_data *data, int *fd_pipe)  nonnnn moi
-{
-    pid_t pid;
-    int fd;
-    int condition;
-    char    *buf;
-    char    *save;
-
-    condition = 1;
-    save = gc_malloc(&data->gc, sizeof(char) * 1);
-	save[0] = '\0';
-    buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
-    y = y - data->add;
-    while (data->token[y][0] != '<')
-        y++;
-    y++;
-    fd =  open(data->token[y], O_RDONLY);
-    if (fd == -1)
-    {
-        error_open_search(data, fd);
-        return(-1);
-    }
-    pipe(data->tube_search);
-    pid = fork();
-    if (pid == 0)
-    {
-        close(data->tube_search[0]);
-        while(condition != 0)
-        {
-            condition = read(fd, buf, 50);
-            buf[condition] = '\0';
-            save = ft_strjoin2(save, buf, data);
-        }
-        close(fd);
-        dup2(data->tube_search[1], 1);
-        printf("%s", save);
-        close(data->tube_search[1]);
-        exit(0);
-    }
-    close(data->tube_search[1]);
-    waitpid(pid, NULL, 0);
-    return(0);
-}*/
-
 int    search_in_file(t_data *data, int y)
 {
     pid_t pid;
@@ -265,6 +221,7 @@ int    search_in_file(t_data *data, int y)
     if (fd == -1)
     {
         perror(data->token[data->token_y + 2]);
+        data->error = 1;
         return(-1);
     }
     pipe(data->tube_search);
