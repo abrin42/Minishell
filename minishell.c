@@ -65,7 +65,7 @@ void    prompt(t_data *data)
     signal(SIGQUIT, SIG_IGN);
     data->pipe_not_close = 0;
 
-    while ((data->buffer = readline("\n\033[0;34m#Minishell ➤ \033[0m")))
+    while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
         if (ft_strlen(data->buffer) > 0)
         {
