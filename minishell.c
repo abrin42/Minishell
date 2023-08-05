@@ -65,7 +65,7 @@ void    prompt(t_data *data)
     signal(SIGQUIT, SIG_IGN);
     data->pipe_not_close = 0;
 
-    while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
+    while ((data->buffer = readline("\n\033[0;34m#Minishell ➤ \033[0m")))
     {
         if (ft_strlen(data->buffer) > 0)
         {
@@ -74,7 +74,8 @@ void    prompt(t_data *data)
                 init_data(data);
                 add_history(data->buffer);
                 data->buffer = clean_buffer(data);
-                fill_token(data);
+                if (data->simple_quote == 0 && data->double_quote == 0)
+                    fill_token(data);
             }
             else
             {
@@ -83,7 +84,9 @@ void    prompt(t_data *data)
                 fill_token(data);
                 data->pipe_not_close--;
             }
-            if (test_pipe_end(data) == 1)
+            if (data->simple_quote != 0 || data->double_quote != 0)
+                printf("A closing quotation mark is missing\n");
+            else if (test_pipe_end(data) == 1)
             {
                 data->pipe_not_close++;
             }

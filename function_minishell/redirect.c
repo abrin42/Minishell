@@ -264,7 +264,7 @@ int    search_in_file(t_data *data, int y)
     fd =  open(data->token[y], O_RDONLY);
     if (fd == -1)
     {
-        error_open_search(data, fd);
+        perror(data->token[data->token_y + 2]);
         return(-1);
     }
     pipe(data->tube_search);
@@ -289,10 +289,20 @@ int    search_in_file(t_data *data, int y)
     return(0);
 }
 
-
-
-
-
+void    execute_search_pipe_void(t_data * data, int *fd_pipe)
+{
+    close(fd_pipe[1]);
+    while (data->token[data->token_y][0] != '|' && data->token[data->token_y][0] != '\0')
+    {
+        data->add++;
+        data->token_y++;
+    }
+    data->token_y++;
+    data->add++;
+    data->count_pipe--;
+    if (data->token[data->token_y][0] != '\0')
+        execute_cmd(data,fd_pipe[0]);
+}
 
 void    execute_search_pipe_start(t_data *data, int *fd_pipe)
 {

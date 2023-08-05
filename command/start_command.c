@@ -101,8 +101,10 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
         if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
         {
             data->condition = 0;
-            search_in_file(data, data->token_y); // hereeee
-            execute_search_pipe_start(data, pipe_);
+            if (search_in_file(data, data->token_y) != -1) // hereeee
+                execute_search_pipe_start(data, pipe_);
+            else
+                execute_search_pipe_void(data, pipe_);
         }
         else
         {
@@ -116,8 +118,10 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
         else if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
         {
-            search_in_file(data, data->token_y); // hereeeeeeee
-            execute_search_pipe_middle(data, &fd_pipe, pipe_);
+            if(search_in_file(data, data->token_y) != -1) // hereeeeeeee
+                execute_search_pipe_middle(data, &fd_pipe, pipe_);
+            else
+                execute_search_pipe_void(data, pipe_);
         }
         else
             pipe_middle(data, &fd_pipe, pipe_);
@@ -128,8 +132,10 @@ void execute_cmd(t_data *data, int fd_pipe) // calculer le nombre de pipe pour s
             execute_in_file_pipe(data, data->token_y, &fd_pipe);
         else if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0 || command_exist(data) == 1))
         {
-            search_in_file(data, data->token_y); // hereeee
-            execute_search_pipe_end(data, &fd_pipe);
+            if (search_in_file(data, data->token_y) != -1) // hereeee
+                execute_search_pipe_end(data, &fd_pipe);
+            else
+                execute_search_pipe_void(data, pipe_);
         }
         else
             pipe_end(data, &fd_pipe);

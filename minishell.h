@@ -98,7 +98,6 @@ int check_redirect_pipe(t_data *data);
 int command_exist_redirect(t_data *data, int y);
 void    execute_command_redirect(t_data *data, int y);
 
-
 int    search_in_file(t_data *data, int y);
 int check_redirect_inverse(t_data *data);
 void    execute_search(t_data *data);
@@ -106,5 +105,6 @@ void    execute_search(t_data *data);
 void    execute_search_pipe_start(t_data *data, int *fd_pipe);
 void    execute_search_pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
 void    execute_search_pipe_end(t_data *data, int *fd_pipe);
+void    execute_search_pipe_void(t_data * data, int *fd_pipe);
 
 #endif
