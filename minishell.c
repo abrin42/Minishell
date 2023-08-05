@@ -11,6 +11,8 @@ void    init_data(t_data *data)
     data->i_var = 0;
     data->condition = 1;
     data->add = 0;
+    data->token_y = 0;
+    data->token_x = 0;
 }
 
 /*void signal_handler(int sig)
@@ -46,7 +48,7 @@ int test_pipe_end(t_data *data)
     i = 0;
     while (data->token[i][0] != '\0')
         i++;
-    if (data->token[--i][0] == '|')
+    if (data->token[--i][0] == '|' || data->token[i][0] == '|')
         return(1);
     return(0);
 }
@@ -61,15 +63,15 @@ void    prompt(t_data *data)
     sigaction(SIGQUIT, &sa, NULL);
     sigaction(SIGINT, &sa, NULL);
     signal(SIGQUIT, SIG_IGN);
-    data-> pipe_not_close = 0;
+    data->pipe_not_close = 0;
 
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
         if (ft_strlen(data->buffer) > 0)
         {
-            init_data(data);
             if (data->pipe_not_close == 0)
             {
+                init_data(data);
                 add_history(data->buffer);
                 data->buffer = clean_buffer(data);
                 fill_token(data);

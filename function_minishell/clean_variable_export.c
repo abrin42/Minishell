@@ -29,15 +29,22 @@ char *clean_buffer(t_data *data)
     {
         if (data->buffer[data->i_buffer] == '\'')
         {
+            new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
+            data->i_new_line++;
             while (data->buffer[data->i_buffer] != '\'')
             {
                 new_line[data->i_new_line++] = data->buffer[data->i_buffer++];
             }
+            new_line[data->i_new_line] = data->buffer[data->i_buffer];
+            data->i_new_line++;
+            data->i_buffer++;
         }
         else if (data->buffer[data->i_buffer] == '"')
         {
+            new_line[data->i_new_line] = data->buffer[data->i_buffer];
             data->i_buffer++;
+            data->i_new_line++;
             while (data->buffer[data->i_buffer] != '"')
             {
                 if (data->buffer[data->i_buffer] == '$')
@@ -45,6 +52,9 @@ char *clean_buffer(t_data *data)
                 else
                     new_line[data->i_new_line++] = data->buffer[data->i_buffer++];
             }
+            new_line[data->i_new_line] = data->buffer[data->i_buffer];
+            data->i_buffer++;
+            data->i_new_line++;
         }
         else if (data->buffer[data->i_buffer] == '$')
             clean_var(data, new_line);
@@ -78,6 +88,73 @@ void    clean_token(t_data *data)
     }
 }
 
+char *ft_parsing_space_quote(t_data *data)
+{
+    int i;
+    int j;
+    char    *line;
+
+    line = gc_malloc(&data->gc , sizeof(char) * (ft_strlen(data->token[data->token_y - 1]) + 1));
+    i = 0;
+    j = 0;
+    while (data->token[data->token_y - 1][i] == ' ')
+        i++;
+    while (data->token[data->token_y - 1][i])
+    {
+        if ((data->token[data->token_y - 1][i] == ' ' && data->token[data->token_y - 1][i + 1] == ' ') || (data->token[data->token_y - 1][i] == ' ' && data->token[data->token_y - 1][i + 1] == '\0'))
+            i++;
+        else
+        {
+            line[j] = data->token[data->token_y - 1][i];
+            j++;
+            i++;
+        }
+    }
+    line[j] = '\0';
+    //gc_free(&data->gc, (void **)&data->token[data->token_y - 1]);
+    return (line);
+}
+
+int    fill_token_quote(t_data *data, int i)
+{
+    int condition;
+
+    condition = 0;
+    if (data->buffer[i] == '\'')
+        condition = 1;
+    else if (data->buffer[i] == '"')
+        condition = 2;
+    i++;
+    if (condition == 1)
+    {
+        while (data->buffer[i] != '\'')
+        {
+            data->token[data->token_y][data->token_x] = data->buffer[i];
+            i++;
+            data->token_x++;
+        }
+        data->token[data->token_y][data->token_x] = '\0';
+        i++;
+        data->token_y++;
+        data->token_x = 0;
+    }
+    else if (condition == 2)
+    {
+        while (data->buffer[i] != '\"')
+        {
+            data->token[data->token_y][data->token_x] = data->buffer[i];
+            i++;
+            data->token_x++;
+        }
+        data->token[data->token_y][data->token_x] = '\0';
+        i++;
+        data->token_y++;
+        data->token_x = 0;
+    }
+    data->token[data->token_y - 1] = ft_parsing_space_quote(data);
+    return (i);
+}
+
 void fill_token(t_data *data)
 {
     int i;
@@ -103,9 +180,9 @@ void fill_token(t_data *data)
         data->token_y++;
         data->token_x = 0;
         while (ft_iswhitespace(data->buffer[i]) && data->buffer[i] != '\0')
-        {
             i++;
-        }
+        if (data->buffer[i] == '\'' || data->buffer[i] == '"')
+            i = fill_token_quote(data, i);
         while (ft_is_operator(data->buffer[i]) && data->buffer[i] != '\0')
         {
             data->token[data->token_y][data->token_x] = data->buffer[i];
