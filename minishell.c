@@ -75,7 +75,6 @@ void    prompt(t_data *data)
                 add_history(data->buffer);
                 data->buffer = clean_buffer(data);
                 fill_token(data);
-
             }
             else
             {
@@ -100,11 +99,15 @@ void    prompt(t_data *data)
 int main(int argc, char **argv, char **envp)
 {
     t_data data;
+    char   *shlvl_str;
 
     malloc_data(&data);
     init_data(&data);
     init_export_var(&data);
     data.env = envp;
+    shlvl_str = getenv("SHLVL");
+    shlvl_str[0] += 1;
+    setenv("SHLVL", shlvl_str, 1);
     data.export = envp;
     prompt(&data);
 }

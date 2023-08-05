@@ -16,6 +16,11 @@ int command_exist(t_data *data)
         return (0);
     else if (ft_strcmp(data->token[data->token_y] , "exit") == 0)
         return (0);
+    else if (data->token[data->token_y][0] == '.' && data->token[data->token_y][1] == '/')
+    {
+        data->path = "./minishell";
+        return (0);
+    }
     else
     {
         data->count_path = count_path(getenv("PATH"));
