@@ -38,6 +38,14 @@ char	*ft_strdup_special(const char *src)
 	return (new);
 }
 
+void	clean_result_export_var2(t_data *data, int i, int y)
+{
+	data->export_var[i][y] = '=';
+	data->export_var[i][y + 1] = '\'';
+	data->export_var[i][y + 2] = '\'';
+	data->export_var[i][y + 3] = '\0';
+}
+
 void	clean_result_export_var(t_data *data, int i)
 {
 	int		y;
@@ -61,12 +69,7 @@ void	clean_result_export_var(t_data *data, int i)
 		data->export_var[i][y] = '"';
 	}
 	else
-	{
-		data->export_var[i][y] = '=';
-		data->export_var[i][y + 1] = '\'';
-		data->export_var[i][y + 2] = '\'';
-		data->export_var[i][y + 3] = '\0';
-	}
+		clean_result_export_var2(data, i, y);
 }
 
 void	tri_export(t_data *data)
@@ -119,6 +122,22 @@ void	tri_export_var(t_data *data)
 	free(temp);
 }
 
+void	ft_export2(t_data *data, int i)
+{
+	tri_export(data);
+	tri_export_var(data);
+	i = 0;
+	while (data->export[i])
+		printf("declare -x %s\n", data->export[i++]);
+	i = 0;
+	while (data->export_var[i])
+	{
+		if (data->export_var[i][0] != '\0')
+			printf("declare -x %s\n", data->export_var[i]);
+		i++;
+	}
+}
+
 void	ft_export(t_data *data)
 {
 	int	i;
@@ -140,18 +159,5 @@ void	ft_export(t_data *data)
 		clean_result_export_var(data, i);
 	}
 	else
-	{
-		tri_export(data);
-		tri_export_var(data);
-		i = 0;
-		while (data->export[i])
-			printf("declare -x %s\n", data->export[i++]);
-		i = 0;
-		while (data->export_var[i])
-		{
-			if (data->export_var[i][0] != '\0')
-				printf("declare -x %s\n", data->export_var[i]);
-			i++;
-		}
-	}
+		ft_export2(data, i);
 }

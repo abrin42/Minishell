@@ -63,24 +63,22 @@ void	change_by_var(t_data *data, char *new_line, int k)
 
 void	clean_var(t_data *data, char *new_line)
 {
-	char	*var;
-	int		k;
 	int		condition;
 
-	var = ft_strdup_var(data->buffer, data->i_buffer + 1, data);
-	k = 0;
+	data->var = ft_strdup_var(data->buffer, data->i_buffer + 1, data);
+	data->k = 0;
 	condition = 0;
-	while (data->export_var[k])
+	while (data->export_var[data->k])
 	{
-		if (ft_strcmp_var(var, data->export_var[k], data) == -2)
+		if (ft_strcmp_var(data->var, data->export_var[data->k], data) == -2)
 		{
 			condition = -2;
 			break ;
 		}
-		k++;
+		data->k++;
 	}
 	if (condition == -2)
-		change_by_var(data, new_line, k);
+		change_by_var(data, new_line, data->k);
 	else
 	{
 		while (data->buffer[data->i_buffer] != '"' && data->buffer

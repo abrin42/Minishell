@@ -48,7 +48,7 @@ void	execute_redirect(t_data *data, int y)
 		execute_command_redirect(data, y);
 }
 
-int	command_exist_redirect(t_data *data, int y)
+int	command_exist_redirect2(t_data *data, int y)
 {
 	if (ft_strcmp(data->token[y], "echo") == 0)
 		return (0);
@@ -63,6 +63,13 @@ int	command_exist_redirect(t_data *data, int y)
 	else if (ft_strcmp(data->token[y], "unset") == 0)
 		return (0);
 	else if (ft_strcmp(data->token[y], "exit") == 0)
+		return (0);
+	return (-1);
+}
+
+int	command_exist_redirect(t_data *data, int y)
+{
+	if (command_exist_redirect2(data, y) == 0)
 		return (0);
 	else
 	{
@@ -147,40 +154,8 @@ void	execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe)
 	close (fd);
 }
 
-void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
+void	execute_in_file_pipe2(t_data *data, int *fd_pipe)
 {
-	pid_t	pid;
-	int		fd;
-	int		x;
-	char	*str;
-	int		buf_str;
-
-	str = malloc(sizeof(char) * 1000);
-	if (command_exist_redirect(data, y) == -1)
-		return ;
-	pid = fork();
-	x = y;
-	while (data->token[x][0] != '>')
-		x++;
-	if (ft_strcmp(data->token[x], ">") == 0)
-		fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (ft_strcmp(data->token[x], ">>") == 0)
-		fd = open(data->token[x + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (pid == 0)
-	{
-		close(fd_pipe[1]);
-		dup2(fd_pipe[0], 0);
-		dup2(fd, 1);
-		execute_redirect(data, y);
-		close(fd);
-		buf_str = read(fd_pipe[0], str, 999);
-		str[buf_str] = '\0';
-		close(fd_pipe[0]);
-		exit (0);
-	}
-	waitpid(pid, NULL, 0);
-	close(fd);
-	close(fd_pipe[1]);
 	while (data->token[data->token_y][0] != '|'
 		&& data->token[data->token_y][0] != '\0')
 	{
@@ -192,6 +167,50 @@ void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
 	data->count_pipe--;
 	if (data->token[data->token_y][0] != '\0')
 		execute_cmd(data, fd_pipe[0]);
+}
+
+void	execute_in_file_pipe3(t_data *data, int y, int *fd_pipe, int fd)
+{
+	close(fd_pipe[1]);
+	dup2(fd_pipe[0], 0);
+	dup2(fd, 1);
+	execute_redirect(data, y);
+	close(fd);
+}
+
+void	execute_in_file_pipe_open(t_data *data)
+{
+	if (ft_strcmp(data->token[data->x], ">") == 0)
+		data->fd = open(data->token[data->x + 1], 01 | 0100 | O_TRUNC, 0644);
+	else if (ft_strcmp(data->token[data->x], ">>") == 0)
+		data->fd = open(data->token[data->x + 1], 01 | 0100 | O_APPEND, 0644);
+}
+
+void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
+{
+	pid_t	pid;
+	char	*str;
+
+	str = malloc(sizeof(char) * 1000);
+	if (command_exist_redirect(data, y) == -1)
+		return ;
+	pid = fork();
+	data->x = y;
+	while (data->token[data->x][0] != '>')
+		data->x++; // check si work (change for norminet x++)
+	execute_in_file_pipe_open(data);
+	if (pid == 0)
+	{
+		execute_in_file_pipe3(data, y, fd_pipe, data->fd);
+		data->buf_str = read(fd_pipe[0], str, 999);
+		str[data->buf_str] = '\0';
+		close(fd_pipe[0]);
+		exit (0);
+	}
+	waitpid(pid, NULL, 0);
+	close(data->fd);
+	close(fd_pipe[1]);
+	execute_in_file_pipe2(data, fd_pipe); // maybe ladresse
 }
 
 void	execute_search(t_data *data)
@@ -212,27 +231,31 @@ void	execute_search(t_data *data)
 	close(data->tube_search[0]);
 }
 
+void	search_in_file_error(t_data *data)
+{
+	perror(data->token[data->token_y + 2]); // check si message code si erreur
+	data->error = 1;
+}
+
 int	search_in_file(t_data *data, int y)
 {
 	pid_t	pid;
 	int		fd;
 	int		condition;
 	char	*buf;
-	char	*save;
 
 	condition = 1;
-	save = gc_malloc(&data->gc, sizeof(char) * 1);
-	save[0] = '\0';
+	data->save = gc_malloc(&data->gc, sizeof(char) * 1);
+	data->save[0] = '\0';
 	buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
 	y = y - data->add;
-	while (data->token[y][0] != '<')
+	while (data->token[y][0] != '<') // norminett while y++
 		y++;
-	y++;
+	y++; // norminette y++ apres while
 	fd = open(data->token[y], O_RDONLY);
 	if (fd == -1)
 	{
-		perror(data->token[data->token_y + 2]);
-		data->error = 1;
+		search_in_file_error(data);
 		return (-1);
 	}
 	pipe(data->tube_search);
@@ -244,11 +267,11 @@ int	search_in_file(t_data *data, int y)
 		{
 			condition = read(fd, buf, 50);
 			buf[condition] = '\0';
-			save = ft_strjoin2(save, buf, data);
+			data->save = ft_strjoin2(data->save, buf, data);
 		}
 		close(fd);
 		dup2(data->tube_search[1], 1);
-		printf("%s", save);
+		printf("%s", data->save);
 		close(data->tube_search[1]);
 		exit(0);
 	}

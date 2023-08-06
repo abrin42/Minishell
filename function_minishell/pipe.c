@@ -34,6 +34,19 @@ void	pipe_end(t_data *data, int *fd_pipe)
 		data->error = 0;
 }
 
+void	pipe_avance(t_data *data)
+{
+	data->add = 0;
+	while (data->token[data->token_y][0] != '|')
+	{
+		data->add++;
+		data->token_y++;
+	}
+	data->token_y++;
+	data->add++;
+	data->count_pipe--;
+}
+
 void	pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 {
 	int		status_pid;
@@ -55,15 +68,7 @@ void	pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out)
 	close(fd_pipe_in[0]);
 	close(fd_pipe_out[1]);
 	waitpid(pid, &status_pid, 0);
-	data->add = 0;
-	while (data->token[data->token_y][0] != '|')
-	{
-		data->add++;
-		data->token_y++;
-	}
-	data->token_y++;
-	data->add++;
-	data->count_pipe--;
+	pipe_avance(data);
 	execute_cmd(data, fd_pipe_out[0]);
 }
 
@@ -88,15 +93,7 @@ void	pipe_start(t_data *data, int *fd_pipe)
 	}
 	close(fd_pipe[1]);
 	waitpid(pid, NULL, 0);
-	data->add = 0;
-	while (data->token[data->token_y][0] != '|')
-	{
-		data->add++;
-		data->token_y++;
-	}
-	data->token_y++;
-	data->add++;
-	data->count_pipe--;
+	pipe_avance(data);
 	if (y != -1)
 		execute_in_file_first_pipe(data, y, fd_pipe);
 	execute_cmd(data, fd_pipe[0]);
