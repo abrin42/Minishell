@@ -41,6 +41,7 @@ typedef struct s_data
     int tube_search[2];
     int pipe_not_close;
     int error;
+    int p;
 
     t_gcan  gc;
 }   t_data;

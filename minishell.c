@@ -13,6 +13,7 @@ void    init_data(t_data *data)
     data->add = 0;
     data->token_y = 0;
     data->token_x = 0;
+    data->p = 0;
 }
 
 /*void signal_handler(int sig)
