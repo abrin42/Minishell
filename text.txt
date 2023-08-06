@@ -1,0 +1,10 @@
+command
+function_minishell
+function_utils
+gc
+Makefile
+minishell
+minishell.c
+minishell.h
+minishell.o
+text.txt

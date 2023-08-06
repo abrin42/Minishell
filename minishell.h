@@ -35,6 +35,7 @@ typedef struct s_data
 	char	**export_var;
 	char	**args;
 	char	*path;
+	char	*buf;
 	char	*new_line;
 	char	*var;
 	char	*save;
@@ -57,11 +58,15 @@ typedef struct s_data
 	int		buf_str;
 	int		error;
 	int		condition1;
+	int		condition2;
 	int		fd;
+	int		fd1;
 	int		x;
 	int		p;
 	int		i;
 	int		k;
+	int		count_pipe2;
+	int		count_redirect;
 	t_gcan	gc;
 }	t_data;
 

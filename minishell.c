@@ -30,17 +30,12 @@ void	init_data(t_data *data)
 	data->var = NULL;
 	data->save = NULL;
 	data->fd = 0;
+	data->fd1 = 0;
 	data->x = 0;
 	data->buf_str = 0;
+	data->count_pipe2 = 0;
+	data-> count_redirect = 0;
 }
-
-/*void signal_handler(int sig)
-{
-        rl_replace_line("", 0);
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_redisplay();
-}*/
 
 void	handle_signal(int sig, siginfo_t *siginfo, void *context)
 {
@@ -106,6 +101,10 @@ void	prompt(t_data *data)
 			}
 			if (data->simple_quote != 0 || data->double_quote != 0)
 				printf("A closing quotation mark is missing\n");
+			else if (data->count_pipe2 > 1)
+				printf("Syntax error near unexpected token '|'\n");
+			else if (data->count_redirect > 2)
+				printf("Syntax error near unexpected token '>' or '<'\n");
 			else if (test_pipe_end(data) == 1)
 				data->pipe_not_close++;
 			else

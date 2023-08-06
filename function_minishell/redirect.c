@@ -237,42 +237,51 @@ void	search_in_file_error(t_data *data)
 	data->error = 1;
 }
 
+void	init_search_in_file(t_data *data)
+{
+	data->condition2 = 1;
+	data->save = gc_malloc(&data->gc, sizeof(char) * 1);
+	data->save[0] = '\0';
+	data->buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
+}
+
+void	search_in_file1(t_data *data)
+{
+	close(data->tube_search[0]);
+	while (data->condition2 != 0)
+	{
+		data->condition2 = read(data->fd1, data->buf, 50);
+		data->buf[data->condition2] = '\0';
+		data->save = ft_strjoin2(data->save, data->buf, data);
+	}
+	close(data->fd1);
+	dup2(data->tube_search[1], 1);
+	printf("%s", data->save);
+	close(data->tube_search[1]);
+}
+
+
 int	search_in_file(t_data *data, int y)
 {
 	pid_t	pid;
-	int		fd;
-	int		condition;
-	char	*buf;
 
-	condition = 1;
-	data->save = gc_malloc(&data->gc, sizeof(char) * 1);
-	data->save[0] = '\0';
-	buf = gc_malloc(&data->gc, sizeof(char) * (50 + 1));
+	init_search_in_file(data);
 	y = y - data->add;
-	while (data->token[y][0] != '<') // norminett while y++
+	while (data->token[y][0] != '<')
 		y++;
-	y++; // norminette y++ apres while
-	fd = open(data->token[y], O_RDONLY);
-	if (fd == -1)
+	y++;
+	data->fd1 = open(data->token[y], O_RDONLY);
+	if (data->fd1 == -1)
 	{
-		search_in_file_error(data);
+		perror(data->token[data->token_y + 2]);
+		data->error = 1;
 		return (-1);
 	}
 	pipe(data->tube_search);
 	pid = fork();
 	if (pid == 0)
 	{
-		close(data->tube_search[0]);
-		while (condition != 0)
-		{
-			condition = read(fd, buf, 50);
-			buf[condition] = '\0';
-			data->save = ft_strjoin2(data->save, buf, data);
-		}
-		close(fd);
-		dup2(data->tube_search[1], 1);
-		printf("%s", data->save);
-		close(data->tube_search[1]);
+		search_in_file1(data);
 		exit(0);
 	}
 	close(data->tube_search[1]);
@@ -296,26 +305,19 @@ void	execute_search_pipe_void(t_data *data, int *fd_pipe)
 		execute_cmd(data, fd_pipe[0]);
 }
 
-void	execute_search_pipe_start(t_data *data, int *fd_pipe)
+void	execute_search_pipe_start2(t_data *data, int *fd_pipe)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		close(fd_pipe[0]);
-		close(data->tube_search[1]);
-		dup2(data->tube_search[0], 0);
-		dup2(fd_pipe[1], 1);
-		execute(data);
-		close(data->tube_search[0]);
-		close(fd_pipe[1]);
-		exit (0);
-	}
-	close(fd_pipe[1]);
+	close(fd_pipe[0]);
 	close(data->tube_search[1]);
-	waitpid(pid, NULL, 0);
+	dup2(data->tube_search[0], 0);
+	dup2(fd_pipe[1], 1);
+	execute(data);
 	close(data->tube_search[0]);
+	close(fd_pipe[1]);
+}
+
+void	execute_search_pipe_start3(t_data *data, int *fd_pipe)
+{
 	while (data->token[data->token_y][0] != '|'
 		&& data->token[data->token_y][0] != '\0')
 	{
@@ -329,6 +331,37 @@ void	execute_search_pipe_start(t_data *data, int *fd_pipe)
 		execute_cmd(data, fd_pipe[0]);
 }
 
+void	execute_search_pipe_start(t_data *data, int *fd_pipe)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		execute_search_pipe_start2(data, fd_pipe);
+		exit (0);
+	}
+	close(fd_pipe[1]);
+	close(data->tube_search[1]);
+	waitpid(pid, NULL, 0);
+	close(data->tube_search[0]);
+	execute_search_pipe_start3(data, fd_pipe);
+}
+
+void	execute_search_pipe_middle1(t_data *data, int *fd_in, int *fd_out)
+{
+	close(fd_in[1]);
+	close(fd_out[0]);
+	close(data->tube_search[1]);
+	dup2(fd_in[0], 0);
+	dup2(fd_out[1], 1);
+	dup2(data->tube_search[0], 0);
+	execute(data);
+	close(data->tube_search[0]);
+	close(fd_in[0]);
+	close(fd_out[1]);
+}
+
 void	execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out)
 {
 	pid_t	pid;
@@ -336,16 +369,7 @@ void	execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd_in[1]);
-		close(fd_out[0]);
-		close(data->tube_search[1]);
-		dup2(fd_in[0], 0);
-		dup2(fd_out[1], 1);
-		dup2(data->tube_search[0], 0);
-		execute(data);
-		close(data->tube_search[0]);
-		close(fd_in[0]);
-		close(fd_out[1]);
+		execute_search_pipe_middle1(data, fd_in, fd_out);
 		exit (0);
 	}
 	close(fd_in[0]);
