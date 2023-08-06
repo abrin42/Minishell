@@ -79,6 +79,7 @@ void	ft_env(t_data *data)
 
 void	ft_exit(t_data *data)
 {
+	free(data->buffer);
 	gc_clean(&data->gc);
 	exit (0);
 }

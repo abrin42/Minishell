@@ -43,6 +43,8 @@ void	handle_signal(int sig, siginfo_t *siginfo, void *context)
 
 	if (sig == EOF)
 	{
+		//rl_done = 1;
+		free(data->buffer);
 		gc_clean(&data->gc);
 		exit (0);
 	}
@@ -74,12 +76,13 @@ void	prompt(t_data *data)
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = handle_signal;
 	sigemptyset(&sa.sa_mask);
-	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
 	data->pipe_not_close = 0;
-	while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
+	while (42)
 	{
+		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);
+		signal(SIGQUIT, SIG_IGN);
+		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
 		while (ft_iswhitespace(data->buffer[0]) == 1)
 			data->buffer++;
 		if (ft_strlen(data->buffer) > 0)
