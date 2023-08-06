@@ -65,6 +65,7 @@ char    *ft_strjoin(char *s1, char *s2, t_data *data);
 char	*ft_strjoin2(char *s1, char *s2, t_data *data);
 char    *ft_strjoin3(char *s1, char *s2, t_data *data, int p);
 int	ft_strcmp(char *s1, char *s2);
+int	ft_strcmp2(char *s1, char *s2);
 int	ft_strcmp_export_var(char *s1, char *s2);
 
 /***********FUNCTION-MALLOC***********/

@@ -77,14 +77,11 @@ char    *ft_strjoin3(char *s1, char *s2, t_data *data, int p)
     str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
     if (str == NULL)
         return (NULL);
-printf("ICI JOIN11111\n");
 	while (data->buffer[p] != '\0' && data->buffer[p] != ' ')
                 p++;
-printf("ICI JOIN222222\n");
     while (data->buffer[p] != '/')
         p--;
 	p++;
-printf("ICI JOIN33333\n");
     i = -1;
     c = 0;
     if (s1)
@@ -119,5 +116,33 @@ int	ft_strcmp(char *s1, char *s2)
 			return (0);
 		}
 	}
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strcmp2(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i])
+	{
+		if (s1[i] != '\0')
+		{
+			if (s2[i] == '\0')
+			{
+				return (s1[i] - s2[i]);
+			}
+			else
+			{
+				i++;
+			}
+		}
+		if (s1[i] == '\0' && s2[i] == '\0')
+		{
+			return (0);
+		}
+	}
+	if (s1[i] == ' ')
+		return (0);
 	return (s1[i] - s2[i]);
 }

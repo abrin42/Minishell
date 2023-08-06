@@ -67,6 +67,8 @@ void    prompt(t_data *data)
 
     while ((data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m")))
     {
+        while(ft_iswhitespace(data->buffer[0]) == 1)
+            data->buffer++;
         if (ft_strlen(data->buffer) > 0)
         {
             if (data->pipe_not_close == 0)

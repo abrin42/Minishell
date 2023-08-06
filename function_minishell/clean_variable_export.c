@@ -30,7 +30,7 @@ char *clean_buffer(t_data *data)
         {
             p = data->i_buffer;
 
-            new = ft_strjoin3("/usr/bin/", data->buffer, data, p);
+            new = ft_strjoin3("/bin/", data->buffer, data, p);
             if (ft_strcmp(data->buffer, new) != 0)
             {
                 free(new);
