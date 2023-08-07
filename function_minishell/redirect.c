@@ -140,8 +140,8 @@ void	execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe)
 		fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (ft_strcmp(data->token[y], ">>") == 0)
 		fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	str = malloc(sizeof(char) * 1000); //REFAIRE MALoc
-	buf_str = read(fd_pipe[0], str, 999);
+	str = malloc(sizeof(char) * 10000);
+	buf_str = read(fd_pipe[0], str, 9999);
 	str[buf_str] = '\0';
 	pid = fork();
 	if (pid == 0)
@@ -197,7 +197,7 @@ void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
 	pid = fork();
 	data->x = y;
 	while (data->token[data->x][0] != '>')
-		data->x++; // check si work (change for norminet x++)
+		data->x++;
 	execute_in_file_pipe_open(data);
 	if (pid == 0)
 	{
@@ -210,7 +210,7 @@ void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
 	waitpid(pid, NULL, 0);
 	close(data->fd);
 	close(fd_pipe[1]);
-	execute_in_file_pipe2(data, fd_pipe); // maybe ladresse
+	execute_in_file_pipe2(data, fd_pipe);
 }
 
 void	execute_search(t_data *data)
@@ -233,7 +233,7 @@ void	execute_search(t_data *data)
 
 void	search_in_file_error(t_data *data)
 {
-	perror(data->token[data->token_y + 2]); // check si message code si erreur
+	perror(data->token[data->token_y + 2]);
 	data->error = 1;
 }
 
@@ -259,7 +259,6 @@ void	search_in_file1(t_data *data)
 	printf("%s", data->save);
 	close(data->tube_search[1]);
 }
-
 
 int	search_in_file(t_data *data, int y)
 {

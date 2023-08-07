@@ -197,7 +197,6 @@ char	*ft_parsing_space_quote(t_data *data)
 			line[j++] = data->token[data->token_y - 1][i++];
 	}
 	line[j] = '\0';
-	//gc_free(&data->gc, (void **)&data->token[data->token_y - 1]);
 	return (line);
 }
 
@@ -282,9 +281,9 @@ void	init_data_token(t_data *data)
 
 void	advance_fill_token_operator(t_data *data)
 {
-			data->token[data->token_y][data->token_x] = data->buffer[data->i];
-			data->token_x++;
-			data->i++;
+	data->token[data->token_y][data->token_x] = data->buffer[data->i];
+	data->token_x++;
+	data->i++;
 }
 
 void	init_count_pipe_redirect(t_data *data)

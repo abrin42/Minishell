@@ -40,12 +40,14 @@ void	malloc_path_bdd1(t_data *data)
 	while (data->count_path > 0)
 	{
 		data->x_bdd = 0;
-		while (data->path_temp[data->i_bdd] != ':' && data->path_temp[data->i_bdd] != '\0')
+		while (data->path_temp[data->i_bdd] != ':'
+			&& data->path_temp[data->i_bdd] != '\0')
 		{
 			data->x_bdd++;
 			data->i_bdd++;
 		}
-		data->path_bdd[data->y_bdd] = gc_malloc(&data->gc, sizeof(char) * (data->x_bdd + 2));
+		data->path_bdd[data->y_bdd] = gc_malloc
+			(&data->gc, sizeof(char) * (data->x_bdd + 2));
 		data->y_bdd++;
 		data->i_bdd++;
 		data->count_path--;
@@ -61,9 +63,11 @@ void	malloc_path_bdd(t_data *data)
 	while (data->count_path > 0)
 	{
 		data->x_bdd = 0;
-		while (data->path_temp[data->i_bdd] != ':' && data->path_temp[data->i_bdd] != '\0')
+		while (data->path_temp[data->i_bdd] != ':'
+			&& data->path_temp[data->i_bdd] != '\0')
 		{
-			data->path_bdd[data->y_bdd][data->x_bdd] = data->path_temp[data->i_bdd];
+			data->path_bdd[data->y_bdd][data->x_bdd] = data->path_temp
+			[data->i_bdd];
 			data->x_bdd++;
 			data->i_bdd++;
 		}

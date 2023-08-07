@@ -34,15 +34,16 @@ void	init_data(t_data *data)
 	data->x = 0;
 	data->buf_str = 0;
 	data->count_pipe2 = 0;
-	data-> count_redirect = 0;
+	data->count_redirect = 0;
 }
 
-void	handle_signal()
+void	handle_signal(int i)
 {
-		rl_replace_line("", 0);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
+	(void) i;
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 int	test_pipe_end(t_data *data)
@@ -57,9 +58,46 @@ int	test_pipe_end(t_data *data)
 	return (0);
 }
 
+void	prompt3(t_data *data)
+{
+	init_data(data);
+	add_history(data->buffer);
+	data->buffer = clean_buffer(data);
+	if (data->simple_quote == 0 && data->double_quote == 0)
+		fill_token(data);
+}
+
+void	prompt2(t_data *data)
+{
+	if (ft_strlen(data->buffer) > 0)
+	{
+		if (data->pipe_not_close == 0)
+			prompt3(data);
+		else
+		{
+			add_history(data->buffer);
+			data->buffer = clean_buffer(data);
+			fill_token(data);
+			data->pipe_not_close--;
+		}
+		if (data->simple_quote != 0 || data->double_quote != 0)
+			printf("A closing quotation mark is missing\n");
+		else if (data->count_pipe2 > 1)
+			printf("Syntax error near unexpected token '|'\n");
+		else if (data->count_redirect > 2)
+			printf("Syntax error near unexpected token '>' or '<'\n");
+		else if (test_pipe_end(data) == 1)
+			data->pipe_not_close++;
+		else
+		{
+			count_pipe(data);
+			start_command(data);
+		}
+	}
+}
+
 void	prompt(t_data *data)
 {
-
 	data->pipe_not_close = 0;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
@@ -67,43 +105,13 @@ void	prompt(t_data *data)
 	{
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
 		if (data->buffer == NULL)
-        {
-            data->exit_requested = 1;
-            break;
-        }
+		{
+			data->exit_requested = 1;
+			break ;
+		}
 		while (ft_iswhitespace(data->buffer[0]) == 1)
 			data->buffer++;
-		if (ft_strlen(data->buffer) > 0)
-		{
-			if (data->pipe_not_close == 0)
-			{
-				init_data(data);
-				add_history(data->buffer);
-				data->buffer = clean_buffer(data);
-				if (data->simple_quote == 0 && data->double_quote == 0)
-					fill_token(data);
-			}
-			else
-			{
-				add_history(data->buffer);
-				data->buffer = clean_buffer(data);
-				fill_token(data);
-				data->pipe_not_close--;
-			}
-			if (data->simple_quote != 0 || data->double_quote != 0)
-				printf("A closing quotation mark is missing\n");
-			else if (data->count_pipe2 > 1)
-				printf("Syntax error near unexpected token '|'\n");
-			else if (data->count_redirect > 2)
-				printf("Syntax error near unexpected token '>' or '<'\n");
-			else if (test_pipe_end(data) == 1)
-				data->pipe_not_close++;
-			else
-			{
-				count_pipe(data);
-				start_command(data);
-			}
-		}
+		prompt2(data);
 	}
 	rl_clear_history();
 	free(data->buffer);

@@ -35,6 +35,7 @@ typedef struct s_data
 	char	**export_var;
 	char	**args;
 	char	*path;
+	char	*str_join;
 	char	*path_temp;
 	char	*buf;
 	char	*new_line;
@@ -74,72 +75,74 @@ typedef struct s_data
 	int		count_redirect;
 	int		exit_requested;
 	t_gcan	gc;
+	size_t	i_join;
+	size_t	c_join;
 }	t_data;
 
 /***********BUILTINS***********/
-void			ft_echo(t_data *data);
-void			ft_pwd(t_data *data);
-void			ft_cd(t_data *data);
-void			ft_env(t_data *data);
-void			ft_export(t_data *data);
-void			ft_unset(t_data *data);
-void			ft_exit(t_data *data);
+void		ft_echo(t_data *data);
+void		ft_pwd(t_data *data);
+void		ft_cd(t_data *data);
+void		ft_env(t_data *data);
+void		ft_export(t_data *data);
+void		ft_unset(t_data *data);
+void		ft_exit(t_data *data);
 
 /***********FUNCTION***********/
-void			ft_putchar(char c);
-void			ft_putstr(char *str);
-void			ft_putstr_error(t_data *data, char *str);
-unsigned int	ft_strlen(char *str);
-int				ft_is_operator(char c);
-int				ft_iswhitespace(char c);
-char			*ft_strjoin(char *s1, char *s2, t_data *data);
-char			*ft_strjoin2(char *s1, char *s2, t_data *data);
-char			*ft_strjoin3(char *s1, char *s2, t_data *data, int p);
-int				ft_strcmp(char *s1, char *s2);
-int				ft_strcmp2(char *s1, char *s2);
-int				ft_strcmp_export_var(char *s1, char *s2);
+void		ft_putchar(char c);
+void		ft_putstr(char *str);
+void		ft_putstr_error(t_data *data, char *str);
+int			ft_strlen(char *str);
+int			ft_is_operator(char c);
+int			ft_iswhitespace(char c);
+char		*ft_strjoin(char *s1, char *s2, t_data *data);
+char		*ft_strjoin2(char *s1, char *s2, t_data *data);
+char		*ft_strjoin3(char *s1, char *s2, t_data *data, int p);
+int			ft_strcmp(char *s1, char *s2);
+int			ft_strcmp2(char *s1, char *s2);
+int			ft_strcmp_export_var(char *s1, char *s2);
 
 /***********FUNCTION-MALLOC***********/
-void			malloc_data(t_data *data);
-void			malloc_path_bdd(t_data *data);
-void			malloc_args(t_data *data);
-void			init_export_var(t_data *data);
-void			init_args(t_data *data);
-int				count_path(char *path_temp);
+void		malloc_data(t_data *data);
+void		malloc_path_bdd(t_data *data);
+void		malloc_args(t_data *data);
+void		init_export_var(t_data *data);
+void		init_args(t_data *data);
+int			count_path(char *path_temp);
 
 /***********CLEAN***********/
-char			*clean_buffer(t_data *data);
-void			clean_var(t_data *data, char *new_line);
-void			clean_token(t_data *data);
-void			fill_token(t_data *data);
-void			count_pipe(t_data *data);
-void			error_open_search(t_data *data, int fd);
+char		*clean_buffer(t_data *data);
+void		clean_var(t_data *data, char *new_line);
+void		clean_token(t_data *data);
+void		fill_token(t_data *data);
+void		count_pipe(t_data *data);
+void		error_open_search(t_data *data, int fd);
 
 /***********COMMAND***********/
-void			start_command(t_data *data);
-int				command_exist(t_data *data);
-void			execute_bultins(t_data *data);
-void			execute_command(t_data *data);
-void			execute_cmd(t_data *data, int fd_pipe);
-void			execute(t_data *data);
-void			pipe_start(t_data *data, int *fd_pipe);
-void			pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
-void			pipe_end(t_data *data, int *fd_pipe);
-void			execute_in_file(t_data *data, int y);
-void			execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
-void			execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
-int				check_redirect(t_data *data);
-int				check_redirect_pipe(t_data *data);
-int				command_exist_redirect(t_data *data, int y);
-void			execute_command_redirect(t_data *data, int y);
+void		start_command(t_data *data);
+int			command_exist(t_data *data);
+void		execute_bultins(t_data *data);
+void		execute_command(t_data *data);
+void		execute_cmd(t_data *data, int fd_pipe);
+void		execute(t_data *data);
+void		pipe_start(t_data *data, int *fd_pipe);
+void		pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
+void		pipe_end(t_data *data, int *fd_pipe);
+void		execute_in_file(t_data *data, int y);
+void		execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
+void		execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
+int			check_redirect(t_data *data);
+int			check_redirect_pipe(t_data *data);
+int			command_exist_redirect(t_data *data, int y);
+void		execute_command_redirect(t_data *data, int y);
 
-int				search_in_file(t_data *data, int y);
-int				check_redirect_inverse(t_data *data);
-void			execute_search(t_data *data);
+int			search_in_file(t_data *data, int y);
+int			check_redirect_inverse(t_data *data);
+void		execute_search(t_data *data);
 
-void			execute_search_pipe_start(t_data *data, int *fd_pipe);
-void			execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out);
-void			execute_search_pipe_end(t_data *data, int *fd_pipe);
-void			execute_search_pipe_void(t_data *data, int *fd_pipe);
+void		execute_search_pipe_start(t_data *data, int *fd_pipe);
+void		execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out);
+void		execute_search_pipe_end(t_data *data, int *fd_pipe);
+void		execute_search_pipe_void(t_data *data, int *fd_pipe);
 
 #endif

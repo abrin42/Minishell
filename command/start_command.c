@@ -30,7 +30,6 @@ int	command_exist_builtin(t_data *data)
 		return (0);
 	else
 		return (-1);
-
 }
 
 int	command_exist(t_data *data)
