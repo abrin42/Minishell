@@ -104,19 +104,3 @@ void	malloc_args(t_data *data)
 	data->args = gc_malloc(&data->gc, sizeof(char *) * (y + 2));
 	y = 0;
 }
-
-void	init_args(t_data *data)
-{
-	int	y;
-	int	i_args;
-
-	i_args = 1;
-	y = data->token_y + 1;
-	data->args[0] = data->path;
-	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
-	{
-		data->args[i_args] = data->token[y];
-		i_args++;
-		y++;
-	}
-}

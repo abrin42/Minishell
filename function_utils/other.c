@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export2.c                                  :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 05:13:21 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 05:13:23 by abrin            ###   ########.fr       */
+/*   Created: 2023/08/07 08:44:15 by abrin             #+#    #+#             */
+/*   Updated: 2023/08/07 08:44:16 by abrin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_export_var(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	data->export_var = malloc(sizeof(char *) * 1000);
-}
-
-int	ft_strcmp_export_var(char *s1, char *s2)
+int	ft_strcmp2(char *s1, char *s2)
 {
 	int	i;
 
@@ -34,42 +26,26 @@ int	ft_strcmp_export_var(char *s1, char *s2)
 			else
 				i++;
 		}
-		if (s1[i] == '\0')
+		if (s1[i] == '\0' && s2[i] == '\0')
 			return (0);
-		else if (s1[i] == '=' && s2[i] == '=')
-			return (1);
 	}
+	if (s1[i] == ' ')
+		return (0);
 	return (s1[i] - s2[i]);
 }
 
-void	reset_var(char *str)
+void	init_args(t_data *data)
 {
-	int	i;
+	int	y;
+	int	i_args;
 
-	i = 0;
-	while (str[i])
+	i_args = 1;
+	y = data->token_y + 1;
+	data->args[0] = data->path;
+	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 	{
-		str[i] = '\0';
-		i++;
+		data->args[i_args] = data->token[y];
+		i_args++;
+		y++;
 	}
-}
-
-int	ft_strcmp_unset(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i])
-	{
-		if (s1[i] != '\0')
-		{
-			if (s2[i] == '\0')
-				return (s1[i] - s2[i]);
-			else
-				i++;
-		}
-	}
-	if (s2[i] == '=' && s1[i] == '\0')
-		return (1);
-	return (s1[i] - s2[i]);
 }

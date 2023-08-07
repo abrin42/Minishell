@@ -79,70 +79,180 @@ typedef struct s_data
 	size_t	c_join;
 }	t_data;
 
-/***********BUILTINS***********/
+/***********MAIN***********************************/
+/*minishell_annexe.c*/
+void		init_data(t_data *data);
+void		handle_signal(int i);
+int			test_pipe_end(t_data *data);
+void		prompt3(t_data *data);
+void		prompt2(t_data *data);
+/**/
+/*minishell.c*/
+void		prompt(t_data *data);
+int			main(int argc, char **argv, char **envp);
+/**/
+/***********BUILTINS***************************/
+/*builtins.c*/
 void		ft_echo(t_data *data);
 void		ft_pwd(t_data *data);
 void		ft_cd(t_data *data);
 void		ft_env(t_data *data);
-void		ft_export(t_data *data);
-void		ft_unset(t_data *data);
 void		ft_exit(t_data *data);
-
-/***********FUNCTION***********/
+/**/
+/*builtins2.c*/
+void		ft_unset(t_data *data);
+/**/
+/*builtin_export.c*/
+void		clean_result_export_var(t_data *data, int i);
+void		tri_export(t_data *data);
+void		tri_export_var(t_data *data);
+void		ft_export2(t_data *data, int i);
+void		ft_export(t_data *data);
+/**/
+/*builtin_export2.c*/
+void		init_export_var(t_data *data);
+int			ft_strcmp_export_var(char *s1, char *s2);
+void		reset_var(char *str);
+int			ft_strcmp_unset(char *s1, char *s2);
+/**/
+/*builtin_export3.c*/
+char		*ft_strdup_special(const char *src);
+void		clean_result_export_var2(t_data *data, int i, int y);
+/**/
+/***********UTILS***************************/
+/*function.c*/
 void		ft_putchar(char c);
 void		ft_putstr(char *str);
-void		ft_putstr_error(t_data *data, char *str);
 int			ft_strlen(char *str);
 int			ft_is_operator(char c);
 int			ft_iswhitespace(char c);
-char		*ft_strjoin(char *s1, char *s2, t_data *data);
+/**/
+/*function2.c*/
+void		ft_putstr_error(t_data *data, char *str);
 char		*ft_strjoin2(char *s1, char *s2, t_data *data);
+char		*ft_strjoin(char *s1, char *s2, t_data *data);
 char		*ft_strjoin3(char *s1, char *s2, t_data *data, int p);
 int			ft_strcmp(char *s1, char *s2);
-int			ft_strcmp2(char *s1, char *s2);
-int			ft_strcmp_export_var(char *s1, char *s2);
-
-/***********FUNCTION-MALLOC***********/
-void		malloc_data(t_data *data);
-void		malloc_path_bdd(t_data *data);
-void		malloc_args(t_data *data);
-void		init_export_var(t_data *data);
-void		init_args(t_data *data);
+/**/
+/*function_malloc.c*/
 int			count_path(char *path_temp);
-
-/***********CLEAN***********/
-char		*clean_buffer(t_data *data);
-void		clean_var(t_data *data, char *new_line);
-void		clean_token(t_data *data);
+void		malloc_path_bdd1(t_data *data);
+void		malloc_path_bdd(t_data *data);
+void		malloc_data(t_data *data);
+void		malloc_args(t_data *data);
+/**/
+/*other.c*/
+int			ft_strcmp2(char *s1, char *s2);
+void		init_args(t_data *data);
+/**/
+/***********TOKEN****************************/
+/*token.c*/
+void		advance_fill_token_operator(t_data *data);
+void		fill_token3(t_data *data);
+void		fill_token2(t_data *data);
+void		init_data_token(t_data *data);
 void		fill_token(t_data *data);
+/**/
+/*token2.c*/
+void		clean_token(t_data *data);
+/**/
+/*token_quote.c*/
+void		fill_token_quote_condition(t_data *data, int i);
+void		fill_token_quote_new_line(t_data *data);
+void		clear_quote(t_data *data, char c);
+char		*ft_parsing_space_quote(t_data *data);
+int			fill_token_quote(t_data *data, int i);
+/**/
+/***********CLEAN********************************/
+/*clen_buffer.c*/
+void		clean_buffer3(t_data *data);
+void		clean_buffer2(t_data *data);
+void		clean_buffer1(t_data *data);
+void		init_clean_buffer(t_data *data);
+char		*clean_buffer(t_data *data);
+/**/
+/*clen_buffer2.c*/
+void		clean_buffer6(t_data *data);
+void		clean_buffer5(t_data *data);
+void		clean_buffer4(t_data *data);
+/**/
+/*count_init.c*/
+int			check_bin(t_data *data);
+void		count_pipe_redirect(t_data *data);
+void		init_count_pipe_redirect(t_data *data);
 void		count_pipe(t_data *data);
-void		error_open_search(t_data *data, int fd);
-
-/***********COMMAND***********/
-void		start_command(t_data *data);
-int			command_exist(t_data *data);
+/**/
+/*clean_variable_export.c*/
+char		*ft_strdup_var(const char *src, int i, t_data *data);
+int			ft_strcmp_var(char *var, char *export_var, t_data *data);
+void		change_by_var(t_data *data, char *new_line, int k);
+void		clean_var(t_data *data, char *new_line);
+/**/
+/***********COMMAND****************************/
+/*start_command.c*/
 void		execute_bultins(t_data *data);
 void		execute_command(t_data *data);
-void		execute_cmd(t_data *data, int fd_pipe);
 void		execute(t_data *data);
+void		execute_cmd(t_data *data, int fd_pipe);
+void		start_command(t_data *data);
+/**/
+/*command_pos.c*/
+void		execute_cmd_start1(t_data *data, int *pipe_in);
+void		execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe);
+void		execute_cmd_end1(t_data *data, int *pipe_in, int *fd_pipe);
+/**/
+/*command_exist.c*/
+int			command_exist_builtin(t_data *data);
+int			command_exist(t_data *data);
+/**/
+/***********COMMAND-REDIR**********************/
+/*redir.c*/
+void		execute_redirect(t_data *data, int y);
+int			command_exist_redirect2(t_data *data, int y);
+void		execute_in_file(t_data *data, int y);
+int			check_redirect(t_data *data);
+int			check_redirect_inverse(t_data *data);
+/**/
+/*redir_in_file_pipe*/
+void		execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
+int			check_redirect_pipe(t_data *data);
+void		execute_in_file_pipe3(t_data *data, int y, int *fd_pipe, int fd);
+void		execute_in_file_pipe2(t_data *data, int *fd_pipe);
+void		execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
+/**/
+/*redir_in_file*/
+void		init_args_redirect(t_data *data, int x);
+int			command_exist_redirect(t_data *data, int y);
+void		execute_in_file_pipe_open(t_data *data);
+void		redirection_in_file(t_data *data, int y);
+void		execute_command_redirect(t_data *data, int y);
+/**/
+/***********COMMAND-SEARCH****************************/
+/*redir_serch.c*/
+void		execute_search(t_data *data);
+void		search_in_file_error(t_data *data);
+void		init_search_in_file(t_data *data);
+void		search_in_file1(t_data *data);
+int			search_in_file(t_data *data, int y);
+/**/
+/*redir_search_start.c*/
+void		execute_search_pipe_start3(t_data *data, int *fd_pipe);
+void		execute_search_pipe_start2(t_data *data, int *fd_pipe);
+void		execute_search_pipe_start(t_data *data, int *fd_pipe);
+/**/
+/*redir_search_pipe.c*/
+void		execute_search_pipe_void(t_data *data, int *fd_pipe);
+void		execute_search_pipe_middle1(t_data *data, int *fd_in, int *fd_out);
+void		execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out);
+void		execute_search_pipe_end(t_data *data, int *fd_pipe);
+/**/
+/***********COMMAND-PIPE**************************/
+/*pipe.c*/
 void		pipe_start(t_data *data, int *fd_pipe);
 void		pipe_middle(t_data *data, int *fd_pipe_in, int *fd_pipe_out);
 void		pipe_end(t_data *data, int *fd_pipe);
-void		execute_in_file(t_data *data, int y);
-void		execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
-void		execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
-int			check_redirect(t_data *data);
-int			check_redirect_pipe(t_data *data);
-int			command_exist_redirect(t_data *data, int y);
-void		execute_command_redirect(t_data *data, int y);
-
-int			search_in_file(t_data *data, int y);
-int			check_redirect_inverse(t_data *data);
-void		execute_search(t_data *data);
-
-void		execute_search_pipe_start(t_data *data, int *fd_pipe);
-void		execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out);
-void		execute_search_pipe_end(t_data *data, int *fd_pipe);
-void		execute_search_pipe_void(t_data *data, int *fd_pipe);
+void		pipe_avance(t_data *data);
+/**/
+/************************************************/
 
 #endif

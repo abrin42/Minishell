@@ -12,51 +12,6 @@
 
 #include "../minishell.h"
 
-int	command_exist_builtin(t_data *data)
-{
-	if (ft_strcmp(data->token[data->token_y], "echo") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "cd") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "pwd") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "env") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "export") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "unset") == 0)
-		return (0);
-	else if (ft_strcmp(data->token[data->token_y], "exit") == 0)
-		return (0);
-	else
-		return (-1);
-}
-
-int	command_exist(t_data *data)
-{
-	if (command_exist_builtin(data) == 0)
-		return (0);
-	else if (data->token[data->token_y][0] == '.' &&
-		data->token[data->token_y][1] == '/')
-	{
-		data->path = "./minishell";
-		return (0);
-	}
-	else
-	{
-		data->count_path = count_path(getenv("PATH"));
-		while (data->count_path > 0)
-		{
-			data->path = ft_strjoin(data->path_bdd[data->count_path - 1],
-					data->token[data->token_y], data);
-			if (access(data->path, X_OK) == 0)
-				return (1);
-			data->count_path--;
-		}
-	}
-	return (-1);
-}
-
 void	execute_bultins(t_data *data)
 {
 	if (ft_strcmp(data->token[data->token_y], "echo") == 0)
@@ -109,56 +64,6 @@ void	execute(t_data *data)
 		ft_exit(data);
 	else
 		execute_command(data);
-}
-
-void	execute_cmd_start1(t_data *data, int *pipe_in)
-{
-	if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0
-			|| command_exist(data) == 1))
-	{
-		data->condition = 0;
-		if (search_in_file(data, data->token_y) != -1)
-			execute_search_pipe_start(data, pipe_in);
-		else
-			execute_search_pipe_void(data, pipe_in);
-	}
-	else
-	{
-		data->condition = 0;
-		pipe_start(data, pipe_in);
-	}
-}
-
-void	execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe)
-{
-	if (check_redirect_pipe(data) == 0)
-		execute_in_file_pipe(data, data->token_y, fd_pipe);
-	else if (check_redirect_inverse(data) == 0
-		&& (command_exist(data) == 0 || command_exist(data) == 1))
-	{
-		if (search_in_file(data, data->token_y) != -1)
-			execute_search_pipe_middle(data, fd_pipe, pipe_in);
-		else
-			execute_search_pipe_void(data, pipe_in);
-	}
-	else
-		pipe_middle(data, fd_pipe, pipe_in);
-}
-
-void	execute_cmd_end1(t_data *data, int *pipe_in, int *fd_pipe)
-{
-	if (check_redirect_pipe(data) == 0)
-		execute_in_file_pipe(data, data->token_y, fd_pipe);
-	else if (check_redirect_inverse(data) == 0
-		&& (command_exist(data) == 0 || command_exist(data) == 1))
-	{
-		if (search_in_file(data, data->token_y) != -1)
-			execute_search_pipe_end(data, fd_pipe);
-		else
-			execute_search_pipe_void(data, pipe_in);
-	}
-	else
-		pipe_end(data, fd_pipe);
 }
 
 void	execute_cmd(t_data *data, int fd_pipe)
