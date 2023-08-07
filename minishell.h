@@ -35,6 +35,7 @@ typedef struct s_data
 	char	**export_var;
 	char	**args;
 	char	*path;
+	char	*path_temp;
 	char	*buf;
 	char	*new_line;
 	char	*var;
@@ -61,6 +62,10 @@ typedef struct s_data
 	int		condition2;
 	int		fd;
 	int		fd1;
+	int		i_bdd;
+	int		x_bdd;
+	int		y_bdd;
+	int		count_bdd;
 	int		x;
 	int		p;
 	int		i;
