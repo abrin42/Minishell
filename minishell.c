@@ -37,24 +37,12 @@ void	init_data(t_data *data)
 	data-> count_redirect = 0;
 }
 
-void	handle_signal(int sig, siginfo_t *siginfo, void *context)
+void	handle_signal()
 {
-	t_data	*data = (t_data *)siginfo->si_value.sival_ptr;
-
-	if (sig == EOF)
-	{
-		//rl_done = 1;
-		free(data->buffer);
-		gc_clean(&data->gc);
-		exit (0);
-	}
-	else
-	{
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
-	}
 }
 
 int	test_pipe_end(t_data *data)
@@ -71,18 +59,18 @@ int	test_pipe_end(t_data *data)
 
 void	prompt(t_data *data)
 {
-	struct sigaction	sa;
 
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = handle_signal;
-	sigemptyset(&sa.sa_mask);
 	data->pipe_not_close = 0;
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
-		sigaction(SIGQUIT, &sa, NULL);
-		sigaction(SIGINT, &sa, NULL);
-		signal(SIGQUIT, SIG_IGN);
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
+		if (data->buffer == NULL)
+        {
+            data->exit_requested = 1;
+            break;
+        }
 		while (ft_iswhitespace(data->buffer[0]) == 1)
 			data->buffer++;
 		if (ft_strlen(data->buffer) > 0)
@@ -117,6 +105,9 @@ void	prompt(t_data *data)
 			}
 		}
 	}
+	rl_clear_history();
+	free(data->buffer);
+	gc_clean(&data->gc);
 }
 
 int	main(int argc, char **argv, char **envp)

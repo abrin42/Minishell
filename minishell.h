@@ -72,6 +72,7 @@ typedef struct s_data
 	int		k;
 	int		count_pipe2;
 	int		count_redirect;
+	int		exit_requested;
 	t_gcan	gc;
 }	t_data;
 
