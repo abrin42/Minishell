@@ -14,20 +14,20 @@
 
 void	execute_cmd_start1(t_data *data, int *pipe_in)
 {
+	data->condition = 0;
 	if (check_redirect_inverse(data) == 0 && (command_exist(data) == 0
 			|| command_exist(data) == 1))
 	{
-		data->condition = 0;
 		if (search_in_file(data, data->token_y) != -1)
 			execute_search_pipe_start(data, pipe_in);
 		else
 			execute_search_pipe_void(data, pipe_in);
 	}
+	else if (check_redirect_inverse(data) == 2 && (command_exist(data) == 0
+			|| command_exist(data) == 1))
+		execute_search_in_pipe(data, pipe_in);
 	else
-	{
-		data->condition = 0;
 		pipe_start(data, pipe_in);
-	}
 }
 
 void	execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe)
@@ -42,6 +42,9 @@ void	execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe)
 		else
 			execute_search_pipe_void(data, pipe_in);
 	}
+	else if (check_redirect_inverse(data) == 2 && (command_exist(data) == 0
+			|| command_exist(data) == 1))
+		execute_search_in_pipe(data, pipe_in);//execute_search_in_pipe_middle(data, fd_pipe, pipe_in);
 	else
 		pipe_middle(data, fd_pipe, pipe_in);
 }
@@ -58,6 +61,9 @@ void	execute_cmd_end1(t_data *data, int *pipe_in, int *fd_pipe)
 		else
 			execute_search_pipe_void(data, pipe_in);
 	}
+	else if (check_redirect_inverse(data) == 2 && (command_exist(data) == 0
+			|| command_exist(data) == 1))
+		execute_search_in_pipe_end(data, pipe_in);
 	else
 		pipe_end(data, fd_pipe);
 }

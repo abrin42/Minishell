@@ -73,7 +73,7 @@ void	execute_cmd(t_data *data, int fd_pipe)
 	pipe(pipe_in);
 	if (data->condition == 1)
 		execute_cmd_start1(data, pipe_in);
-	else if (data->condition == 0 && data->count_pipe > 0)
+	else if (data->count_pipe > 0 && data->condition == 0)
 		execute_cmd_middle1(data, pipe_in, &fd_pipe);
 	else
 		execute_cmd_end1(data, pipe_in, &fd_pipe);
@@ -97,6 +97,11 @@ void	start_command(t_data *data)
 		{
 			if (search_in_file(data, 0) == 0)
 				execute_search(data);
+		}
+		else if (check_redirect_inverse(data) == 2
+			&& (command_exist(data) == 0 || command_exist(data) == 1))
+		{
+			execute_search_in_out(data); // hereeeeeeeeeeeeeeeee
 		}
 		else if (command_exist(data) == 0 || command_exist(data) == 1)
 			execute(data);

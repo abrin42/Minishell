@@ -96,6 +96,10 @@ int	check_redirect_inverse(t_data *data)
 	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 		y++;
 	if (data->token[y][0] == '<')
+	{
+		if (data->token[y][1] == '<')
+			return (2);
 		return (0);
+	}
 	return (1);
 }

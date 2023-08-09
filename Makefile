@@ -33,6 +33,8 @@ SRC	=	minishell.c									\
 		function_minishell/redir_search.c			\
 		function_minishell/redir_search_pipe.c		\
 		function_minishell/redir_search_start.c		\
+		function_minishell/search_in_out.c			\
+		function_minishell/search_in_out_pipe.c		\
 		function_minishell/token.c					\
 		function_minishell/token2.c					\
 		function_minishell/token_quote.c			\

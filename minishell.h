@@ -38,6 +38,7 @@ typedef struct s_data
 	char	*str_join;
 	char	*path_temp;
 	char	*buf;
+	char	buffer_sio[2048];
 	char	*new_line;
 	char	*var;
 	char	*save;
@@ -142,6 +143,7 @@ void		malloc_data(t_data *data);
 void		malloc_args(t_data *data);
 /**/
 /*other.c*/
+int			ft_strcmp3(char *s1, char *s2);
 int			ft_strcmp2(char *s1, char *s2);
 void		init_args(t_data *data);
 /**/
@@ -227,7 +229,7 @@ void		execute_in_file_pipe_open(t_data *data);
 void		redirection_in_file(t_data *data, int y);
 void		execute_command_redirect(t_data *data, int y);
 /**/
-/***********COMMAND-SEARCH****************************/
+/***********COMMAND-SEARCH****************************/\
 /*redir_serch.c*/
 void		execute_search(t_data *data);
 void		search_in_file_error(t_data *data);
@@ -246,6 +248,20 @@ void		execute_search_pipe_middle1(t_data *data, int *fd_in, int *fd_out);
 void		execute_search_pipe_middle(t_data *data, int *fd_in, int *fd_out);
 void		execute_search_pipe_end(t_data *data, int *fd_pipe);
 /**/
+/***********COMMAND-SEARCH-IN-OUT****************************/
+/*search_in_out.c*/
+void		clear_buffer_sio(t_data *data);
+void		execute_search_in_out(t_data *data);
+void		execute_command_search_in_out(t_data *data);
+/**/
+
+/*search_in_out_pipe.c*/
+void		execute_search_in_pipe(t_data *data, int *fd_pipe);
+void		execute_search_in_pipe_end(t_data *data, int *fd_pipe);
+void		search_in_avance(t_data *data);
+
+/**/
+
 /***********COMMAND-PIPE**************************/
 /*pipe.c*/
 void		pipe_start(t_data *data, int *fd_pipe);
