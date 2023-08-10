@@ -65,6 +65,10 @@ void	prompt3(t_data *data)
 	data->buffer = clean_buffer(data);
 	if (data->simple_quote == 0 && data->double_quote == 0)
 		fill_token(data);
+	if (data->token[0][0] == '\0' && data->token[1][0] == '|')
+		data->count_pipe2 = 2;
+	else if (data->token[0][0] == '\0' && (data->token[1][0] == '<' || data->token[1][0] == '>'))
+		data->count_redirect = 3;
 }
 
 void	prompt2(t_data *data)
