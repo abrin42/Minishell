@@ -75,6 +75,7 @@ typedef struct s_data
 	int		count_pipe2;
 	int		count_redirect;
 	int		exit_requested;
+	int		quote_fake;
 	t_gcan	gc;
 	size_t	i_join;
 	size_t	c_join;
@@ -143,6 +144,7 @@ void		malloc_data(t_data *data);
 void		malloc_args(t_data *data);
 /**/
 /*other.c*/
+int			ft_isprint(int c);
 int			ft_strcmp3(char *s1, char *s2);
 int			ft_strcmp2(char *s1, char *s2);
 void		init_args(t_data *data);
@@ -251,7 +253,7 @@ void		execute_search_pipe_end(t_data *data, int *fd_pipe);
 /***********COMMAND-SEARCH-IN-OUT****************************/
 /*search_in_out.c*/
 void		clear_buffer_sio(t_data *data);
-void		execute_search_in_out(t_data *data);
+//void		execute_search_in_out(t_data *data);
 void		execute_command_search_in_out(t_data *data);
 /**/
 

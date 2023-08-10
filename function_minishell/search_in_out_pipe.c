@@ -130,7 +130,7 @@ void		execute_search_in_pipe(t_data *data, int *fd_pipe)
 		dup2(fd_pipe[1], 1);
 		malloc_args(data);
 		init_args(data);
-		execve(data->path, data->args, data->env);
+		execute(data);
 		close(pipe_sio[0]);
 		close(fd_pipe[1]);
 		exit(0);
@@ -191,7 +191,7 @@ void		execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 		//dup2(fd_pipe[1], 1);
 		malloc_args(data);
 		init_args(data);
-		execve(data->path, data->args, data->env);
+		execute(data);
 		close(pipe_sio[0]);
 		close(fd_pipe[1]);
 		exit(0);

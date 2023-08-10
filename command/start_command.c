@@ -100,9 +100,7 @@ void	start_command(t_data *data)
 		}
 		else if (check_redirect_inverse(data) == 2
 			&& (command_exist(data) == 0 || command_exist(data) == 1))
-		{
-			execute_search_in_out(data); // hereeeeeeeeeeeeeeeee
-		}
+			execute_command_search_in_out(data);
 		else if (command_exist(data) == 0 || command_exist(data) == 1)
 			execute(data);
 		else

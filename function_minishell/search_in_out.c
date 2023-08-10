@@ -67,7 +67,7 @@ void	execute_command_search_in_out(t_data *data)
 		dup2(pipe_sio[0], 0);
 		malloc_args(data);
 		init_args(data);
-		execve(data->path, data->args, data->env);
+		execute(data);
 		close(pipe_sio[0]);
 		exit(0);
 	}
@@ -75,7 +75,7 @@ void	execute_command_search_in_out(t_data *data)
 	close(pipe_sio[0]);
 	waitpid(pid2, NULL, 0);
 }
-
+/*
 void	execute_search_in_out(t_data *data)
 {
 	//printf("hereee11\n");
@@ -95,4 +95,4 @@ void	execute_search_in_out(t_data *data)
 		ft_exit(data);
 	else
 		execute_command_search_in_out(data);
-}
+}*/

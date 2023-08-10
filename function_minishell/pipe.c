@@ -29,6 +29,7 @@ void	pipe_start(t_data *data, int *fd_pipe)
 			execute(data);
 		else
 			ft_putstr_error(data, data->token[data->token_y]);
+		close(fd_pipe[1]);
 		exit(0);
 	}
 	close(fd_pipe[1]);
@@ -76,9 +77,11 @@ void	pipe_end(t_data *data, int *fd_pipe)
 		dup2(fd_pipe[0], STDIN_FILENO);
 		if (command_exist(data) == 0 || command_exist(data) == 1)
 			execute(data);
+		close(fd_pipe[0]);
 		exit(0);
 	}
 	close(fd_pipe[0]);
+	close(fd_pipe[1]);
 	waitpid(pid, &status_pid, 0);
 	if (command_exist(data) == -1)
 		ft_putstr_error(data, data->token[data->token_y]);

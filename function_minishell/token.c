@@ -30,11 +30,15 @@ void	fill_token3(t_data *data)
 void	fill_token2(t_data *data)
 {
 	if (data->buffer[data->i] == '\'' || data->buffer[data->i] == '"')
+	{
 		data->i = fill_token_quote(data, data->i);
+	}
 	while (!ft_is_operator(data->buffer[data->i])
 		&& !ft_iswhitespace(data->buffer[data->i])
 		&& data->buffer[data->i] != '\0')
 	{
+		if (data->buffer[data->i] == '\'' || data->buffer[data->i] == '"')
+			data->i = fill_token_quote(data, data->i);
 		data->token[data->token_y][data->token_x] = data->buffer[data->i];
 		data->token_x++;
 		data->i++;
@@ -66,6 +70,7 @@ void	fill_token(t_data *data)
 		if (data->buffer[data->i] == '\0')
 			return ;
 		fill_token_quote_new_line(data);
+
 		if (data->buffer[data->i] == '\'' || data->buffer[data->i] == '"')
 			data->i = fill_token_quote(data, data->i);
 		init_count_pipe_redirect(data);

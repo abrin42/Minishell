@@ -91,6 +91,11 @@ void	prompt2(t_data *data)
 		else
 		{
 			count_pipe(data);
+			for (size_t i = 0; i < 6; i++)
+			{
+				printf("token *%s*\n", data->token[i]);
+			}
+
 			start_command(data);
 		}
 	}
