@@ -12,6 +12,7 @@
 
 SRC	=	minishell.c									\
 		minishell_annexe.c							\
+		other.c										\
 		command/start_command.c						\
 		command/command_exist.c						\
 		command/command_pos.c						\
@@ -35,6 +36,7 @@ SRC	=	minishell.c									\
 		function_minishell/redir_search_start.c		\
 		function_minishell/search_in_out.c			\
 		function_minishell/search_in_out_pipe.c		\
+		function_minishell/search_in_out_pipe2.c	\
 		function_minishell/token.c					\
 		function_minishell/token2.c					\
 		function_minishell/token_quote.c			\

@@ -86,32 +86,11 @@ void	start_command(t_data *data)
 	data->condition = 1;
 	if (malloc_path_bdd(data) == 1)
 	{
-		data->error = 127;
-		printf("%s: command not found\n", data->token[data->token_y]);
+		error_127(data);
 		return ;
 	}
 	if (data->count_pipe > 0)
 		execute_cmd(data, 0);
 	else
-	{
-		if (check_redirect(data) == 0 && (command_exist(data) == 0
-				|| command_exist(data) == 1))
-			execute_in_file(data, data->token_y);
-		else if (check_redirect_inverse(data) == 0
-			&& (command_exist(data) == 0 || command_exist(data) == 1))
-		{
-			if (search_in_file(data, 0) == 0)
-				execute_search(data);
-		}
-		else if (check_redirect_inverse(data) == 2
-			&& (command_exist(data) == 0 || command_exist(data) == 1))
-			execute_command_search_in_out(data);
-		else if (command_exist(data) == 0 || command_exist(data) == 1)
-			execute(data);
-		else
-		{
-			data->error = 127;
-			printf("%s: command not found\n", data->token[data->token_y]);
-		}
-	}
+		cmd_solo(data);
 }

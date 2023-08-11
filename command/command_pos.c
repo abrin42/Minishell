@@ -44,7 +44,7 @@ void	execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe)
 	}
 	else if (check_redirect_inverse(data) == 2 && (command_exist(data) == 0
 			|| command_exist(data) == 1))
-		execute_search_in_pipe(data, pipe_in);//execute_search_in_pipe_middle(data, fd_pipe, pipe_in);
+		execute_search_in_pipe(data, pipe_in);
 	else
 		pipe_middle(data, fd_pipe, pipe_in);
 }

@@ -86,5 +86,5 @@ void	ft_env(t_data *data)
 
 void	ft_exit(t_data *data)
 {
-	exit (0);
+	data->buffer = NULL;
 }

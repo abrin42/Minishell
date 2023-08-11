@@ -17,7 +17,7 @@ void	init_export_var(t_data *data)
 	int	i;
 
 	i = 0;
-	data->export_var = malloc(sizeof(char *) * 1000);
+	data->export_var = gc_malloc(&data->gc, sizeof(char *) * 1000);
 }
 
 int	ft_strcmp_export_var(char *s1, char *s2)

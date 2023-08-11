@@ -93,6 +93,9 @@ void		prompt2(t_data *data);
 void		prompt(t_data *data);
 int			main(int argc, char **argv, char **envp);
 /**/
+/*other.c*/
+void		other_prompt2(t_data *data);
+/**/
 /***********BUILTINS***************************/
 /*builtins.c*/
 void		ft_echo(t_data *data);
@@ -176,7 +179,6 @@ void		init_clean_buffer(t_data *data);
 char		*clean_buffer(t_data *data);
 /**/
 /*clen_buffer2.c*/
-void		clean_buffer6(t_data *data);
 void		clean_buffer5(t_data *data);
 void		clean_buffer4(t_data *data);
 /**/
@@ -206,6 +208,8 @@ void		execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe);
 void		execute_cmd_end1(t_data *data, int *pipe_in, int *fd_pipe);
 /**/
 /*command_exist.c*/
+void		cmd_solo(t_data *data);
+void		error_127(t_data *data);
 int			command_exist_builtin(t_data *data);
 int			command_exist(t_data *data);
 /**/
@@ -231,7 +235,7 @@ void		execute_in_file_pipe_open(t_data *data);
 void		redirection_in_file(t_data *data, int y);
 void		execute_command_redirect(t_data *data, int y);
 /**/
-/***********COMMAND-SEARCH****************************/\
+/***********COMMAND-SEARCH****************************/
 /*redir_serch.c*/
 void		execute_search(t_data *data);
 void		search_in_file_error(t_data *data);
@@ -253,15 +257,20 @@ void		execute_search_pipe_end(t_data *data, int *fd_pipe);
 /***********COMMAND-SEARCH-IN-OUT****************************/
 /*search_in_out.c*/
 void		clear_buffer_sio(t_data *data);
-//void		execute_search_in_out(t_data *data);
+void		promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read);
+void		dup2_search_in_out(t_data *data, int *pipe_sio);
 void		execute_command_search_in_out(t_data *data);
 /**/
 
 /*search_in_out_pipe.c*/
 void		execute_search_in_pipe(t_data *data, int *fd_pipe);
 void		execute_search_in_pipe_end(t_data *data, int *fd_pipe);
+void		error_search_in_pipe(t_data *data);
+void		dup2_search_in_pipe(t_data	*data, int *pipe_sio, int *fd_pipe);
 void		search_in_avance(t_data *data);
-
+/**/
+/*search_in_out_pipe2.c*/
+void		dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe);
 /**/
 
 /***********COMMAND-PIPE**************************/

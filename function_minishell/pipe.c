@@ -100,5 +100,4 @@ void	pipe_avance(t_data *data)
 	data->token_y++;
 	data->add++;
 	data->count_pipe--;
-	//printf("token %s\n",data->token[data->token_y]);
 }

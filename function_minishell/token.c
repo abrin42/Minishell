@@ -70,7 +70,6 @@ void	fill_token(t_data *data)
 		if (data->buffer[data->i] == '\0')
 			return ;
 		fill_token_quote_new_line(data);
-
 		if (data->buffer[data->i] == '\'' || data->buffer[data->i] == '"')
 			data->i = fill_token_quote(data, data->i);
 		init_count_pipe_redirect(data);

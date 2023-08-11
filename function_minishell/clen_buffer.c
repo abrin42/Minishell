@@ -88,7 +88,6 @@ char	*clean_buffer(t_data *data)
 			clean_buffer1(data);
 		}
 		clean_buffer5(data);
-		//clean_buffer6(data);
 	}
 	data->new_line[data->i_new_line] = '\0';
 	return (data->new_line);

@@ -19,6 +19,8 @@ void	prompt(t_data *data)
 	signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
+		if (data->buffer == NULL)
+			break ;
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
 		if (data->buffer == NULL)
 			break ;

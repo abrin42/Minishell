@@ -63,14 +63,14 @@ int	prompt3(t_data *data)
 	init_data(data);
 	add_history(data->buffer);
 	data->buffer = clean_buffer(data);
-	printf("BUFFER FINAL ==%s==\n",data->buffer);
 	if (data->buffer[0] == ' ' || data->buffer[0] == '\0')
 		return (1);
 	if (data->simple_quote == 0 && data->double_quote == 0)
 		fill_token(data);
 	if (data->token[0][0] == '\0' && data->token[1][0] == '|')
 		data->count_pipe2 = 2;
-	else if (data->token[0][0] == '\0' && (data->token[1][0] == '<' || data->token[1][0] == '>'))
+	else if (data->token[0][0] == '\0' && (data->token[1][0] == '<'
+		|| data->token[1][0] == '>'))
 		data->count_redirect = 3;
 	return (0);
 }
@@ -85,12 +85,7 @@ void	prompt2(t_data *data)
 				return ;
 		}
 		else
-		{
-			add_history(data->buffer);
-			data->buffer = clean_buffer(data);
-			fill_token(data);
-			data->pipe_not_close--;
-		}
+			other_prompt2(data);
 		if (data->simple_quote != 0 || data->double_quote != 0)
 			printf("A closing quotation mark is missing\n");
 		else if (data->count_pipe2 > 1)
