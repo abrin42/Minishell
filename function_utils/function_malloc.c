@@ -35,6 +35,8 @@ void	malloc_path_bdd1(t_data *data)
 	data->x_bdd = 0;
 	data->y_bdd = 0;
 	data->path_temp = getenv("PATH");
+	if (data->path_temp == NULL)
+		return ;
 	data->count_path = count_path(data->path_temp);
 	data->path_bdd = gc_malloc(&data->gc, sizeof(char *) * data->count_path);
 	while (data->count_path > 0)
@@ -54,9 +56,11 @@ void	malloc_path_bdd1(t_data *data)
 	}
 }
 
-void	malloc_path_bdd(t_data *data)
+int	malloc_path_bdd(t_data *data)
 {
 	malloc_path_bdd1(data);
+	if (data->path_temp == NULL)
+		return (1);
 	data->count_path = count_path(data->path_temp);
 	data->y_bdd = 0;
 	data->i_bdd = 0;
@@ -77,6 +81,7 @@ void	malloc_path_bdd(t_data *data)
 		data->i_bdd++;
 		data->count_path--;
 	}
+	return (0);
 }
 
 void	malloc_data(t_data *data)

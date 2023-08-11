@@ -17,6 +17,17 @@ void	ft_unset(t_data *data)
 	int	i;
 
 	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strcmp_unset(data->token[data->token_y + 1],
+				data->env[i]) == 1)
+		{
+			reset_var(data->env[i]);
+			return ;
+		}
+		i++;
+	}
+	i = 0;
 	while (data->export_var[i])
 	{
 		if (ft_strcmp_unset(data->token[data->token_y + 1],

@@ -84,7 +84,12 @@ void	start_command(t_data *data)
 	data->token_x = 0;
 	data->token_y = 0;
 	data->condition = 1;
-	malloc_path_bdd(data);
+	if (malloc_path_bdd(data) == 1)
+	{
+		data->error = 127;
+		printf("%s: command not found\n", data->token[data->token_y]);
+		return ;
+	}
 	if (data->count_pipe > 0)
 		execute_cmd(data, 0);
 	else

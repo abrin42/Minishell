@@ -21,10 +21,7 @@ void	prompt(t_data *data)
 	{
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
 		if (data->buffer == NULL)
-		{
-			data->exit_requested = 1;
 			break ;
-		}
 		while (ft_iswhitespace(data->buffer[0]) == 1)
 			data->buffer++;
 		prompt2(data);

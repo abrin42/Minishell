@@ -58,17 +58,21 @@ int	test_pipe_end(t_data *data)
 	return (0);
 }
 
-void	prompt3(t_data *data)
+int	prompt3(t_data *data)
 {
 	init_data(data);
 	add_history(data->buffer);
 	data->buffer = clean_buffer(data);
+	printf("BUFFER FINAL ==%s==\n",data->buffer);
+	if (data->buffer[0] == ' ' || data->buffer[0] == '\0')
+		return (1);
 	if (data->simple_quote == 0 && data->double_quote == 0)
 		fill_token(data);
 	if (data->token[0][0] == '\0' && data->token[1][0] == '|')
 		data->count_pipe2 = 2;
 	else if (data->token[0][0] == '\0' && (data->token[1][0] == '<' || data->token[1][0] == '>'))
 		data->count_redirect = 3;
+	return (0);
 }
 
 void	prompt2(t_data *data)
@@ -76,7 +80,10 @@ void	prompt2(t_data *data)
 	if (ft_strlen(data->buffer) > 0)
 	{
 		if (data->pipe_not_close == 0)
-			prompt3(data);
+		{
+			if (prompt3(data) == 1)
+				return ;
+		}
 		else
 		{
 			add_history(data->buffer);
@@ -95,11 +102,6 @@ void	prompt2(t_data *data)
 		else
 		{
 			count_pipe(data);
-			for (size_t i = 0; i < 6; i++)
-			{
-				printf("token *%s*\n", data->token[i]);
-			}
-
 			start_command(data);
 		}
 	}

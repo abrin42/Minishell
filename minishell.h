@@ -86,7 +86,7 @@ typedef struct s_data
 void		init_data(t_data *data);
 void		handle_signal(int i);
 int			test_pipe_end(t_data *data);
-void		prompt3(t_data *data);
+int			prompt3(t_data *data);
 void		prompt2(t_data *data);
 /**/
 /*minishell.c*/
@@ -139,7 +139,7 @@ int			ft_strcmp(char *s1, char *s2);
 /*function_malloc.c*/
 int			count_path(char *path_temp);
 void		malloc_path_bdd1(t_data *data);
-void		malloc_path_bdd(t_data *data);
+int			malloc_path_bdd(t_data *data);
 void		malloc_data(t_data *data);
 void		malloc_args(t_data *data);
 /**/

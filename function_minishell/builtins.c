@@ -75,11 +75,16 @@ void	ft_env(t_data *data)
 	i = 0;
 	while (data->env[i])
 		printf("%s\n", data->env[i++]);
+	i = 0;
+	while (data->export_var[i])
+	{
+		if (data->export_var[i][0] != '\0')
+			printf("%s\n", data->export_var[i]);
+		i++;
+	}
 }
 
 void	ft_exit(t_data *data)
 {
-	free(data->buffer);
-	gc_clean(&data->gc);
 	exit (0);
 }
