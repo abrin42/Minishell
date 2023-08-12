@@ -145,12 +145,14 @@ void		malloc_path_bdd1(t_data *data);
 int			malloc_path_bdd(t_data *data);
 void		malloc_data(t_data *data);
 void		malloc_args(t_data *data);
+void		ft_getenv_path(t_data *data);
 /**/
 /*other.c*/
 int			ft_isprint(int c);
 int			ft_strcmp3(char *s1, char *s2);
 int			ft_strcmp2(char *s1, char *s2);
 void		init_args(t_data *data);
+int			ft_atoi(const char *nptr);
 /**/
 /***********TOKEN****************************/
 /*token.c*/

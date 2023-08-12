@@ -29,12 +29,47 @@ int	count_path(char *path_temp)
 	return (count);
 }
 
+void	ft_getenv_path(t_data *data)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (data->export_var[i])
+	{
+		if (ft_strcmp_export_var(data->export_var[i], "PATH=") == 1)
+		{
+			j = 0;
+			while (data->export_var[i][j] != '\0')
+				j++;
+			gc_malloc(&data->gc, sizeof(char) * j);
+			j = 0;
+			while (data->export_var[i][j] != '=')
+				j++;
+			while (data->export_var[i][j] != '\0')
+			{
+				data->path_temp[k] = data->export_var[i][j];
+				k++;
+				j++;
+			}
+			data->path_temp[k] = '\0';
+			return ;
+		}
+		i++;
+	}
+	data->path_temp = NULL;
+}
+
 void	malloc_path_bdd1(t_data *data)
 {
 	data->i_bdd = 0;
 	data->x_bdd = 0;
 	data->y_bdd = 0;
-	data->path_temp = getenv("PATH");
+	//data->path_temp = getenv("PATH");
+	ft_getenv_path(data);
+	printf("PATH TEMP %s\n", data->path_temp);
 	if (data->path_temp == NULL)
 		return ;
 	data->count_path = count_path(data->path_temp);
@@ -59,7 +94,9 @@ void	malloc_path_bdd1(t_data *data)
 int	malloc_path_bdd(t_data *data)
 {
 	malloc_path_bdd1(data);
-	if (data->path_temp == NULL)
+	if (command_exist_builtin(data) == 0)
+		return (0);
+	else if (data->path_temp == NULL)
 		return (1);
 	data->count_path = count_path(data->path_temp);
 	data->y_bdd = 0;

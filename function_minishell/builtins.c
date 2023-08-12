@@ -29,8 +29,8 @@ void	ft_echo(t_data *data)
 		data->error = 0;
 		return ;
 	}
-	while (data->token[data->token_y][0] != '\0'
-		&& !ft_is_operator(data->token[data->token_y][0]))
+	while ((data->token[data->token_y][0] != '\0'
+		&& !ft_is_operator(data->token[data->token_y][0])) || (data->token[data->token_y + 1][0] != '\0' && !ft_is_operator(data->token[data->token_y + 1][0])))
 	{
 		ft_putstr(data->token[data->token_y]);
 		write(1, " ", 1);
@@ -72,9 +72,9 @@ void	ft_env(t_data *data)
 {
 	int	i;
 
-	i = 0;
+	/*i = 0;
 	while (data->env[i])
-		printf("%s\n", data->env[i++]);
+		printf("%s\n", data->env[i++]);*/
 	i = 0;
 	while (data->export_var[i])
 	{
@@ -86,5 +86,11 @@ void	ft_env(t_data *data)
 
 void	ft_exit(t_data *data)
 {
+	if (!ft_is_operator(data->token[data->token_y + 1][0])
+		&& data->token[data->token_y + 2][0] != '\0')
+	{
+		printf("Too many arguments for exit\n");
+		return ;
+	}
 	data->buffer = NULL;
 }

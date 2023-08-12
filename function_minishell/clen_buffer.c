@@ -72,11 +72,26 @@ void	init_clean_buffer(t_data *data)
 	data->double_quote = 0;
 }
 
+void	clean_path_buffer(t_data *data)
+{
+	while (data->buffer[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '\0')
+	{
+		data->new_line[data->i_new_line] = data->buffer[data->i_buffer];
+		data->i_new_line++;
+		data->i_buffer++;
+	}
+
+}
+
 char	*clean_buffer(t_data *data)
 {
 	init_clean_buffer(data);
 	while (data->i_buffer < ft_strlen(data->buffer))
 	{
+		if (data->buffer[data->i_buffer] == 'P' && data->buffer[data->i_buffer + 1] == 'A' && data->buffer[data->i_buffer + 2] == 'T' && data->buffer[data->i_buffer + 3] == 'H' && data->buffer[data->i_buffer + 4] == '=')
+		{
+			clean_path_buffer(data);
+		}
 		while (data->buffer[data->i_buffer] == '/'
 			&& data->buffer[data->i_buffer] != '\0'
 			&& ((data->buffer[data->i_buffer] == '/')

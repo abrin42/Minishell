@@ -27,7 +27,10 @@ void	cmd_solo(t_data *data)
 		&& (command_exist(data) == 0 || command_exist(data) == 1))
 		execute_command_search_in_out(data);
 	else if (command_exist(data) == 0 || command_exist(data) == 1)
-		execute(data);
+	{
+	printf("ICI CMD SOLO\n");
+	execute(data);
+	}
 	else
 		error_127(data);
 }
@@ -70,7 +73,8 @@ int	command_exist(t_data *data)
 	}
 	else
 	{
-		data->count_path = count_path(getenv("PATH"));
+		ft_getenv_path(data);
+		data->count_path = count_path(data->path_temp);
 		while (data->count_path > 0)
 		{
 			data->path = ft_strjoin(data->path_bdd[data->count_path - 1],

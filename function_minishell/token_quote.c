@@ -46,19 +46,19 @@ char	*ft_parsing_space_quote(t_data *data)
 	char	*line;
 
 	line = gc_malloc(&data->gc, sizeof(char) * (ft_strlen
-				(data->token[data->token_y - 1]) + 1));
+				(data->token[data->token_y]) + 1));
 	i = 0;
 	j = 0;
-	while (data->token[data->token_y - 1][i] == ' ')
+	while (data->token[data->token_y][i] == ' ')
 		i++;
-	while (data->token[data->token_y - 1][i])
+	while (data->token[data->token_y][i])
 	{
-		if ((data->token[data->token_y - 1][i] == ' ' && data->token
-			[data->token_y - 1][i + 1] == ' ') || (data->token[data->token_y
-			- 1][i] == ' ' && data->token[data->token_y - 1][i + 1] == '\0'))
+		if ((data->token[data->token_y][i] == ' ' && data->token
+			[data->token_y][i + 1] == ' ') || (data->token[data->token_y
+			- 1][i] == ' ' && data->token[data->token_y][i + 1] == '\0'))
 			i++;
 		else
-			line[j++] = data->token[data->token_y - 1][i++];
+			line[j++] = data->token[data->token_y][i++];
 	}
 	line[j] = '\0';
 	return (line);
@@ -74,7 +74,6 @@ int	fill_token_quote(t_data *data, int i)
 			data->token[data->token_y][data->token_x++] = data->buffer[i++];
 		data->token[data->token_y][data->token_x] = '\0';
 		i++;
-		fill_token_quote_new_line(data);
 	}
 	else if (data->condition1 == 2)
 	{
@@ -86,8 +85,8 @@ int	fill_token_quote(t_data *data, int i)
 		}
 		data->token[data->token_y][data->token_x] = '\0';
 		i++;
-		fill_token_quote_new_line(data);
 	}
-	data->token[data->token_y - 1] = ft_parsing_space_quote(data);
+	printf("TOKEN -1 ICI ==%s==\n", data->token[data->token_y - 1]);
+	data->token[data->token_y] = ft_parsing_space_quote(data);
 	return (i);
 }

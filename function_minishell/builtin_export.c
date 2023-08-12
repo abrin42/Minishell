@@ -90,11 +90,7 @@ void	tri_export_var(t_data *data)
 
 void	ft_export2(t_data *data, int i)
 {
-	tri_export(data);
 	tri_export_var(data);
-	i = 0;
-	while (data->export[i])
-		printf("declare -x %s\n", data->export[i++]);
 	i = 0;
 	while (data->export_var[i])
 	{

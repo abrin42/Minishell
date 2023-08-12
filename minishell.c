@@ -41,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 	malloc_data(&data);
 	init_data(&data);
 	data.error = 0;
-	init_export_var(&data);
 	data.env = envp;
+	init_export_var(&data);
 	shlvl_str = getenv("SHLVL");
 	shlvl_str[0] += 1;
 	setenv("SHLVL", shlvl_str, 1);

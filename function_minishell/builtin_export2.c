@@ -18,6 +18,11 @@ void	init_export_var(t_data *data)
 
 	i = 0;
 	data->export_var = gc_malloc(&data->gc, sizeof(char *) * 1000);
+	while (data->env[i])
+	{
+		data->export_var[i] = data->env[i];
+		i++;
+	}
 }
 
 int	ft_strcmp_export_var(char *s1, char *s2)
@@ -39,7 +44,7 @@ int	ft_strcmp_export_var(char *s1, char *s2)
 		else if (s1[i] == '=' && s2[i] == '=')
 			return (1);
 	}
-	return (s1[i] - s2[i]);
+	return (-1);
 }
 
 void	reset_var(char *str)
