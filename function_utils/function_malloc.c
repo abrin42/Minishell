@@ -94,9 +94,13 @@ int	malloc_path_bdd(t_data *data)
 {
 	malloc_path_bdd1(data);
 	if (command_exist_builtin(data) == 0)
+	{
 		return (0);
+	}
 	else if (data->path_temp == NULL)
+	{
 		return (1);
+	}
 	data->count_path = count_path(data->path_temp);
 	data->y_bdd = 0;
 	data->i_bdd = 0;

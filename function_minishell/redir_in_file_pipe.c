@@ -85,8 +85,12 @@ void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
 		return ;
 	pid = fork();
 	data->x = y;
-	while (data->token[data->x][0] != '>')
+	/*while (data->token[data->x][0] != '>')
+		data->x++;*/
+	while (data->token[data->x][0] != '|' && data->token[data->x][0] != '\0')
 		data->x++;
+	while (data->token[data->x][0] != '>')
+		data->x--;
 	execute_in_file_pipe_open(data);
 	if (pid == 0)
 	{

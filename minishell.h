@@ -138,6 +138,7 @@ char		*ft_strjoin2(char *s1, char *s2, t_data *data);
 char		*ft_strjoin(char *s1, char *s2, t_data *data);
 char		*ft_strjoin3(char *s1, char *s2, t_data *data, int p);
 int			ft_strcmp(char *s1, char *s2);
+int			ft_isalpha_str(char *str);
 /**/
 /*function_malloc.c*/
 int			count_path(char *path_temp);

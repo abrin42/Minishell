@@ -60,6 +60,7 @@ int	command_exist_builtin(t_data *data)
 
 int	command_exist(t_data *data)
 {
+	malloc_path_bdd(data);
 	if (command_exist_builtin(data) == 0)
 		return (0);
 	else if (data->token[data->token_y][0] == '.' &&
@@ -76,6 +77,7 @@ int	command_exist(t_data *data)
 		{
 			data->path = ft_strjoin(data->path_bdd[data->count_path - 1],
 					data->token[data->token_y], data);
+	//printf("PASSE ICI LE PATH ==%s==\n", data->path);
 			if (access(data->path, X_OK) == 0)
 				return (1);
 			data->count_path--;
