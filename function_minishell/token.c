@@ -39,11 +39,16 @@ void	fill_token2(t_data *data)
 	{
 		if (data->buffer[data->i] == '\'' || data->buffer[data->i] == '"')
 			data->i = fill_token_quote(data, data->i);
-		data->token[data->token_y][data->token_x] = data->buffer[data->i];
-		data->token_x++;
-		data->i++;
+		else
+		{
+			data->token[data->token_y][data->token_x] = data->buffer[data->i];
+			//printf("C DE LA BONNE2222 ==%c== et %d\n", data->token[data->token_y][data->token_x], data->token_x);
+			data->token_x++;
+			data->i++;
+		}
 	}
 	data->token[data->token_y][data->token_x] = '\0';
+	printf("C DE LA BONNE ==%s==\n", data->token[data->token_y]);
 	while (ft_iswhitespace(data->buffer[data->i])
 		&& data->buffer[data->i] != '\0')
 		data->i++;

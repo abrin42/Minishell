@@ -24,6 +24,16 @@ void	clear_buffer_sio(t_data *data)
 	}
 }
 
+int	check_in_out(t_data *data)
+{
+	if (!data->token[data->token_y + 2][0])
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	return (0);
+}
+
 void	promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read)
 {
 	while (42)
@@ -70,6 +80,8 @@ void	execute_command_search_in_out(t_data *data)
 	pid_t	pid2;
 	ssize_t	bytes_read;
 
+	if (check_in_out(data) == -1)
+		return ;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)

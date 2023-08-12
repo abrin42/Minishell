@@ -34,7 +34,7 @@ int	command_exist_redirect(t_data *data, int y)
 		return (0);
 	else
 	{
-		//data->count_path = count_path(getenv("PATH"));
+		malloc_path_bdd(data);
 		ft_getenv_path(data);
 		data->count_path = count_path(data->path_temp);
 		while (data->count_path > 0)

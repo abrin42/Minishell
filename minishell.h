@@ -262,6 +262,7 @@ void		execute_search_pipe_end(t_data *data, int *fd_pipe);
 /**/
 /***********COMMAND-SEARCH-IN-OUT****************************/
 /*search_in_out.c*/
+int			check_in_out(t_data *data);
 void		clear_buffer_sio(t_data *data);
 void		promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read);
 void		dup2_search_in_out(t_data *data, int *pipe_sio);

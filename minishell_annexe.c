@@ -63,10 +63,15 @@ int	prompt3(t_data *data)
 	init_data(data);
 	add_history(data->buffer);
 	data->buffer = clean_buffer(data);
+	printf("buffer ==%s== \n",data->buffer);
 	if (data->buffer[0] == ' ' || data->buffer[0] == '\0')
 		return (1);
 	if (data->simple_quote == 0 && data->double_quote == 0)
 		fill_token(data);
+	for (size_t i = 0; i < 5; i++)
+	{
+		printf("token *=%s=* \n",data->token[i]);
+	}
 	if (data->token[0][0] == '\0' && data->token[1][0] == '|')
 		data->count_pipe2 = 2;
 	else if (data->token[0][0] == '\0' && (data->token[1][0] == '<'

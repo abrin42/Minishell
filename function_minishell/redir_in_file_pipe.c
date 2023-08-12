@@ -19,8 +19,12 @@ void	execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe)
 	char	*str;
 	int		buf_str;
 
-	while (data->token[y][0] != '>')
+	/*while (data->token[y][0] != '>')
+		y++;*/
+	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
 		y++;
+	while (data->token[y][0] != '>')
+		y--;
 	if (ft_strcmp(data->token[y], ">") == 0)
 		fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (ft_strcmp(data->token[y], ">>") == 0)

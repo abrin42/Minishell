@@ -54,6 +54,8 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 	pid_t	pid2;
 	ssize_t	bytes_read;
 
+	if (check_in_out(data) == -1)
+		return ;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -83,6 +85,8 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 	pid_t	pid2;
 	ssize_t	bytes_read;
 
+	if (check_in_out(data) == -1)
+		return ;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)

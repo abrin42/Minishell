@@ -56,7 +56,6 @@ void	execute_in_file(t_data *data, int y)
 	pid_t	pid;
 	if (command_exist_redirect(data, y) == -1)
 		return ;
-printf("ICI CHECK Y : %d\n", y);
 	pipe(data->tube_redirect);
 	pid = fork();
 	if (pid == 0)
@@ -75,7 +74,6 @@ printf("ICI CHECK Y : %d\n", y);
 		y++;
 	while (data->token[y][0] != '>')
 		y--;
-printf("ICI CHECK Y : %d\n", y);
 	redirection_in_file(data, y);
 	close(data->tube_redirect[0]);
 }

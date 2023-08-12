@@ -12,35 +12,6 @@
 
 #include "../minishell.h"
 
-/*void	ft_echo(t_data *data)
-{
-	int	condition;
-
-	condition = 0;
-	data->token_y++;
-	ft_echo_n(data);
-	if (ft_strcmp(data->token[data->token_y], "-n") == 0)
-	{
-		condition = 1;
-		data->token_y++;
-	}
-	else if (ft_strcmp(data->token[data->token_y], "$?") == 0)
-	{
-		printf("%d\n", data->error);
-		data->error = 0;
-		return ;
-	}
-	while ((data->token[data->token_y][0] != '\0'
-		&& !ft_is_operator(data->token[data->token_y][0])) || (data->token[data->token_y + 1][0] != '\0' && !ft_is_operator(data->token[data->token_y + 1][0])))
-	{
-		ft_putstr(data->token[data->token_y]);
-		write(1, " ", 1);
-		data->token_y++;
-	}
-	if (condition == 0)
-		write(1, "\n", 1);
-}*/
-
 void    ft_echo(t_data *data)
 {
     int    condition;
@@ -48,7 +19,6 @@ void    ft_echo(t_data *data)
     condition = 0;
     data->token_y++;
     ft_echo_n(data);
-	printf("echo_n %d \n",data->echo_n);
     if (data->echo_n == 0)
         condition = 1;
     else if (ft_strcmp(data->token[data->token_y], "$?") == 0)
@@ -60,7 +30,7 @@ void    ft_echo(t_data *data)
     while ((data->token[data->token_y][0] != '\0'
         && !ft_is_operator(data->token[data->token_y][0]))
             || (data->token[data->token_y + 1][0] != '\0'
-            && !ft_is_operator(data->token[data->token_y + 1][0])))
+            && !ft_is_operator(data->token[data->token_y + 1][0]) && !ft_is_operator(data->token[data->token_y][0])))
     {
         ft_putstr(data->token[data->token_y]);
         write(1, " ", 1);
