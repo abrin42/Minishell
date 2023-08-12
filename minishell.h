@@ -74,8 +74,10 @@ typedef struct s_data
 	int		k;
 	int		count_pipe2;
 	int		count_redirect;
-	int		exit_requested;
 	int		quote_fake;
+	int		echo_n;
+	int		trace_echo;
+	int		i_echo;
 	t_gcan	gc;
 	size_t	i_join;
 	size_t	c_join;
@@ -105,6 +107,7 @@ void		ft_env(t_data *data);
 void		ft_exit(t_data *data);
 /**/
 /*builtins2.c*/
+void		ft_echo_n(t_data *data);
 void		ft_unset(t_data *data);
 /**/
 /*builtin_export.c*/
