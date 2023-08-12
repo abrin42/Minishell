@@ -69,7 +69,6 @@ void	malloc_path_bdd1(t_data *data)
 	data->y_bdd = 0;
 	//data->path_temp = getenv("PATH");
 	ft_getenv_path(data);
-	printf("PATH TEMP %s\n", data->path_temp);
 	if (data->path_temp == NULL)
 		return ;
 	data->count_path = count_path(data->path_temp);

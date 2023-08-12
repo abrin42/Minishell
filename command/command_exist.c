@@ -27,10 +27,7 @@ void	cmd_solo(t_data *data)
 		&& (command_exist(data) == 0 || command_exist(data) == 1))
 		execute_command_search_in_out(data);
 	else if (command_exist(data) == 0 || command_exist(data) == 1)
-	{
-	printf("ICI CMD SOLO\n");
-	execute(data);
-	}
+		execute(data);
 	else
 		error_127(data);
 }

@@ -33,6 +33,27 @@ void	prompt(t_data *data)
 	gc_clean(&data->gc);
 }
 
+void	ft_getenv_shlvl(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (data->export_var[i])
+	{
+		if (ft_strcmp_export_var(data->export_var[i], "SHLVL=") == 1)
+		{
+			j = 0;
+			while (data->export_var[i][j] != '=' && data->export_var[i][j] != '\0')
+				j++;
+			j++;
+			data->export_var[i][j] += 1;
+			return ;
+		}
+		i++;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -43,9 +64,7 @@ int	main(int argc, char **argv, char **envp)
 	data.error = 0;
 	data.env = envp;
 	init_export_var(&data);
-	shlvl_str = getenv("SHLVL");
-	shlvl_str[0] += 1;
-	setenv("SHLVL", shlvl_str, 1);
+	ft_getenv_shlvl(&data);
 	data.export = envp;
 	prompt(&data);
 }

@@ -72,9 +72,6 @@ void	ft_env(t_data *data)
 {
 	int	i;
 
-	/*i = 0;
-	while (data->env[i])
-		printf("%s\n", data->env[i++]);*/
 	i = 0;
 	while (data->export_var[i])
 	{
@@ -92,5 +89,6 @@ void	ft_exit(t_data *data)
 		printf("Too many arguments for exit\n");
 		return ;
 	}
+	printf("exit\n");
 	data->buffer = NULL;
 }
