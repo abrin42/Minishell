@@ -29,6 +29,7 @@ int	check_in_out(t_data *data)
 	if (!data->token[data->token_y + 2][0])
 	{
 		printf("syntax error near unexpected token `newline'\n");
+		data->error = 2;
 		return (-1);
 	}
 	return (0);
