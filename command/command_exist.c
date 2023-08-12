@@ -77,7 +77,6 @@ int	command_exist(t_data *data)
 		{
 			data->path = ft_strjoin(data->path_bdd[data->count_path - 1],
 					data->token[data->token_y], data);
-	//printf("PASSE ICI LE PATH ==%s==\n", data->path);
 			if (access(data->path, X_OK) == 0)
 				return (1);
 			data->count_path--;

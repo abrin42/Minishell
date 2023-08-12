@@ -54,6 +54,7 @@ int	command_exist_redirect2(t_data *data, int y)
 void	execute_in_file(t_data *data, int y)
 {
 	pid_t	pid;
+
 	if (command_exist_redirect(data, y) == -1)
 		return ;
 	pipe(data->tube_redirect);
@@ -67,9 +68,6 @@ void	execute_in_file(t_data *data, int y)
 	}
 	close(data->tube_redirect[1]);
 	waitpid(pid, NULL, 0);
-	/*ANCIENNE VERSION
-	while (data->token[y][0] != '>')
-		y++;*/
 	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
 		y++;
 	while (data->token[y][0] != '>')

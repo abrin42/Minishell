@@ -19,8 +19,6 @@ void	execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe)
 	char	*str;
 	int		buf_str;
 
-	/*while (data->token[y][0] != '>')
-		y++;*/
 	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
 		y++;
 	while (data->token[y][0] != '>')
@@ -89,8 +87,6 @@ void	execute_in_file_pipe(t_data *data, int y, int *fd_pipe)
 		return ;
 	pid = fork();
 	data->x = y;
-	/*while (data->token[data->x][0] != '>')
-		data->x++;*/
 	while (data->token[data->x][0] != '|' && data->token[data->x][0] != '\0')
 		data->x++;
 	while (data->token[data->x][0] != '>')

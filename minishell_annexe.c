@@ -63,7 +63,9 @@ int	prompt3(t_data *data)
 	init_data(data);
 	add_history(data->buffer);
 	data->buffer = clean_buffer(data);
-	if (data->buffer[0] == ' ' || data->buffer[0] == '\0')
+	if (data->buffer[0] == ' ' || data->buffer[0] == '\0'
+		|| ft_strcmp(data->buffer, "\"\"") == 0
+		|| ft_strcmp(data->buffer, "\'\'") == 0)
 		return (1);
 	if (data->simple_quote == 0 && data->double_quote == 0)
 		fill_token(data);

@@ -47,14 +47,18 @@ void	change_by_var(t_data *data, char *new_line, int k)
 {
 	data->i_var = 0;
 	while (data->export_var[k][data->i_var] != '\''
-		&& data->export_var[k][data->i_var] != '"' && data->export_var[k][data->i_var] != '\0' && data->export_var[k][data->i_var] != '=')
+		&& data->export_var[k][data->i_var] != '"'
+		&& data->export_var[k][data->i_var] != '\0'
+		&& data->export_var[k][data->i_var] != '=')
 		data->i_var++;
-	if (data->export_var[k][data->i_var + 1] == '\'' || data->export_var[k][data->i_var + 1] == '"')
+	if (data->export_var[k][data->i_var + 1] == '\''
+		|| data->export_var[k][data->i_var + 1] == '"')
 		data->i_var += 2;
 	else
 		data->i_var++;
 	while (data->export_var[k][data->i_var] != '\''
-		&& data->export_var[k][data->i_var] != '"' && data->export_var[k][data->i_var] != '\0')
+		&& data->export_var[k][data->i_var] != '"'
+		&& data->export_var[k][data->i_var] != '\0')
 		new_line[data->i_new_line++] = data->export_var[k][data->i_var++];
 	while (data->buffer[data->i_buffer] != '\0' && data->buffer
 		[data->i_buffer] != ' ' && data->buffer[data->i_buffer] != '"')

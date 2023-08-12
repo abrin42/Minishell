@@ -49,13 +49,14 @@ char	*ft_parsing_space_quote(t_data *data)
 				(data->token[data->token_y]) + 1));
 	i = 0;
 	j = 0;
-	while (data->token[data->token_y][i] == ' ' && data->token[data->token_y][i] != '\0')
+	while (data->token[data->token_y][i] == ' '
+		&& data->token[data->token_y][i] != '\0')
 		i++;
-	while (data->token[data->token_y][i] && data->token[data->token_y][i] != '\0')
+	while (data->token[data->token_y][i]
+		&& data->token[data->token_y][i] != '\0')
 	{
 		if ((data->token[data->token_y][i] == ' ' && data->token
-			[data->token_y][i + 1] == ' ') /*|| (data->token[data->token_y
-			- 1][i] == ' ' && data->token[data->token_y][i + 1] == '\0')*/)
+			[data->token_y][i + 1] == ' '))
 			i++;
 		else
 			line[j++] = data->token[data->token_y][i++];
@@ -66,7 +67,6 @@ char	*ft_parsing_space_quote(t_data *data)
 
 int	fill_token_quote(t_data *data, int i)
 {
-
 	fill_token_quote_condition(data, i);
 	i++;
 	if (data->condition1 == 1)

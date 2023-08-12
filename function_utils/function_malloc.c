@@ -67,7 +67,6 @@ void	malloc_path_bdd1(t_data *data)
 	data->i_bdd = 0;
 	data->x_bdd = 0;
 	data->y_bdd = 0;
-	//data->path_temp = getenv("PATH");
 	ft_getenv_path(data);
 	if (data->path_temp == NULL)
 		return ;

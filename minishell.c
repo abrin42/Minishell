@@ -31,15 +31,18 @@ void	prompt(t_data *data)
 	rl_clear_history();
 	free(data->buffer);
 	gc_clean(&data->gc);
-	if (ft_strcmp(data->token[data->token_y], "exit") == 0 && data->token[data->token_y + 1][0] != '\0')
+	if (ft_strcmp(data->token[data->token_y], "exit") == 0
+		&& data->token[data->token_y + 1][0] != '\0')
 	{
-		if (ft_isalpha_str(data->token[data->token_y + 1]) == 0 && ft_atoi(data->token[data->token_y + 1]) > 255)
+		if (ft_isalpha_str(data->token[data->token_y + 1]) == 0
+			&& ft_atoi(data->token[data->token_y + 1]) > 255)
 			exit(255);
 		else if (ft_isalpha_str(data->token[data->token_y + 1]) == 0)
 			exit(ft_atoi(data->token[data->token_y + 1]));
 		else
 		{
-			printf("exit: %s: numeric argument required", data->token[data->token_y + 1]);
+			printf("exit: %s: numeric argument required",
+				data->token[data->token_y + 1]);
 			exit(2);
 		}
 	}
@@ -56,7 +59,8 @@ void	ft_getenv_shlvl(t_data *data)
 		if (ft_strcmp_export_var(data->export_var[i], "SHLVL=") == 1)
 		{
 			j = 0;
-			while (data->export_var[i][j] != '=' && data->export_var[i][j] != '\0')
+			while (data->export_var[i][j] != '='
+				&& data->export_var[i][j] != '\0')
 				j++;
 			j++;
 			data->export_var[i][j] += 1;
