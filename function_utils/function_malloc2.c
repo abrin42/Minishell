@@ -21,7 +21,7 @@ void	ft_get_path(t_data *data, int i)
 	k = 0;
 	while (data->export_var[i][j] != '\0')
 		j++;
-	gc_malloc(&data->gc, sizeof(char) * j);
+	data->path_temp = gc_malloc(&data->gc, sizeof(char) * j);
 	j = 0;
 	while (data->export_var[i][j] != '=')
 		j++;
