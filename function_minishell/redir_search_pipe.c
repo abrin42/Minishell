@@ -80,7 +80,6 @@ void	execute_search_pipe_end(t_data *data, int *fd_pipe)
 		close(fd_pipe[1]);
 		close(data->tube_search[1]);
 		dup2(data->tube_search[0], 0);
-		dup2(fd_pipe[0], 0);
 		execute(data);
 		close(data->tube_search[0]);
 		close(fd_pipe[0]);

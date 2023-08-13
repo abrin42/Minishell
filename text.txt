@@ -11,4 +11,5 @@ minishell.h
 minishell.o
 other.c
 other.o
+text.txt
 valgrind_ignore_leaks.txt

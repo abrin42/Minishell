@@ -12,28 +12,6 @@
 
 #include "../minishell.h"
 
-void	clean_buffer3(t_data *data)
-{
-	clear_quote(data, data->buffer[data->i_buffer]);
-	data->new_line[data->i_new_line] = data->buffer[data->i_buffer];
-	data->i_buffer++;
-	data->i_new_line++;
-	while (data->buffer[data->i_buffer] != '"'
-		&& data->buffer[data->i_buffer] != '\0')
-	{
-		if (data->buffer[data->i_buffer] == '$')
-			clean_var(data, data->new_line);
-		else
-			data->new_line[data->i_new_line++]
-				= data->buffer[data->i_buffer++];
-	}
-	if (data->buffer[data->i_buffer] == '"')
-		clear_quote(data, data->buffer[data->i_buffer]);
-	data->new_line[data->i_new_line] = data->buffer[data->i_buffer];
-	data->i_buffer++;
-	data->i_new_line++;
-}
-
 void	clean_buffer2(t_data *data)
 {
 	clear_quote(data, data->buffer[data->i_buffer]);

@@ -69,9 +69,7 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 	pid2 = fork();
 	if (pid2 == 0)
 		dup2_search_in_pipe(data, pipe_sio, fd_pipe);
-	close(pipe_sio[1]);
-	close(pipe_sio[0]);
-	close(fd_pipe[1]);
+	search_in_pipe_close(data, pipe_sio, fd_pipe);
 	waitpid(pid2, NULL, 0);
 	pipe_avance(data);
 	execute_cmd(data, fd_pipe[0]);
@@ -100,9 +98,7 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 	pid2 = fork();
 	if (pid2 == 0)
 		dup2_search_in_pipe_end(data, pipe_sio, fd_pipe);
-	close(pipe_sio[1]);
-	close(pipe_sio[0]);
-	close(fd_pipe[1]);
+	search_in_pipe_close(data, pipe_sio, fd_pipe);
 	close(fd_pipe[0]);
 	waitpid(pid2, NULL, 0);
 	error_search_in_pipe(data);

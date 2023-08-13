@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+void	search_in_pipe_close(t_data *data, int *pipe_sio, int *fd_pipe)
+{
+	close(pipe_sio[1]);
+	close(pipe_sio[0]);
+	close(fd_pipe[1]);
+}
+
 void	dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe)
 {
 	close(pipe_sio[1]);

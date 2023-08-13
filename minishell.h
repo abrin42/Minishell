@@ -110,6 +110,13 @@ void		ft_exit(t_data *data);
 void		ft_echo_n(t_data *data);
 void		ft_unset(t_data *data);
 /**/
+/*builtins3.c*/
+void		ft_echo_n1(t_data *data);
+void		ft_echo_n2(t_data *data);
+void		ft_echo_n_init(t_data *data);
+int			ft_echo_n_if(t_data *data);
+int			ft_echo_n_if2(t_data *data);
+/**/
 /*builtin_export.c*/
 void		clean_result_export_var(t_data *data, int i);
 void		tri_export(t_data *data);
@@ -144,6 +151,13 @@ int			ft_strcmp(char *s1, char *s2);
 /**/
 /*function3.c*/
 int			ft_isalpha_str(char *str);
+int			ft_isprint(int c);
+/**/
+/*function4.c*/
+int			ft_strcmp3(char *s1, char *s2);
+int			ft_strcmp2(char *s1, char *s2);
+void		init_args(t_data *data);
+int			ft_atoi(const char *nptr);
 /**/
 /*function_malloc.c*/
 int			count_path(char *path_temp);
@@ -155,13 +169,6 @@ void		malloc_args(t_data *data);
 /*function_malloc2.c*/
 void		ft_getenv_path(t_data *data);
 void		ft_get_path(t_data *data, int i);
-/**/
-/*other.c*/
-int			ft_isprint(int c);
-int			ft_strcmp3(char *s1, char *s2);
-int			ft_strcmp2(char *s1, char *s2);
-void		init_args(t_data *data);
-int			ft_atoi(const char *nptr);
 /**/
 /***********TOKEN****************************/
 /*token.c*/
@@ -183,16 +190,16 @@ char		*ft_parsing_space_quote(t_data *data);
 int			fill_token_quote(t_data *data, int i);
 /**/
 /***********CLEAN********************************/
-/*clen_buffer.c*/
-void		clean_buffer3(t_data *data);
+/*clean_buffer.c*/
 void		clean_buffer2(t_data *data);
 void		clean_buffer1(t_data *data);
 void		init_clean_buffer(t_data *data);
 char		*clean_buffer(t_data *data);
 /**/
-/*clen_buffer2.c*/
+/*clean_buffer2.c*/
 void		clean_buffer5(t_data *data);
 void		clean_buffer4(t_data *data);
+void		clean_buffer3(t_data *data);
 /**/
 /*count_init.c*/
 int			check_bin(t_data *data);
@@ -283,6 +290,7 @@ void		dup2_search_in_pipe(t_data	*data, int *pipe_sio, int *fd_pipe);
 void		search_in_avance(t_data *data);
 /**/
 /*search_in_out_pipe2.c*/
+void		search_in_pipe_close(t_data *data, int *pipe_sio, int *fd_pipe);
 void		dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe);
 void		check_error(t_data *data);
 /**/

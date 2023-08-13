@@ -12,14 +12,6 @@
 
 #include "../minishell.h"
 
-int	ft_isprint(int c)
-{
-	if (c >= 32 && c <= 126)
-		return (1);
-	else
-		return (0);
-}
-
 int	ft_strcmp3(char *s1, char *s2)
 {
 	int	i;

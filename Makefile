@@ -19,13 +19,14 @@ SRC	=	minishell.c									\
 		function_utils/function.c					\
 		function_utils/function2.c					\
 		function_utils/function3.c					\
+		function_utils/function4.c					\
 		function_utils/function_malloc.c			\
 		function_utils/function_malloc2.c			\
-		function_utils/other.c						\
 		function_minishell/clean_variable_export.c	\
 		function_minishell/count_init.c				\
 		function_minishell/builtins.c				\
 		function_minishell/builtins2.c				\
+		function_minishell/builtins3.c				\
 		function_minishell/builtin_export.c			\
 		function_minishell/builtin_export2.c		\
 		function_minishell/builtin_export3.c		\
@@ -42,8 +43,8 @@ SRC	=	minishell.c									\
 		function_minishell/token.c					\
 		function_minishell/token2.c					\
 		function_minishell/token_quote.c			\
-		function_minishell/clen_buffer.c			\
-		function_minishell/clen_buffer2.c			\
+		function_minishell/clean_buffer.c			\
+		function_minishell/clean_buffer2.c			\
 
 SRC_H = minishell.h
 
