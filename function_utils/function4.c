@@ -90,7 +90,7 @@ int	ft_atoi(const char *nptr)
 	i = 0;
 	sign = 1;
 	result = 0;
-	while (ft_iswhitespace(nptr[i]))
+	while (ft_iswhitespace(nptr[i]) && nptr[i] != '\0')
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
@@ -98,7 +98,7 @@ int	ft_atoi(const char *nptr)
 			sign *= -1;
 		i++;
 	}
-	while (ft_isdigit(nptr[i]))
+	while (ft_isdigit(nptr[i]) && nptr[i] != '\0')
 	{
 		result = result * 10 + nptr[i] - '0';
 		i++;

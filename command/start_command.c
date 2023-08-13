@@ -40,7 +40,7 @@ void	execute_command(t_data *data)
 	{
 		malloc_args(data);
 		init_args(data);
-		execve(data->path, data->args, data->env);
+		execve(data->path, data->args, data->export);
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);

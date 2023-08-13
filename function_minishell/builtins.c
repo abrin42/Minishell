@@ -91,5 +91,6 @@ void	ft_exit(t_data *data)
 		return ;
 	}
 	printf("exit\n");
+	data->i_buffer = 2000000;
 	data->buffer = NULL;
 }

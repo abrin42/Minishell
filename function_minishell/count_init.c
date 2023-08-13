@@ -58,7 +58,7 @@ void	count_pipe(t_data *data)
 
 	i = 0;
 	data->count_pipe = 0;
-	while (data->token[i])
+	while (data->token[i][0] != '\0')
 	{
 		if (data->token[i][0] == '|')
 			data->count_pipe++;
