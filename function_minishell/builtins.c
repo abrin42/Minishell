@@ -45,12 +45,6 @@ void	ft_pwd(t_data *data)
 {
 	char	*pwd;
 
-	if (!ft_is_operator(data->token[data->token_y + 1][0])
-		&& data->token[data->token_y + 1][0] != '\0')
-	{
-		printf("Too many arguments for pwd\n");
-		return ;
-	}
 	pwd = gc_malloc(&data->gc, sizeof(char) * 1024);
 	getcwd(pwd, 1024);
 	ft_putstr(pwd);
@@ -59,14 +53,27 @@ void	ft_pwd(t_data *data)
 
 void	ft_cd(t_data *data)
 {
+	int	error;
+
+	error = 0;
 	data->token_y++;
+	if (data->token[data->token_y][0] == '\0')
+	{
+		printf("Not enough arguments for cd\n");
+		return ;
+	}
 	if (!ft_is_operator(data->token[data->token_y + 1][0])
 		&& data->token[data->token_y + 1][0] != '\0')
 	{
 		printf("Too many arguments for cd\n");
 		return ;
 	}
-	chdir(data->token[data->token_y]);
+	error = chdir(data->token[data->token_y]);
+	if (error == -1)
+	{
+		data->error = 1;
+		printf("cd: %s: No such file or directory\n", data->token[data->token_y]);
+	}
 }
 
 void	ft_env(t_data *data)

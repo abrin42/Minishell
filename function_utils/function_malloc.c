@@ -104,8 +104,13 @@ void	malloc_args(t_data *data)
 	int	y;
 
 	y = 0;
-	while (data->token[y][0] != '\0')
+	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 		y++;
-	data->args = gc_malloc(&data->gc, sizeof(char *) * (y + 2));
+	data->args = gc_malloc(&data->gc, sizeof(char *) * y);
 	y = 0;
+	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
+	{
+		data->args[y] = gc_malloc(&data->gc, sizeof(char *) * 10000);
+		y++;
+	}
 }

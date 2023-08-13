@@ -62,16 +62,24 @@ void	init_args(t_data *data)
 {
 	int	y;
 	int	i_args;
+	int	i;
 
 	i_args = 1;
 	y = data->token_y + 1;
+	i = 0;
 	data->args[0] = data->path;
+	while (i < y)
+	{
+		data->args[i_args] = NULL;
+		i++;
+	}
 	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 	{
 		data->args[i_args] = data->token[y];
 		i_args++;
 		y++;
 	}
+	printf("ICI Y222 : %d\n", y);
 }
 
 int	ft_isdigit(int c)

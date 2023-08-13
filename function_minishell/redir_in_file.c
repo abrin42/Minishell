@@ -59,7 +59,7 @@ void	execute_in_file_pipe_open(t_data *data)
 
 void	redirection_in_file(t_data *data, int y)
 {
-	char	mes[500];
+	char	mes[50000];
 	int		rd_bytes;
 	pid_t	pid;
 	int		status_pid;
@@ -69,7 +69,7 @@ void	redirection_in_file(t_data *data, int y)
 		fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (ft_strcmp(data->token[y], ">>") == 0)
 		fd = open(data->token[y + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	rd_bytes = read(data->tube_redirect[0], mes, 499);
+	rd_bytes = read(data->tube_redirect[0], mes, 49999);
 	mes[rd_bytes] = '\0';
 	pid = fork();
 	if (pid == 0)
