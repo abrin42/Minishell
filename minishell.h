@@ -141,6 +141,8 @@ char		*ft_strjoin2(char *s1, char *s2, t_data *data);
 char		*ft_strjoin(char *s1, char *s2, t_data *data);
 char		*ft_strjoin3(char *s1, char *s2, t_data *data, int p);
 int			ft_strcmp(char *s1, char *s2);
+/**/
+/*function3.c*/
 int			ft_isalpha_str(char *str);
 /**/
 /*function_malloc.c*/
@@ -149,7 +151,10 @@ void		malloc_path_bdd1(t_data *data);
 int			malloc_path_bdd(t_data *data);
 void		malloc_data(t_data *data);
 void		malloc_args(t_data *data);
+/**/
+/*function_malloc2.c*/
 void		ft_getenv_path(t_data *data);
+void		ft_get_path(t_data *data, int i);
 /**/
 /*other.c*/
 int			ft_isprint(int c);
@@ -168,6 +173,7 @@ void		fill_token(t_data *data);
 /**/
 /*token2.c*/
 void		clean_token(t_data *data);
+int			fill_token_quote_condition1(t_data *data, int i);
 /**/
 /*token_quote.c*/
 void		fill_token_quote_condition(t_data *data, int i);
@@ -278,6 +284,7 @@ void		search_in_avance(t_data *data);
 /**/
 /*search_in_out_pipe2.c*/
 void		dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe);
+void		check_error(t_data *data);
 /**/
 
 /***********COMMAND-PIPE**************************/

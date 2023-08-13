@@ -24,3 +24,11 @@ void	dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe)
 	close(fd_pipe[1]);
 	exit(0);
 }
+
+void	check_error(t_data *data)
+{
+	if (command_exist(data) == 0 || command_exist(data) == 1)
+		data->error = 0;
+	else
+		data->error = 130;
+}

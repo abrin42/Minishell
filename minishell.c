@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+void	exit_final(t_data *data)
+{
+	if (ft_strcmp(data->token[data->token_y], "exit") == 0
+		&& data->token[data->token_y + 1][0] != '\0')
+	{
+		if (ft_isalpha_str(data->token[data->token_y + 1]) == 0
+			&& ft_atoi(data->token[data->token_y + 1]) > 255)
+			exit(255);
+		else if (ft_isalpha_str(data->token[data->token_y + 1]) == 0)
+			exit(ft_atoi(data->token[data->token_y + 1]));
+		else
+		{
+			printf("exit: %s: numeric argument required",
+				data->token[data->token_y + 1]);
+			exit(2);
+		}
+	}
+}
+
 void	prompt(t_data *data)
 {
 	data->pipe_not_close = 0;
@@ -31,21 +50,7 @@ void	prompt(t_data *data)
 	rl_clear_history();
 	free(data->buffer);
 	gc_clean(&data->gc);
-	if (ft_strcmp(data->token[data->token_y], "exit") == 0
-		&& data->token[data->token_y + 1][0] != '\0')
-	{
-		if (ft_isalpha_str(data->token[data->token_y + 1]) == 0
-			&& ft_atoi(data->token[data->token_y + 1]) > 255)
-			exit(255);
-		else if (ft_isalpha_str(data->token[data->token_y + 1]) == 0)
-			exit(ft_atoi(data->token[data->token_y + 1]));
-		else
-		{
-			printf("exit: %s: numeric argument required",
-				data->token[data->token_y + 1]);
-			exit(2);
-		}
-	}
+	exit_final(data);
 }
 
 void	ft_getenv_shlvl(t_data *data)

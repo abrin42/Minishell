@@ -1,0 +1,14 @@
+command
+function_minishell
+function_utils
+gc
+Makefile
+minishell
+minishell_annexe.c
+minishell_annexe.o
+minishell.c
+minishell.h
+minishell.o
+other.c
+other.o
+valgrind_ignore_leaks.txt

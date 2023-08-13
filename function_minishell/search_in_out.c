@@ -99,8 +99,5 @@ void	execute_command_search_in_out(t_data *data)
 	close(pipe_sio[1]);
 	close(pipe_sio[0]);
 	waitpid(pid2, NULL, 0);
-	if (command_exist(data) == 0 || command_exist(data) == 1)
-		data->error = 0;
-	else
-		data->error = 130;
+	check_error(data);
 }

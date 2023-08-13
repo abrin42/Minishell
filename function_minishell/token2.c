@@ -24,3 +24,12 @@ void	clean_token(t_data *data)
 		data->token[i++][0] = '\0';
 	}
 }
+
+int	fill_token_quote_condition1(t_data *data, int i)
+{
+	while (data->buffer[i] != '\'')
+		data->token[data->token_y][data->token_x++] = data->buffer[i++];
+	data->token[data->token_y][data->token_x] = '\0';
+	i++;
+	return (i);
+}

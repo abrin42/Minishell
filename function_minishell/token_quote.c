@@ -70,12 +70,7 @@ int	fill_token_quote(t_data *data, int i)
 	fill_token_quote_condition(data, i);
 	i++;
 	if (data->condition1 == 1)
-	{
-		while (data->buffer[i] != '\'')
-			data->token[data->token_y][data->token_x++] = data->buffer[i++];
-		data->token[data->token_y][data->token_x] = '\0';
-		i++;
-	}
+		i = fill_token_quote_condition1(data, i);
 	else if (data->condition1 == 2)
 	{
 		while (data->buffer[i] != '\"')

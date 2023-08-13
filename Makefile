@@ -18,7 +18,9 @@ SRC	=	minishell.c									\
 		command/command_pos.c						\
 		function_utils/function.c					\
 		function_utils/function2.c					\
+		function_utils/function3.c					\
 		function_utils/function_malloc.c			\
+		function_utils/function_malloc2.c			\
 		function_utils/other.c						\
 		function_minishell/clean_variable_export.c	\
 		function_minishell/count_init.c				\
