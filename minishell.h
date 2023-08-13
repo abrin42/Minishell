@@ -111,7 +111,7 @@ void		ft_echo_n(t_data *data);
 void		ft_unset(t_data *data);
 /**/
 /*builtins3.c*/
-void		ft_echo_n1(t_data *data);
+int			ft_echo_n1(t_data *data);
 void		ft_echo_n2(t_data *data);
 void		ft_echo_n_init(t_data *data);
 int			ft_echo_n_if(t_data *data);

@@ -66,11 +66,16 @@ int	command_exist(t_data *data)
 	else if (data->token[data->token_y][0] == '.' &&
 		data->token[data->token_y][1] == '/')
 	{
-		data->path = "./minishell";
+		data->path = data->token[data->token_y];
 		return (0);
 	}
 	else
 	{
+		if (access(data->token[data->token_y], X_OK) == 0)
+		{
+				data->path = data->token[data->token_y];
+				return (1);
+		}
 		ft_getenv_path(data);
 		data->count_path = count_path(data->path_temp);
 		while (data->count_path > 0)

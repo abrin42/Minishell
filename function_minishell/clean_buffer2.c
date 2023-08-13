@@ -30,11 +30,6 @@ void	clean_buffer5(t_data *data)
 		clean_var(data, data->new_line);
 		data->i_buffer++;
 	}
-	else if (data->buffer[data->i_buffer] == '\\')
-	{
-		data->new_line[data->i_new_line++] = ' ';
-		data->i_buffer++;
-	}
 	else
 		data->new_line[data->i_new_line++] = data->buffer[data->i_buffer++];
 }

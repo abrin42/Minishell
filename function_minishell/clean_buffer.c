@@ -74,7 +74,7 @@ char	*clean_buffer(t_data *data)
 		{
 			clean_path_buffer(data);
 		}
-		while (data->buffer[data->i_buffer] == '/'
+		/*while (data->buffer[data->i_buffer] == '/'
 			&& data->buffer[data->i_buffer] != '\0'
 			&& ((data->buffer[data->i_buffer] == '/')
 				&& (data->buffer[data->i_buffer - 1] != '.')))
@@ -83,7 +83,7 @@ char	*clean_buffer(t_data *data)
 			if (check_bin(data) == -1)
 				break ;
 			clean_buffer1(data);
-		}
+		}*/
 		clean_buffer5(data);
 	}
 	data->new_line[data->i_new_line] = '\0';

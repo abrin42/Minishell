@@ -57,6 +57,7 @@ void	prompt(t_data *data)
 	gc_clean(&data->gc);
 	if (error_exit != -1)
 		exit(error_exit);
+	printf("\n");
 }
 
 void	ft_getenv_shlvl(t_data *data)

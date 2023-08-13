@@ -14,16 +14,19 @@
 
 void	ft_echo_n(t_data *data)
 {
+	int n;
+
+	n = 0;
 	ft_echo_n_init(data);
 	while (data->token[data->token_y][0] == '-')
 	{
 		data->i_echo = 1;
 		if (data->token[data->token_y][0] == '-')
 		{
-			ft_echo_n1(data);
+			n = ft_echo_n1(data);
 			if (data->token[data->token_y][data->i_echo] == '\0')
 			{
-				if (ft_echo_n_if(data) == 1)
+				if (ft_echo_n_if(data) == 1 && n != 0)
 					return ;
 			}
 			else

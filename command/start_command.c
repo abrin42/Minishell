@@ -34,7 +34,6 @@ void	execute_command(t_data *data)
 {
 	int		i;
 	pid_t	pid;
-
 	pid = fork();
 	if (pid == 0)
 	{

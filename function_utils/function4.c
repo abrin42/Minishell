@@ -79,7 +79,6 @@ void	init_args(t_data *data)
 		i_args++;
 		y++;
 	}
-	printf("ICI Y222 : %d\n", y);
 }
 
 int	ft_isdigit(int c)

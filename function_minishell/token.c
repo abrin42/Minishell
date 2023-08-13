@@ -41,6 +41,7 @@ void	fill_token2(t_data *data)
 			data->i = fill_token_quote(data, data->i);
 		else
 		{
+
 			data->token[data->token_y][data->token_x] = data->buffer[data->i];
 			data->token_x++;
 			data->i++;

@@ -12,12 +12,21 @@
 
 #include "../minishell.h"
 
-void	ft_echo_n1(t_data *data)
+int    ft_echo_n1(t_data *data)
 {
-	data->trace_echo++;
-	while (data->token[data->token_y][data->i_echo]
-		&& data->token[data->token_y][data->i_echo] == 'n')
+	int n;
+
+	n = 0;
+    data->trace_echo++;
+    while (data->token[data->token_y][data->i_echo]
+        && (data->token[data->token_y][data->i_echo] == 'n'
+        || data->token[data->token_y][data->i_echo] == 92))
+    {
+		if (data->token[data->token_y][data->i_echo] == 'n')
+			n++;
 		data->i_echo++;
+	}
+	return (n);
 }
 
 void	ft_echo_n2(t_data *data)
