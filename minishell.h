@@ -181,6 +181,7 @@ void		fill_token(t_data *data);
 /*token2.c*/
 void		clean_token(t_data *data);
 int			fill_token_quote_condition1(t_data *data, int i);
+int			token_quote_empty(t_data *data, int i);
 /**/
 /*token_quote.c*/
 void		fill_token_quote_condition(t_data *data, int i);
@@ -294,7 +295,6 @@ void		search_in_pipe_close(t_data *data, int *pipe_sio, int *fd_pipe);
 void		dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe);
 void		check_error(t_data *data);
 /**/
-
 /***********COMMAND-PIPE**************************/
 /*pipe.c*/
 void		pipe_start(t_data *data, int *fd_pipe);

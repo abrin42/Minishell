@@ -75,7 +75,7 @@ int	fill_token_quote(t_data *data, int i)
 	{
 		while (data->buffer[i] != '\"')
 		{
-			if (data->buffer[i] == ' ')
+			if (token_quote_empty(data, i) == 1)
 				i++;
 			else
 			{
@@ -87,6 +87,5 @@ int	fill_token_quote(t_data *data, int i)
 		data->token[data->token_y][data->token_x] = '\0';
 		i++;
 	}
-	data->token[data->token_y] = ft_parsing_space_quote(data);
 	return (i);
 }

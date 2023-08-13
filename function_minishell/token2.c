@@ -33,3 +33,14 @@ int	fill_token_quote_condition1(t_data *data, int i)
 	i++;
 	return (i);
 }
+
+int	token_quote_empty(t_data *data, int i)
+{
+	while (data->buffer[i] != '\"')
+	{
+		if (ft_iswhitespace(data->buffer[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
