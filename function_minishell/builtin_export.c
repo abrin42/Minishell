@@ -71,7 +71,7 @@ void	tri_export_var(t_data *data)
 
 	i = 0;
 	y = 0;
-	temp = malloc(sizeof(char) * 1000);
+	temp = gc_malloc(&data->gc ,sizeof(char) * 1000);
 	while (data->export_var[i + 1])
 	{
 		y = i + 1;
@@ -85,7 +85,6 @@ void	tri_export_var(t_data *data)
 		i++;
 	}
 	temp = NULL;
-	free(temp);
 }
 
 void	ft_export2(t_data *data, int i)
@@ -117,7 +116,7 @@ void	ft_export(t_data *data)
 				break ;
 			i++;
 		}
-		data->export_var[i] = ft_strdup_special(data->token[data->token_y + 1]);
+		data->export_var[i] = ft_strdup_special(data->token[data->token_y + 1], data);
 		clean_result_export_var(data, i);
 	}
 	else

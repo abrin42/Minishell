@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_strdup_special(const char *src)
+char	*ft_strdup_special(const char *src, t_data *data)
 {
 	char	*new;
 	int		i;
@@ -20,7 +20,7 @@ char	*ft_strdup_special(const char *src)
 	i = 0;
 	while (src[i])
 		i++;
-	new = malloc(sizeof(char) * (i + 1));
+	new = gc_malloc(&data->gc ,sizeof(char) * (i + 1));
 	if (!new)
 		return (NULL);
 	i = 0;

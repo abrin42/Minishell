@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:35:25 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 19:35:26 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:43:53 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		ft_exit(t_data *data);
 /*builtins2.c*/
 void		ft_echo_n(t_data *data);
 void		ft_unset(t_data *data);
+char		*ft_strdup(const char *s, t_data *data);
 /**/
 /*builtins3.c*/
 int			ft_echo_n1(t_data *data);
@@ -129,13 +130,12 @@ void		ft_export2(t_data *data, int i);
 void		ft_export(t_data *data);
 /**/
 /*builtin_export2.c*/
-void		init_export_var(t_data *data);
 int			ft_strcmp_export_var(char *s1, char *s2);
 void		reset_var(char *str);
 int			ft_strcmp_unset(char *s1, char *s2);
 /**/
 /*builtin_export3.c*/
-char		*ft_strdup_special(const char *src);
+char		*ft_strdup_special(const char *src, t_data *data);
 void		clean_result_export_var2(t_data *data, int i, int y);
 /**/
 /***********UTILS***************************/

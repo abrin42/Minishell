@@ -39,16 +39,14 @@ void	promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read)
 {
 	while (42)
 	{
-		if (condition_error == 1)
-		{
-			condition_error = 0;
-			break ;
-		}
+		condition_error = 43;
 		clear_buffer_sio(data);
 		bytes_read = read(STDIN_FILENO, data->buffer_sio, sizeof
 				(data->buffer_sio));
 		if (ft_strlen(data->buffer_sio) > 0)
 		{
+			signal(SIGINT, handle_signal);
+			signal(SIGQUIT, SIG_IGN);
 			if (data->token[data->token_y + 1][0] == '<'
 				&& data->token[data->token_y + 1][1] == '<')
 			{
@@ -88,6 +86,7 @@ void	execute_command_search_in_out(t_data *data)
 
 	if (check_in_out(data) == -1)
 		return ;
+	condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -98,6 +97,8 @@ void	execute_command_search_in_out(t_data *data)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
+	if (condition_error == 1)
+		return ;
 	pid2 = fork();
 	if (pid2 == 0)
 		dup2_search_in_out(data, pipe_sio);

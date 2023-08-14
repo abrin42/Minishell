@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 05:13:31 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 05:13:32 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:58:56 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_env(t_data *data)
 	i = 0;
 	while (data->export_var[i])
 	{
-		if (data->export_var[i][0] != '\0')
+		if (data->export_var[i])
 			printf("%s\n", data->export_var[i]);
 		i++;
 	}

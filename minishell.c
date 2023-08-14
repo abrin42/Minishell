@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:35:21 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 19:35:23 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:36:58 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,21 @@ void	ft_getenv_shlvl(t_data *data)
 	}
 }
 
+void    init_export_main(char **envp, t_data *data)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = -1;
+    while(envp[i])
+        i++;
+    data->export_var = gc_malloc(&data->gc ,sizeof(char *) * i + 1);
+    while (++j < i)
+        data->export_var[j] = ft_strdup(envp[j], data);
+    data->export_var[j] = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -94,10 +109,8 @@ int	main(int argc, char **argv, char **envp)
 	malloc_data(&data);
 	init_data(&data);
 	data.error = 0;
-	data.env = envp;
-	init_export_var(&data);
+	init_export_main(envp, &data);
 	ft_getenv_shlvl(&data);
-	data.export = envp;
 	data.buffer = NULL;
 	prompt(&data);
 }

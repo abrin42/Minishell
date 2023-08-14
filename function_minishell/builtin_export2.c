@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 05:13:21 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 05:13:23 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 00:43:51 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	init_export_var(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	data->export_var = gc_malloc(&data->gc, sizeof(char *) * 1000);
-	while (data->env[i])
-	{
-		data->export_var[i] = data->env[i];
-		i++;
-	}
-}
 
 int	ft_strcmp_export_var(char *s1, char *s2)
 {

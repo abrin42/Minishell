@@ -56,6 +56,7 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 
 	if (check_in_out(data) == -1)
 		return ;
+	condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -66,6 +67,8 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
+	if (condition_error == 1)
+		return ;
 	pid2 = fork();
 	if (pid2 == 0)
 		dup2_search_in_pipe(data, pipe_sio, fd_pipe);
@@ -85,6 +88,7 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 
 	if (check_in_out(data) == -1)
 		return ;
+	condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -95,6 +99,8 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
+	if (condition_error == 1)
+		return ;
 	pid2 = fork();
 	if (pid2 == 0)
 		dup2_search_in_pipe_end(data, pipe_sio, fd_pipe);

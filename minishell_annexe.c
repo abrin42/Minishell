@@ -37,13 +37,19 @@ void	init_data(t_data *data)
 	data->count_redirect = 0;
 }
 
-void	handle_signal(int i)
+void	handle_signal(int sig)
 {
-	(void) i;
-	rl_replace_line("", 0);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	if (condition_error == 42)
+		condition_error = 1;
+	if (condition_error == 43)
+		exit(0);
+	else
+	{
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 int	test_pipe_end(t_data *data)
