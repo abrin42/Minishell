@@ -68,10 +68,7 @@ void	execute_in_file(t_data *data, int y)
 	}
 	close(data->tube_redirect[1]);
 	waitpid(pid, NULL, 0);
-	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
-		y++;
-	while (data->token[y][0] != '>')
-		y--;
+	y = open_in_file_pipe(data, y);
 	redirection_in_file(data, y);
 	close(data->tube_redirect[0]);
 }

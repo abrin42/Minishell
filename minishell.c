@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
+
+int condition_error = 0;
 
 int	exit_final(t_data *data)
 {
@@ -29,6 +32,7 @@ int	exit_final(t_data *data)
 			return (2);
 		}
 	}
+	printf("\n");
 	return (0);
 }
 
@@ -42,6 +46,7 @@ void	prompt(t_data *data)
 	signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
+		condition_error = 0;
 		if (data->buffer == NULL && data->i_buffer == 2000000)
 			break ;
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
@@ -57,7 +62,6 @@ void	prompt(t_data *data)
 	gc_clean(&data->gc);
 	if (error_exit != -1)
 		exit(error_exit);
-	printf("\n");
 }
 
 void	ft_getenv_shlvl(t_data *data)

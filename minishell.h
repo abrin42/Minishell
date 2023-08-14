@@ -25,6 +25,8 @@
 # include "gc/gc.h"
 # include <errno.h>
 
+extern int condition_error;
+
 typedef struct s_data
 {
 	char	*buffer;
@@ -83,6 +85,7 @@ typedef struct s_data
 	size_t	c_join;
 }	t_data;
 
+
 /***********MAIN***********************************/
 /*minishell_annexe.c*/
 void		init_data(t_data *data);
@@ -94,6 +97,7 @@ void		prompt2(t_data *data);
 /*minishell.c*/
 void		prompt(t_data *data);
 int			main(int argc, char **argv, char **envp);
+void		handle_signal_action(int sig, siginfo_t *siginfo, void *context);
 /**/
 /*other.c*/
 void		other_prompt2(t_data *data);
@@ -158,6 +162,7 @@ int			ft_strcmp3(char *s1, char *s2);
 int			ft_strcmp2(char *s1, char *s2);
 void		init_args(t_data *data);
 int			ft_atoi(const char *nptr);
+int			ft_isdigit(int c);
 /**/
 /*function_malloc.c*/
 int			count_path(char *path_temp);
@@ -242,6 +247,7 @@ int			check_redirect(t_data *data);
 int			check_redirect_inverse(t_data *data);
 /**/
 /*redir_in_file_pipe*/
+int   	 open_in_file_pipe(t_data *data, int y); // mouve
 void		execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
 int			check_redirect_pipe(t_data *data);
 void		execute_in_file_pipe3(t_data *data, int y, int *fd_pipe, int fd);

@@ -6,11 +6,11 @@
 #    By: tmarie <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/16 12:55:50 by tmarie            #+#    #+#              #
-#    Updated: 2023/06/17 18:24:23 by tmarie           ###   ########.fr        #
+#    Updated: 2023/08/14 20:54:50 by tmarie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	minishell.c									\
+SRCS	=	minishell.c									\
 		minishell_annexe.c							\
 		other.c										\
 		command/start_command.c						\
@@ -52,28 +52,26 @@ LIBGCDIR = gc
 LIBGC = libgc.a
 LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
 
-OBJ	=	${SRC:.c=.o}
+OBJS	=	${SRC:.c=.o}
 
 NAME	=	minishell
 
 FLAGS	=	-Wall -Wextra -Werror
-
-FLAGS_PROJECT = -lreadline -g
 
 all : ${NAME}
 
 $(LIBGCDIR)/$(LIBGC):
 	make -C $(LIBGCDIR)
 
-$(NAME) : ${OBJ} $(LIBGCDIR)/$(LIBGC)
-	gcc ${FLAGS} ${OBJ} ${SRC_H} -o ${NAME} $(LIBGCFLAGS) ${FLAGS_PROJECT}
+$(NAME): $(SRCS) $(LIBGCDIR)/$(LIBGC)
+	$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIBGCFLAGS) -lreadline
 
 clean :
-	rm -f ${OBJ}
+	rm -f ${OBJS}
 
 fclean : clean
 	rm -f ${NAME}
-	make -C $(LIBGCDIR) fclean
+	make -C ${LIBGCDIR} fclean
 
 re : fclean all
 

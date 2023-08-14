@@ -39,6 +39,11 @@ void	promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read)
 {
 	while (42)
 	{
+		if (condition_error == 1)
+		{
+			condition_error = 0;
+			break ;
+		}
 		clear_buffer_sio(data);
 		bytes_read = read(STDIN_FILENO, data->buffer_sio, sizeof
 				(data->buffer_sio));

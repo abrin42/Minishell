@@ -64,17 +64,23 @@ int	search_in_file(t_data *data, int y)
 	pid_t	pid;
 
 	init_search_in_file(data);
-	y = y - data->add;
-	while (data->token[y][0] != '<')
-		y++;
-	y++;
-	data->fd1 = open(data->token[y], O_RDONLY);
-	if (data->fd1 == -1)
+	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
 	{
-		perror(data->token[data->token_y + 2]);
-		data->error = 1;
-		return (-1);
+		while (data->token[y][0] != '<' && data->token[y][0] != '|' && data->token[y][0] != '\0')
+			y++;
+		if (data->token[y][0] == '\0' || data->token[y][0] == '|')
+			break ;
+		y++;
+		data->fd1 = open(data->token[y], O_RDONLY);
+		if (data->fd1 == -1)
+		{
+			perror(data->token[data->token_y + 2]);
+			data->error = 1;
+			return (-1);
+		}
 	}
+	while (data->token[y][0] != '<')
+			y--;
 	pipe(data->tube_search);
 	pid = fork();
 	if (pid == 0)

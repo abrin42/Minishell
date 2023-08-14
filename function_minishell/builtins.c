@@ -91,13 +91,13 @@ void	ft_env(t_data *data)
 
 void	ft_exit(t_data *data)
 {
-	if (!ft_is_operator(data->token[data->token_y + 1][0])
+	if (ft_isdigit(data->token[data->token_y + 1][0]) == 1
 		&& data->token[data->token_y + 2][0] != '\0')
 	{
 		printf("Too many arguments for exit\n");
 		return ;
 	}
-	printf("exit\n");
+	printf("exit");
 	data->i_buffer = 2000000;
 	data->buffer = NULL;
 }
