@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 04:57:23 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 04:57:24 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:49:06 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ void	execute_command(t_data *data)
 {
 	int		i;
 	pid_t	pid;
+
 	pid = fork();
 	if (pid == 0)
 	{
 		malloc_args(data);
 		init_args(data);
-		execve(data->path, data->args, data->export);
+		execve(data->path, data->args, data->export_var);
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);

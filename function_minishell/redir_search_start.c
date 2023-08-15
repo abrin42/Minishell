@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   redir_search_start.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 06:46:28 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 06:46:29 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:36:57 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	execute_search(t_data *data)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		close(data->tube_search[1]);
+		dup2(data->tube_search[0], 0);
+		execute(data);
+		close(data->tube_search[0]);
+		exit (0);
+	}
+	close(data->tube_search[1]);
+	waitpid(pid, NULL, 0);
+	close(data->tube_search[0]);
+}
 
 void	execute_search_pipe_start3(t_data *data, int *fd_pipe)
 {

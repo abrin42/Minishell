@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:37:32 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 05:37:34 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 02:25:08 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup_special(const char *src, t_data *data)
 	i = 0;
 	while (src[i])
 		i++;
-	new = gc_malloc(&data->gc ,sizeof(char) * (i + 1));
+	new = gc_malloc(&data->gc, sizeof(char) * (i + 1));
 	if (!new)
 		return (NULL);
 	i = 0;

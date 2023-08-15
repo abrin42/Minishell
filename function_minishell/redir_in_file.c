@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 07:07:56 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 07:07:57 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:52:35 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	execute_command_redirect(t_data *data, int y)
 	{
 		malloc_args(data);
 		init_args_redirect(data, y);
-		execve(data->path, data->args, data->env);
+		execve(data->path, data->args, data->export_var);
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);

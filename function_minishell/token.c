@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:53:53 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 05:53:54 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 02:13:21 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	fill_token2(t_data *data)
 			data->i = fill_token_quote(data, data->i);
 		else
 		{
-
 			data->token[data->token_y][data->token_x] = data->buffer[data->i];
 			data->token_x++;
 			data->i++;

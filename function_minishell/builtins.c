@@ -6,7 +6,7 @@
 /*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 05:13:31 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/15 00:58:56 by tmarie           ###   ########.fr       */
+/*   Updated: 2023/08/15 02:20:39 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	ft_cd(t_data *data)
 	if (error == -1)
 	{
 		data->error = 1;
-		printf("cd: %s: No such file or directory\n", data->token[data->token_y]);
+		printf("cd: %s: No such file or directory\n",
+			data->token[data->token_y]);
 	}
 }
 

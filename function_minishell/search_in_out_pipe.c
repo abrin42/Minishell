@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_in_out_pipe.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 08:30:20 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/08 08:30:21 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:18:09 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 
 	if (check_in_out(data) == -1)
 		return ;
-	condition_error = 42;
+	g_condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -67,16 +67,9 @@ void	execute_search_in_pipe(t_data *data, int *fd_pipe)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
-	if (condition_error == 1)
+	if (g_condition_error == 1)
 		return ;
-	pid2 = fork();
-	if (pid2 == 0)
-		dup2_search_in_pipe(data, pipe_sio, fd_pipe);
-	search_in_pipe_close(data, pipe_sio, fd_pipe);
-	waitpid(pid2, NULL, 0);
-	pipe_avance(data);
-	execute_cmd(data, fd_pipe[0]);
-	error_search_in_pipe(data);
+	srch_pipe2(data, pid2, pipe_sio, fd_pipe);
 }
 
 void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
@@ -88,7 +81,7 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 
 	if (check_in_out(data) == -1)
 		return ;
-	condition_error = 42;
+	g_condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -99,13 +92,7 @@ void	execute_search_in_pipe_end(t_data *data, int *fd_pipe)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
-	if (condition_error == 1)
+	if (g_condition_error == 1)
 		return ;
-	pid2 = fork();
-	if (pid2 == 0)
-		dup2_search_in_pipe_end(data, pipe_sio, fd_pipe);
-	search_in_pipe_close(data, pipe_sio, fd_pipe);
-	close(fd_pipe[0]);
-	waitpid(pid2, NULL, 0);
-	error_search_in_pipe(data);
+	srch_end2(data, pid2, pipe_sio, fd_pipe);
 }

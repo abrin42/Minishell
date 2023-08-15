@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtins3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 17:04:35 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/13 17:04:37 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 02:21:30 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int    ft_echo_n1(t_data *data)
+int	ft_echo_n1(t_data *data)
 {
-	int n;
+	int	n;
 
 	n = 0;
-    data->trace_echo++;
-    while (data->token[data->token_y][data->i_echo]
-        && (data->token[data->token_y][data->i_echo] == 'n'
-        || data->token[data->token_y][data->i_echo] == 92))
-    {
+	data->trace_echo++;
+	while (data->token[data->token_y][data->i_echo]
+		&& (data->token[data->token_y][data->i_echo] == 'n'
+		|| data->token[data->token_y][data->i_echo] == 92))
+	{
 		if (data->token[data->token_y][data->i_echo] == 'n')
 			n++;
 		data->i_echo++;

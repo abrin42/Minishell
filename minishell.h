@@ -6,7 +6,7 @@
 /*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:35:25 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/15 00:43:53 by tmarie           ###   ########.fr       */
+/*   Updated: 2023/08/15 03:59:35 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,13 @@
 # include "gc/gc.h"
 # include <errno.h>
 
-extern int condition_error;
+extern int	g_condition_error;
 
 typedef struct s_data
 {
 	char	*buffer;
 	char	**token;
 	char	**path_bdd;
-	char	**env;
-	char	**export;
 	char	**export_var;
 	char	**args;
 	char	*path;
@@ -85,7 +83,6 @@ typedef struct s_data
 	size_t	c_join;
 }	t_data;
 
-
 /***********MAIN***********************************/
 /*minishell_annexe.c*/
 void		init_data(t_data *data);
@@ -111,6 +108,7 @@ void		ft_env(t_data *data);
 void		ft_exit(t_data *data);
 /**/
 /*builtins2.c*/
+int			ft_echo_n_return(t_data *data);
 void		ft_echo_n(t_data *data);
 void		ft_unset(t_data *data);
 char		*ft_strdup(const char *s, t_data *data);
@@ -124,7 +122,6 @@ int			ft_echo_n_if2(t_data *data);
 /**/
 /*builtin_export.c*/
 void		clean_result_export_var(t_data *data, int i);
-void		tri_export(t_data *data);
 void		tri_export_var(t_data *data);
 void		ft_export2(t_data *data, int i);
 void		ft_export(t_data *data);
@@ -233,6 +230,7 @@ void		execute_cmd_middle1(t_data *data, int *pipe_in, int *fd_pipe);
 void		execute_cmd_end1(t_data *data, int *pipe_in, int *fd_pipe);
 /**/
 /*command_exist.c*/
+int			command_exist2(t_data *data);
 void		cmd_solo(t_data *data);
 void		error_127(t_data *data);
 int			command_exist_builtin(t_data *data);
@@ -247,12 +245,14 @@ int			check_redirect(t_data *data);
 int			check_redirect_inverse(t_data *data);
 /**/
 /*redir_in_file_pipe*/
-int   	 open_in_file_pipe(t_data *data, int y); // mouve
+int			open_in_file_pipe(t_data *data, int y); // mouve
 void		execute_in_file_first_pipe(t_data *data, int y, int *fd_pipe);
-int			check_redirect_pipe(t_data *data);
-void		execute_in_file_pipe3(t_data *data, int y, int *fd_pipe, int fd);
 void		execute_in_file_pipe2(t_data *data, int *fd_pipe);
 void		execute_in_file_pipe(t_data *data, int y, int *fd_pipe);
+/**/
+/*redir_in_file_pipe2*/
+int			check_redirect_pipe(t_data *data);
+void		execute_in_file_pipe3(t_data *data, int y, int *fd_pipe, int fd);
 /**/
 /*redir_in_file*/
 void		init_args_redirect(t_data *data, int x);
@@ -263,13 +263,15 @@ void		execute_command_redirect(t_data *data, int y);
 /**/
 /***********COMMAND-SEARCH****************************/
 /*redir_serch.c*/
-void		execute_search(t_data *data);
 void		search_in_file_error(t_data *data);
 void		init_search_in_file(t_data *data);
 void		search_in_file1(t_data *data);
+void		search_in_file2(t_data *data, int y);
 int			search_in_file(t_data *data, int y);
-/**/
+/***/
+
 /*redir_search_start.c*/
+void		execute_search(t_data *data);
 void		execute_search_pipe_start3(t_data *data, int *fd_pipe);
 void		execute_search_pipe_start2(t_data *data, int *fd_pipe);
 void		execute_search_pipe_start(t_data *data, int *fd_pipe);
@@ -282,13 +284,15 @@ void		execute_search_pipe_end(t_data *data, int *fd_pipe);
 /**/
 /***********COMMAND-SEARCH-IN-OUT****************************/
 /*search_in_out.c*/
-int			check_in_out(t_data *data);
-void		clear_buffer_sio(t_data *data);
-void		promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read);
 void		dup2_search_in_out(t_data *data, int *pipe_sio);
 void		execute_command_search_in_out(t_data *data);
+void		promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read);
 /**/
-
+/*search_in_out2.c*/
+int			check_in_out(t_data *data);
+void		clear_buffer_sio(t_data *data);
+int			promt_in_out_init(t_data *data, ssize_t bytes_read);
+/**/
 /*search_in_out_pipe.c*/
 void		execute_search_in_pipe(t_data *data, int *fd_pipe);
 void		execute_search_in_pipe_end(t_data *data, int *fd_pipe);
@@ -297,6 +301,8 @@ void		dup2_search_in_pipe(t_data	*data, int *pipe_sio, int *fd_pipe);
 void		search_in_avance(t_data *data);
 /**/
 /*search_in_out_pipe2.c*/
+void		srch_pipe2(t_data *data, pid_t pid2, int *pipe_sio, int *fd_pipe);
+void		srch_end2(t_data *data, pid_t pid2, int *pipe_sio, int *fd_pipe);
 void		search_in_pipe_close(t_data *data, int *pipe_sio, int *fd_pipe);
 void		dup2_search_in_pipe_end(t_data *data, int *pipe_sio, int *fd_pipe);
 void		check_error(t_data *data);

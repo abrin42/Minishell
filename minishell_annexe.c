@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_annexe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 08:55:25 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 08:55:26 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 02:17:17 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	init_data(t_data *data)
 
 void	handle_signal(int sig)
 {
-	if (condition_error == 42)
-		condition_error = 1;
-	if (condition_error == 43)
+	if (g_condition_error == 42)
+		g_condition_error = 1;
+	if (g_condition_error == 43)
 		exit(0);
 	else
 	{

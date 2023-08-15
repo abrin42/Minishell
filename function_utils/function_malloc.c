@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:20:04 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 19:20:05 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 01:54:35 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	malloc_args(t_data *data)
 	y = 0;
 	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 		y++;
-	data->args = gc_malloc(&data->gc, sizeof(char *) * y);
+	data->args = gc_malloc(&data->gc, sizeof(char *) * y + 1);
 	y = 0;
 	while (data->token[y][0] != '\0' && !ft_is_operator(data->token[y][0]))
 	{

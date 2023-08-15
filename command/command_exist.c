@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exist.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:25:32 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 05:25:33 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 02:30:53 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ int	command_exist_builtin(t_data *data)
 		return (-1);
 }
 
+int	command_exist2(t_data *data)
+{
+	while (data->count_path > 0)
+	{
+		data->path = ft_strjoin(data->path_bdd[data->count_path - 1],
+				data->token[data->token_y], data);
+		if (access(data->path, X_OK) == 0)
+			return (1);
+		data->count_path--;
+	}
+	return (0);
+}
+
 int	command_exist(t_data *data)
 {
 	malloc_path_bdd(data);
@@ -73,19 +86,13 @@ int	command_exist(t_data *data)
 	{
 		if (access(data->token[data->token_y], X_OK) == 0)
 		{
-				data->path = data->token[data->token_y];
-				return (1);
+			data->path = data->token[data->token_y];
+			return (1);
 		}
 		ft_getenv_path(data);
 		data->count_path = count_path(data->path_temp);
-		while (data->count_path > 0)
-		{
-			data->path = ft_strjoin(data->path_bdd[data->count_path - 1],
-					data->token[data->token_y], data);
-			if (access(data->path, X_OK) == 0)
-				return (1);
-			data->count_path--;
-		}
+		if (command_exist2(data) == 1)
+			return (1);
 	}
 	return (-1);
 }

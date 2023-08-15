@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tmarie <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/16 12:55:50 by tmarie            #+#    #+#              #
-#    Updated: 2023/08/14 20:54:50 by tmarie           ###   ########.fr        #
+#    Updated: 2023/08/15 03:58:47 by tmarie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,12 @@ SRCS	=	minishell.c									\
 		function_minishell/redir.c					\
 		function_minishell/redir_in_file.c			\
 		function_minishell/redir_in_file_pipe.c		\
+		function_minishell/redir_in_file_pipe2.c	\
 		function_minishell/redir_search.c			\
 		function_minishell/redir_search_pipe.c		\
 		function_minishell/redir_search_start.c		\
 		function_minishell/search_in_out.c			\
+		function_minishell/search_in_out2.c			\
 		function_minishell/search_in_out_pipe.c		\
 		function_minishell/search_in_out_pipe2.c	\
 		function_minishell/token.c					\

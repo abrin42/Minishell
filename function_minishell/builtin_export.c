@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 05:10:06 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/06 05:10:09 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:48:46 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,6 @@ void	clean_result_export_var(t_data *data, int i)
 		clean_result_export_var2(data, i, y);
 }
 
-void	tri_export(t_data *data)
-{
-	int		i;
-	int		y;
-	char	*temp;
-
-	i = 0;
-	y = 0;
-	temp = malloc(sizeof(char) * 1000);
-	while (data->export[i + 1])
-	{
-		y = i + 1;
-		if (data->export[i][0] > data->export[y][0])
-		{
-			temp = data->export[i];
-			data->export[i] = data->export[y];
-			data->export[y] = temp;
-			i = 0;
-		}
-		i++;
-	}
-	temp = NULL;
-	free(temp);
-}
-
 void	tri_export_var(t_data *data)
 {
 	int		i;
@@ -71,7 +46,7 @@ void	tri_export_var(t_data *data)
 
 	i = 0;
 	y = 0;
-	temp = gc_malloc(&data->gc ,sizeof(char) * 1000);
+	temp = gc_malloc(&data->gc, sizeof(char) * 1000);
 	while (data->export_var[i + 1])
 	{
 		y = i + 1;
@@ -116,7 +91,8 @@ void	ft_export(t_data *data)
 				break ;
 			i++;
 		}
-		data->export_var[i] = ft_strdup_special(data->token[data->token_y + 1], data);
+		data->export_var[i] = ft_strdup_special
+			(data->token[data->token_y + 1], data);
 		clean_result_export_var(data, i);
 	}
 	else

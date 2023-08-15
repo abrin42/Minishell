@@ -6,14 +6,13 @@
 /*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:35:21 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/15 00:36:58 by tmarie           ###   ########.fr       */
+/*   Updated: 2023/08/15 02:17:29 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int condition_error = 0;
+int	g_condition_error = 0;
 
 int	exit_final(t_data *data)
 {
@@ -46,7 +45,7 @@ void	prompt(t_data *data)
 	signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
-		condition_error = 0;
+		g_condition_error = 0;
 		if (data->buffer == NULL && data->i_buffer == 2000000)
 			break ;
 		data->buffer = readline("\033[0;34m#Minishell ➤ \033[0m");
@@ -86,19 +85,19 @@ void	ft_getenv_shlvl(t_data *data)
 	}
 }
 
-void    init_export_main(char **envp, t_data *data)
+void	init_export_main(char **envp, t_data *data)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    j = -1;
-    while(envp[i])
-        i++;
-    data->export_var = gc_malloc(&data->gc ,sizeof(char *) * i + 1);
-    while (++j < i)
-        data->export_var[j] = ft_strdup(envp[j], data);
-    data->export_var[j] = NULL;
+	i = 0;
+	j = -1;
+	while (envp[i])
+		i++;
+	data->export_var = gc_malloc(&data->gc, sizeof(char *) * i + 1);
+	while (++j < i)
+		data->export_var[j] = ft_strdup(envp[j], data);
+	data->export_var[j] = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

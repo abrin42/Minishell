@@ -3,46 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   search_in_out.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 00:36:03 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/08 00:36:04 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:56:54 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	clear_buffer_sio(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->buffer_sio[i] != '\0')
-	{
-		data->buffer_sio[i] = '\0';
-		i++;
-	}
-}
-
-int	check_in_out(t_data *data)
-{
-	if (!data->token[data->token_y + 2][0])
-	{
-		printf("syntax error near unexpected token `newline'\n");
-		data->error = 2;
-		return (-1);
-	}
-	return (0);
-}
-
 void	promt_in_out(t_data *data, int *pipe_sio, ssize_t bytes_read)
 {
 	while (42)
 	{
-		condition_error = 43;
-		clear_buffer_sio(data);
-		bytes_read = read(STDIN_FILENO, data->buffer_sio, sizeof
-				(data->buffer_sio));
+		bytes_read = promt_in_out_init(data, bytes_read);
 		if (ft_strlen(data->buffer_sio) > 0)
 		{
 			signal(SIGINT, handle_signal);
@@ -77,6 +51,17 @@ void	dup2_search_in_out(t_data *data, int *pipe_sio)
 	exit(0);
 }
 
+void	search_in_out2(t_data *data, pid_t	pid2, int	*pipe_sio)
+{
+	pid2 = fork();
+	if (pid2 == 0)
+		dup2_search_in_out(data, pipe_sio);
+	close(pipe_sio[1]);
+	close(pipe_sio[0]);
+	waitpid(pid2, NULL, 0);
+	check_error(data);
+}
+
 void	execute_command_search_in_out(t_data *data)
 {
 	int		pipe_sio[2];
@@ -86,7 +71,7 @@ void	execute_command_search_in_out(t_data *data)
 
 	if (check_in_out(data) == -1)
 		return ;
-	condition_error = 42;
+	g_condition_error = 42;
 	pipe(pipe_sio);
 	pid = fork();
 	if (pid == 0)
@@ -97,13 +82,7 @@ void	execute_command_search_in_out(t_data *data)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
-	if (condition_error == 1)
+	if (g_condition_error == 1)
 		return ;
-	pid2 = fork();
-	if (pid2 == 0)
-		dup2_search_in_out(data, pipe_sio);
-	close(pipe_sio[1]);
-	close(pipe_sio[0]);
-	waitpid(pid2, NULL, 0);
-	check_error(data);
+	search_in_out2(data, pid2, pipe_sio);
 }

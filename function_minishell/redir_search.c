@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir_search.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tmarie <tmarie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 06:26:02 by abrin             #+#    #+#             */
-/*   Updated: 2023/08/07 06:26:03 by abrin            ###   ########.fr       */
+/*   Updated: 2023/08/15 03:44:53 by tmarie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	execute_search(t_data *data)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		close(data->tube_search[1]);
-		dup2(data->tube_search[0], 0);
-		execute(data);
-		close(data->tube_search[0]);
-		exit (0);
-	}
-	close(data->tube_search[1]);
-	waitpid(pid, NULL, 0);
-	close(data->tube_search[0]);
-}
 
 void	search_in_file_error(t_data *data)
 {
@@ -59,14 +41,30 @@ void	search_in_file1(t_data *data)
 	close(data->tube_search[1]);
 }
 
-int	search_in_file(t_data *data, int y)
+void	search_in_file2(t_data *data, int y)
 {
 	pid_t	pid;
 
+	while (data->token[y][0] != '<')
+		y--;
+	pipe(data->tube_search);
+	pid = fork();
+	if (pid == 0)
+	{
+		search_in_file1(data);
+		exit(0);
+	}
+	close(data->tube_search[1]);
+	waitpid(pid, NULL, 0);
+}
+
+int	search_in_file(t_data *data, int y)
+{
 	init_search_in_file(data);
 	while (data->token[y][0] != '|' && data->token[y][0] != '\0')
 	{
-		while (data->token[y][0] != '<' && data->token[y][0] != '|' && data->token[y][0] != '\0')
+		while (data->token[y][0] != '<' && data->token[y][0] != '|'
+			&& data->token[y][0] != '\0')
 			y++;
 		if (data->token[y][0] == '\0' || data->token[y][0] == '|')
 			break ;
@@ -79,16 +77,6 @@ int	search_in_file(t_data *data, int y)
 			return (-1);
 		}
 	}
-	while (data->token[y][0] != '<')
-			y--;
-	pipe(data->tube_search);
-	pid = fork();
-	if (pid == 0)
-	{
-		search_in_file1(data);
-		exit(0);
-	}
-	close(data->tube_search[1]);
-	waitpid(pid, NULL, 0);
+	search_in_file2(data, y);
 	return (0);
 }
